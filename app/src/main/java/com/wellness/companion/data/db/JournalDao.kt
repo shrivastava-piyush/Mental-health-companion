@@ -1,0 +1,51 @@
+package com.wellness.companion.data.db
+
+import androidx.paging.PagingSource
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
+import com.wellness.companion.data.db.entities.JournalEntry
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface JournalDao {
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(entry: JournalEntry): Long
+
+    @Update
+    suspend fun update(entry: JournalEntry)
+
+    /**
+     * Paging source deliberately projects only the columns the list renders,
+     * so the expensive `body` TEXT blob never crosses the JNI boundary until
+     * the user opens an entry.
+     */
+    @Query(
+        """
+        SELECT id, createdAt, updatedAt, title, wordCount
+        FROM journal_entries
+        ORDER BY createdAt DESC
+        """
+    )
+    fun pagingSummaries(): PagingSource<Int, JournalSummary>
+
+    @Query("SELECT * FROM journal_entries WHERE id = :id LIMIT 1")
+    fun observeById(id: Long): Flow<JournalEntry?>
+
+    @Query("SELECT COUNT(*) FROM journal_entries")
+    fun observeCount(): Flow<Int>
+
+    @Query("DELETE FROM journal_entries WHERE id = :id")
+    suspend fun deleteById(id: Long)
+}
+
+data class JournalSummary(
+    val id: Long,
+    val createdAt: Long,
+    val updatedAt: Long,
+    val title: String,
+    val wordCount: Int,
+)

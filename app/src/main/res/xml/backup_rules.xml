@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Journals are intentionally local-only. We opt out of Auto Backup
+    altogether so cloud mirrors never hold the user's entries.
+-->
+<full-backup-content>
+    <exclude domain="database" path="wellness.db" />
+    <exclude domain="database" path="wellness.db-wal" />
+    <exclude domain="database" path="wellness.db-shm" />
+    <exclude domain="sharedpref" />
+</full-backup-content>
