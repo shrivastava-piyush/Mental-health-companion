@@ -1,6 +1,8 @@
 package com.wellness.companion.ui.mood
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -16,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -24,11 +27,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -131,7 +138,21 @@ fun MoodScreen(container: AppContainer, contentPadding: PaddingValues) {
             }
 
             items(state.recent, key = { it.id }) { entry ->
-                MoodRow(entry)
+                val dismissState = rememberSwipeToDismissBoxState(
+                    confirmValueChange = { value ->
+                        if (value == SwipeToDismissBoxValue.EndToStart) {
+                            vm.send(MoodViewModel.Intent.DeleteMood(entry.id))
+                            true
+                        } else false
+                    }
+                )
+                SwipeToDismissBox(
+                    state = dismissState,
+                    enableDismissFromStartToEnd = false,
+                    backgroundContent = { DeleteBackground() },
+                ) {
+                    MoodRow(entry)
+                }
             }
 
             if (state.recent.isEmpty()) {
@@ -160,6 +181,24 @@ private fun LabelRow(selected: String, onSelect: (String) -> Unit) {
                 label = { Text(label) },
             )
         }
+    }
+}
+
+@Composable
+private fun DeleteBackground() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .clip(RoundedCornerShape(18.dp))
+            .background(MaterialTheme.colorScheme.errorContainer),
+        contentAlignment = Alignment.CenterEnd,
+    ) {
+        Icon(
+            imageVector = Icons.Outlined.Delete,
+            contentDescription = "Delete entry",
+            tint = MaterialTheme.colorScheme.onErrorContainer,
+            modifier = Modifier.padding(end = 20.dp),
+        )
     }
 }
 
