@@ -34,11 +34,7 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
-import kotlin.math.PI
-import kotlin.math.atan2
-import kotlin.math.cos
 import kotlin.math.min
-import kotlin.math.sin
 import kotlin.math.sqrt
 
 /**
@@ -153,10 +149,10 @@ fun WellnessWheel(
         )
 
         val labelStyle = TextStyle(color = scheme.onSurfaceVariant, fontSize = 11.sp)
-        drawLabel(measurer, "high",   Offset(center.x, center.y - radius + 14.dp.toPx()), labelStyle)
-        drawLabel(measurer, "low",    Offset(center.x, center.y + radius - 22.dp.toPx()), labelStyle)
-        drawLabel(measurer, "calm",   Offset(center.x - radius + 20.dp.toPx(), center.y), labelStyle)
-        drawLabel(measurer, "lively", Offset(center.x + radius - 26.dp.toPx(), center.y), labelStyle)
+        drawLabel(measurer, "energised", Offset(center.x, center.y - radius + 14.dp.toPx()), labelStyle)
+        drawLabel(measurer, "calm",      Offset(center.x, center.y + radius - 22.dp.toPx()), labelStyle)
+        drawLabel(measurer, "low",       Offset(center.x - radius + 18.dp.toPx(), center.y), labelStyle)
+        drawLabel(measurer, "high",      Offset(center.x + radius - 22.dp.toPx(), center.y), labelStyle)
 
         val pos = clampToDisc(indicator.value, size)
         drawCircle(color = scheme.onSurface.copy(alpha = 0.10f), radius = 18.dp.toPx(), center = pos)
@@ -190,23 +186,28 @@ private fun emit(pt: Offset, size: Size, onChange: (Int, Int) -> Unit) {
     onChange(v, a)
 }
 
+/**
+ * Linear map: valence → X axis (left = −2, right = +2),
+ *             arousal → Y axis (bottom = 0, top = 4).
+ *
+ * Uses standard Russell circumplex layout. `fromOffset` is the exact
+ * inverse (modulo int rounding) so the indicator never teleports.
+ */
 private fun toOffset(valence: Int, arousal: Int, size: Size): Offset {
     val center = Offset(size.width / 2f, size.height / 2f)
     val radius = min(size.width, size.height) / 2f
-    val angle = (valence / 2f) * (PI / 2).toFloat()
-    val r = (arousal / 4f) * radius
-    return Offset(center.x + cos(angle) * r, center.y - sin(angle) * r)
+    val nx = valence / 2f                 // −1 .. +1
+    val ny = (arousal / 2f) - 1f          // 0..4 → −1..+1
+    return Offset(center.x + nx * radius, center.y - ny * radius)
 }
 
 private fun fromOffset(pt: Offset, size: Size): Pair<Int, Int> {
     val center = Offset(size.width / 2f, size.height / 2f)
     val radius = min(size.width, size.height) / 2f
-    val dx = pt.x - center.x
-    val dy = -(pt.y - center.y)
-    val distance = sqrt(dx * dx + dy * dy).coerceAtMost(radius)
-    val arousal = (distance / radius * 4f).toInt().coerceIn(0, 4)
-    val angle = atan2(dy, dx)
-    val valence = (cos(angle) * 2f).toInt().coerceIn(-2, 2)
+    val nx = ((pt.x - center.x) / radius).coerceIn(-1f, 1f)
+    val ny = ((center.y - pt.y) / radius).coerceIn(-1f, 1f)
+    val valence = (nx * 2f).toInt().coerceIn(-2, 2)
+    val arousal = ((ny + 1f) * 2f).toInt().coerceIn(0, 4)
     return valence to arousal
 }
 

@@ -1,6 +1,5 @@
-# Keep Room generated code
--keep class * extends androidx.room.RoomDatabase
--keep class androidx.room.** { *; }
+# Keep Room-generated database impls (they extend the abstract RoomDatabase subclass)
+-keep class * extends androidx.room.RoomDatabase { *; }
 -dontwarn androidx.room.paging.**
 
 # Keep Kotlin metadata for reflection-heavy Compose internals

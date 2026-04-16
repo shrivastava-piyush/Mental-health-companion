@@ -11,7 +11,8 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
@@ -50,11 +51,11 @@ private val DarkScheme = darkColorScheme(
     onBackground   = WellnessPalette.OnDark,
     surface        = WellnessPalette.SurfaceDark,
     onSurface      = WellnessPalette.OnDark,
-    surfaceVariant = Color0f1012,
+    surfaceVariant = DarkSurfaceVariant,
     onSurfaceVariant = WellnessPalette.OnDark,
 )
 
-private val Color0f1012 = androidx.compose.ui.graphics.Color(0xFF24272A)
+private val DarkSurfaceVariant = Color(0xFF24272A)
 
 private val WellnessShapes = Shapes(
     extraSmall = RoundedCornerShape(6.dp),
@@ -67,7 +68,7 @@ private val WellnessShapes = Shapes(
 @Composable
 fun WellnessTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit,
 ) {
     val scheme = when {

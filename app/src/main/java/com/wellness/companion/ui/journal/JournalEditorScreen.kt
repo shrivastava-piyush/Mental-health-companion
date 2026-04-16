@@ -82,6 +82,7 @@ fun JournalEditorScreen(
                 value = state.title,
                 onValueChange = vm::onTitleChange,
                 textStyle = MaterialTheme.typography.headlineMedium.copy(color = MaterialTheme.colorScheme.onBackground),
+                singleLine = true,
                 decorationBox = { inner ->
                     if (state.title.isEmpty()) {
                         Text(
