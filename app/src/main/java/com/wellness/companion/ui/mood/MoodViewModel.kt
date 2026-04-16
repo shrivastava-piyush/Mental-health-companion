@@ -48,6 +48,7 @@ class MoodViewModel(
         data class UpdateNote(val value: String) : Intent
         data object SaveMood : Intent
         data class LogMetric(val type: MetricType, val value: Double) : Intent
+        data class DeleteMood(val id: Long) : Intent
     }
 
     // Drafts live as plain mutable state reduced through [send] to mirror MVI.
@@ -74,6 +75,7 @@ class MoodViewModel(
             is Intent.UpdateNote    -> _draft.value = _draft.value.copy(note    = intent.value.take(280))
             Intent.SaveMood         -> save()
             is Intent.LogMetric     -> viewModelScope.launch { metricRepo.log(intent.type, intent.value) }
+            is Intent.DeleteMood    -> viewModelScope.launch { moodRepo.delete(intent.id) }
         }
     }
 
