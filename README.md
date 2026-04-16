@@ -6,6 +6,24 @@ to 100k+ local records per user.
 
 > See [`SCALING.md`](./SCALING.md) for the full scaling write-up.
 
+## Screenshots
+
+<p align="center">
+  <img src="docs/screenshots/biometric_gate.svg" width="220" alt="Biometric gate" />
+  &nbsp;&nbsp;
+  <img src="docs/screenshots/mood_screen.svg" width="220" alt="Mood tracker with Wellness Wheel" />
+</p>
+<p align="center">
+  <img src="docs/screenshots/journal_screen.svg" width="220" alt="Journal list" />
+  &nbsp;&nbsp;
+  <img src="docs/screenshots/insights_screen.svg" width="220" alt="Insights dashboard" />
+</p>
+<p align="center">
+  <sub>
+    Biometric gate &nbsp;·&nbsp; Mood tracker &amp; Wellness Wheel &nbsp;·&nbsp; Private journal &nbsp;·&nbsp; Insights dashboard
+  </sub>
+</p>
+
 ## Features
 
 - **Mood & Metric Tracker** — interactive Canvas "Wellness Wheel" that
