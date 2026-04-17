@@ -31,6 +31,7 @@ import com.wellness.companion.ui.auth.BiometricGateScreen
 import com.wellness.companion.ui.insights.InsightsScreen
 import com.wellness.companion.ui.journal.JournalEditorScreen
 import com.wellness.companion.ui.journal.JournalListScreen
+import com.wellness.companion.ui.journal.ThreadDetailScreen
 import com.wellness.companion.ui.mood.MoodScreen
 import com.wellness.companion.ui.navigation.BottomTabs
 import com.wellness.companion.ui.navigation.WellnessDestination
@@ -128,6 +129,9 @@ private fun ShellNavHost(
             JournalListScreen(
                 container = container,
                 onOpen = { id -> nav.navigate(WellnessDestination.JournalEditor.build(id)) },
+                onOpenThread = { id, label ->
+                    nav.navigate(WellnessDestination.ThreadDetail.build(id, label))
+                },
                 contentPadding = contentPadding,
             )
         }
@@ -142,6 +146,31 @@ private fun ShellNavHost(
             JournalEditorScreen(
                 container = container,
                 entryId = if (id > 0L) id else 0L,
+                onBack = { nav.popBackStack() },
+                contentPadding = contentPadding,
+            )
+        }
+        composable(
+            route = WellnessDestination.ThreadDetail.route,
+            arguments = listOf(
+                navArgument(WellnessDestination.ThreadDetail.ARG_ID) {
+                    type = NavType.LongType
+                },
+                navArgument(WellnessDestination.ThreadDetail.ARG_LABEL) {
+                    type = NavType.StringType
+                },
+            ),
+        ) { entry ->
+            val threadId = entry.arguments?.getLong(WellnessDestination.ThreadDetail.ARG_ID) ?: 0L
+            val label = java.net.URLDecoder.decode(
+                entry.arguments?.getString(WellnessDestination.ThreadDetail.ARG_LABEL).orEmpty(),
+                "UTF-8",
+            )
+            ThreadDetailScreen(
+                container = container,
+                threadId = threadId,
+                threadLabel = label,
+                onOpenEntry = { id -> nav.navigate(WellnessDestination.JournalEditor.build(id)) },
                 onBack = { nav.popBackStack() },
                 contentPadding = contentPadding,
             )

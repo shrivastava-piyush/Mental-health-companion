@@ -26,6 +26,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.wellness.companion.di.AppContainer
 import com.wellness.companion.di.ViewModelFactories
 import com.wellness.companion.ui.components.MetricBars
+import com.wellness.companion.ui.components.MirrorCard
 import com.wellness.companion.ui.components.MoodTrendChart
 
 @Composable
@@ -58,6 +59,11 @@ fun InsightsScreen(container: AppContainer, contentPadding: PaddingValues) {
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
                 StatCard("Mood logs",   state.totalMoods.toString(),    Modifier.weight(1f))
                 StatCard("Journal notes", state.totalJournals.toString(), Modifier.weight(1f))
+            }
+
+            // ── Mirror Moment ───────────────────────────────────────
+            state.mirror?.let { mirror ->
+                MirrorCard(mirror)
             }
 
             Card(

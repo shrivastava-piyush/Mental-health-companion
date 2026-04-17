@@ -18,6 +18,13 @@ sealed class WellnessDestination(val route: String) {
         const val ARG = "id"
     }
 
+    data object ThreadDetail : WellnessDestination("journal/thread/{threadId}/{label}") {
+        fun build(threadId: Long, label: String): String =
+            "journal/thread/$threadId/${java.net.URLEncoder.encode(label, "UTF-8")}"
+        const val ARG_ID = "threadId"
+        const val ARG_LABEL = "label"
+    }
+
     data object BiometricGate : WellnessDestination("gate")
 }
 

@@ -6,16 +6,9 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.wellness.companion.ui.insights.InsightsViewModel
 import com.wellness.companion.ui.journal.JournalEditorViewModel
 import com.wellness.companion.ui.journal.JournalListViewModel
+import com.wellness.companion.ui.journal.ThreadDetailViewModel
 import com.wellness.companion.ui.mood.MoodViewModel
 
-/**
- * Single place that turns [AppContainer] into [ViewModelProvider.Factory]s.
- *
- * Using [viewModelFactory] avoids writing five bespoke factories and plays
- * nicely with `viewModel()` in Compose, e.g.:
- *
- *   val vm: MoodViewModel = viewModel(factory = ViewModelFactories.mood(container))
- */
 object ViewModelFactories {
 
     fun mood(container: AppContainer): ViewModelProvider.Factory = viewModelFactory {
@@ -28,7 +21,18 @@ object ViewModelFactories {
 
     fun journalEditor(container: AppContainer, entryId: Long): ViewModelProvider.Factory =
         viewModelFactory {
-            initializer { JournalEditorViewModel(container.journalRepository, entryId) }
+            initializer {
+                JournalEditorViewModel(
+                    container.journalRepository,
+                    container.coldOpenGenerator,
+                    entryId,
+                )
+            }
+        }
+
+    fun threadDetail(container: AppContainer, threadId: Long): ViewModelProvider.Factory =
+        viewModelFactory {
+            initializer { ThreadDetailViewModel(container.journalRepository, threadId) }
         }
 
     fun insights(container: AppContainer): ViewModelProvider.Factory = viewModelFactory {
@@ -37,8 +41,8 @@ object ViewModelFactories {
                 container.moodRepository,
                 container.metricRepository,
                 container.journalRepository,
+                container.mirrorGenerator,
             )
         }
     }
-
 }

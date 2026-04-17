@@ -5,13 +5,23 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.wellness.companion.data.db.entities.EntryKeywords
 import com.wellness.companion.data.db.entities.JournalEntry
 import com.wellness.companion.data.db.entities.MetricEntry
 import com.wellness.companion.data.db.entities.MoodEntry
+import com.wellness.companion.data.db.entities.NarrativeThread
+import com.wellness.companion.data.db.entities.ThreadEntryRef
 
 @Database(
-    entities = [MoodEntry::class, JournalEntry::class, MetricEntry::class],
-    version = 1,
+    entities = [
+        MoodEntry::class,
+        JournalEntry::class,
+        MetricEntry::class,
+        NarrativeThread::class,
+        ThreadEntryRef::class,
+        EntryKeywords::class,
+    ],
+    version = 2,
     exportSchema = true,
 )
 abstract class WellnessDatabase : RoomDatabase() {
@@ -19,6 +29,7 @@ abstract class WellnessDatabase : RoomDatabase() {
     abstract fun moodDao(): MoodDao
     abstract fun journalDao(): JournalDao
     abstract fun metricDao(): MetricDao
+    abstract fun narrativeDao(): NarrativeDao
 
     companion object {
         @Volatile private var INSTANCE: WellnessDatabase? = null

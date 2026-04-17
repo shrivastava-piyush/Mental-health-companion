@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wellness.companion.data.db.entities.JournalEntry
 import com.wellness.companion.data.repository.JournalRepository
+import com.wellness.companion.domain.narrative.ColdOpenGenerator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,6 +12,7 @@ import kotlinx.coroutines.launch
 
 class JournalEditorViewModel(
     private val repo: JournalRepository,
+    private val coldOpen: ColdOpenGenerator,
     private val entryId: Long,
 ) : ViewModel() {
 
@@ -20,6 +22,7 @@ class JournalEditorViewModel(
         val body: String = "",
         val savedAt: Long? = null,
         val loaded: Boolean = false,
+        val coldOpen: ColdOpenGenerator.ColdOpen? = null,
     )
 
     private val _state = MutableStateFlow(UiState())
@@ -30,7 +33,7 @@ class JournalEditorViewModel(
             viewModelScope.launch {
                 repo.observeById(entryId).collect { entry ->
                     if (entry != null) {
-                        _state.value = UiState(
+                        _state.value = _state.value.copy(
                             id = entry.id,
                             title = entry.title,
                             body = entry.body,
@@ -42,11 +45,16 @@ class JournalEditorViewModel(
             }
         } else {
             _state.value = UiState(loaded = true)
+            viewModelScope.launch {
+                val prompt = coldOpen.generate()
+                _state.value = _state.value.copy(coldOpen = prompt)
+            }
         }
     }
 
     fun onTitleChange(value: String) { _state.value = _state.value.copy(title = value.take(120)) }
     fun onBodyChange(value: String)  { _state.value = _state.value.copy(body = value) }
+    fun dismissColdOpen()            { _state.value = _state.value.copy(coldOpen = null) }
 
     fun save(onSaved: (Long) -> Unit) {
         val s = _state.value

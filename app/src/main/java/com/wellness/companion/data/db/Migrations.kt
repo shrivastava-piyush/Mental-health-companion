@@ -3,30 +3,54 @@ package com.wellness.companion.data.db
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-/**
- * Central migration registry. Every new release appends to [ALL] so that
- * users upgrading across multiple versions never regenerate their local
- * database (which, at 100k+ rows, would stall the UI for seconds).
- *
- * Template for the next migration:
- *
- *   private val MIGRATION_1_2 = object : Migration(1, 2) {
- *       override fun migrate(db: SupportSQLiteDatabase) {
- *           db.execSQL("ALTER TABLE mood_entries ADD COLUMN triggers TEXT NOT NULL DEFAULT ''")
- *           db.execSQL("CREATE INDEX IF NOT EXISTS idx_mood_triggers ON mood_entries(triggers)")
- *       }
- *   }
- */
 object Migrations {
 
-    @Suppress("unused")
-    private val MIGRATION_EXAMPLE = object : Migration(100, 101) {
+    private val MIGRATION_1_2 = object : Migration(1, 2) {
         override fun migrate(db: SupportSQLiteDatabase) {
-            // Illustrative only – never added to ALL.
+            db.execSQL(
+                """
+                CREATE TABLE IF NOT EXISTS narrative_threads (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                    label TEXT NOT NULL,
+                    keywords TEXT NOT NULL,
+                    createdAt INTEGER NOT NULL,
+                    updatedAt INTEGER NOT NULL,
+                    entryCount INTEGER NOT NULL DEFAULT 0,
+                    status TEXT NOT NULL DEFAULT 'ongoing'
+                )
+                """.trimIndent()
+            )
+            db.execSQL("CREATE INDEX IF NOT EXISTS idx_thread_updated_at ON narrative_threads(updatedAt)")
+
+            db.execSQL(
+                """
+                CREATE TABLE IF NOT EXISTS thread_entry_refs (
+                    threadId INTEGER NOT NULL,
+                    entryId INTEGER NOT NULL,
+                    PRIMARY KEY(threadId, entryId),
+                    FOREIGN KEY(threadId) REFERENCES narrative_threads(id) ON DELETE CASCADE,
+                    FOREIGN KEY(entryId) REFERENCES journal_entries(id) ON DELETE CASCADE
+                )
+                """.trimIndent()
+            )
+            db.execSQL("CREATE INDEX IF NOT EXISTS idx_ref_entry ON thread_entry_refs(entryId)")
+            db.execSQL("CREATE INDEX IF NOT EXISTS idx_ref_thread ON thread_entry_refs(threadId)")
+
+            db.execSQL(
+                """
+                CREATE TABLE IF NOT EXISTS entry_keywords (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                    entryId INTEGER NOT NULL,
+                    keywords TEXT NOT NULL,
+                    FOREIGN KEY(entryId) REFERENCES journal_entries(id) ON DELETE CASCADE
+                )
+                """.trimIndent()
+            )
+            db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS idx_kw_entry ON entry_keywords(entryId)")
         }
     }
 
     val ALL: Array<Migration> = arrayOf(
-        // Real migrations appended here as the schema evolves.
+        MIGRATION_1_2,
     )
 }

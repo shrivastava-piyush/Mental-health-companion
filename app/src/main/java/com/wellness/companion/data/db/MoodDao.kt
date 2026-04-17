@@ -44,6 +44,30 @@ interface MoodDao {
 
     @Query("DELETE FROM mood_entries WHERE id = :id")
     suspend fun deleteById(id: Long)
+
+    /** Snapshot (non-Flow) daily aggregate for MirrorGenerator. */
+    @Query(
+        """
+        SELECT
+            (createdAt / 86400000) AS dayBucket,
+            AVG(valence)           AS avgValence,
+            AVG(arousal)           AS avgArousal,
+            COUNT(*)               AS sampleCount
+        FROM mood_entries
+        WHERE createdAt BETWEEN :fromMillis AND :toMillis
+        GROUP BY dayBucket
+        ORDER BY dayBucket ASC
+        """
+    )
+    suspend fun observeDailyAggregateSnapshot(fromMillis: Long, toMillis: Long): List<DailyMoodBucket>
+
+    /** Most recent mood labels for cold-open keyword seeding. */
+    @Query("SELECT label FROM mood_entries ORDER BY createdAt DESC LIMIT :limit")
+    suspend fun recentLabels(limit: Int): List<String>
+
+    /** Average valence over a range — used by MirrorGenerator. */
+    @Query("SELECT AVG(valence) FROM mood_entries WHERE createdAt BETWEEN :from AND :to")
+    suspend fun avgValence(from: Long, to: Long): Double?
 }
 
 /** Projection class – lives with the DAO that materialises it. */

@@ -8,15 +8,22 @@ import com.wellness.companion.data.repository.JournalRepository
 import com.wellness.companion.data.repository.MetricRepository
 import com.wellness.companion.data.repository.MoodRepository
 import com.wellness.companion.domain.Time
+import com.wellness.companion.domain.narrative.MirrorGenerator
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class InsightsViewModel(
     mood: MoodRepository,
     metric: MetricRepository,
     journal: JournalRepository,
+    private val mirrorGen: MirrorGenerator,
 ) : ViewModel() {
 
     data class UiState(
@@ -24,18 +31,34 @@ class InsightsViewModel(
         val metrics: List<MetricSnapshot> = emptyList(),
         val totalMoods: Int = 0,
         val totalJournals: Int = 0,
+        val mirror: MirrorGenerator.Mirror? = null,
     )
+
+    private val _mirror = MutableStateFlow<MirrorGenerator.Mirror?>(null)
 
     val state: StateFlow<UiState> = combine(
         mood.observeDailyAggregate(Time.daysAgoMillis(30), Long.MAX_VALUE),
         metric.observeLatestPerType(),
         mood.observeCount(),
         journal.observeCount(),
-    ) { trend, metrics, totalMoods, totalJournals ->
-        UiState(trend, metrics, totalMoods, totalJournals)
+        _mirror,
+    ) { trend, metrics, totalMoods, totalJournals, mirror ->
+        UiState(trend, metrics, totalMoods, totalJournals, mirror)
     }.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5_000),
         UiState(),
     )
+
+    init {
+        viewModelScope.launch {
+            val now = System.currentTimeMillis()
+            val from = Time.daysAgoMillis(30)
+            val label = "Your month \u2014 ${monthLabel(from)} to ${monthLabel(now)}"
+            _mirror.value = mirrorGen.generate(from, now, label)
+        }
+    }
+
+    private fun monthLabel(millis: Long): String =
+        SimpleDateFormat("MMM d", Locale.getDefault()).format(Date(millis))
 }
