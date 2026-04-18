@@ -2,9 +2,12 @@ package com.wellness.companion.di
 
 import android.content.Context
 import com.wellness.companion.data.db.WellnessDatabase
+import com.wellness.companion.data.llm.LlamaEngine
+import com.wellness.companion.data.llm.ModelManager
 import com.wellness.companion.data.repository.JournalRepository
 import com.wellness.companion.data.repository.MetricRepository
 import com.wellness.companion.data.repository.MoodRepository
+import com.wellness.companion.domain.llm.ReflectionEngine
 import com.wellness.companion.domain.narrative.ColdOpenGenerator
 import com.wellness.companion.domain.narrative.MirrorGenerator
 import com.wellness.companion.domain.narrative.ThreadDetector
@@ -29,6 +32,13 @@ class AppContainer(context: Context) {
     val journalRepository: JournalRepository by lazy {
         JournalRepository(database.journalDao(), database.narrativeDao(), threadDetector)
     }
+
+    val modelManager: ModelManager by lazy { ModelManager(appContext) }
+
+    val llamaEngine: LlamaEngine by lazy { LlamaEngine(modelManager.modelPath()) }
+
+    val reflectionEngine: ReflectionEngine? get() =
+        if (modelManager.isDownloaded()) ReflectionEngine(llamaEngine) else null
 
     fun context(): Context = appContext
 }

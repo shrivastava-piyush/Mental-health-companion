@@ -4,7 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -23,11 +24,13 @@ import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -40,6 +43,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.wellness.companion.di.AppContainer
 import com.wellness.companion.di.ViewModelFactories
 import com.wellness.companion.domain.narrative.ColdOpenGenerator
+import com.wellness.companion.ui.components.ReflectionCard
+import com.wellness.companion.ui.components.ReframeCard
 
 @Composable
 fun JournalEditorScreen(
@@ -86,9 +91,8 @@ fun JournalEditorScreen(
                 .padding(inner)
                 .padding(horizontal = 20.dp)
                 .verticalScroll(rememberScrollState())
-                .padding(bottom = contentPadding.calculateBottomPadding()),
+                .padding(bottom = contentPadding.calculateBottomPadding() + 24.dp),
         ) {
-            // ── Cold Open: "Previously on your life..." ────────────────
             AnimatedVisibility(
                 visible = state.coldOpen != null,
                 enter = fadeIn() + slideInVertically { -it / 3 },
@@ -140,6 +144,40 @@ fun JournalEditorScreen(
                 },
                 modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
             )
+
+            // ── LLM reflection area ───────────────────────────────────
+            if (state.hasLlm && state.savedAt != null && state.body.isNotBlank()) {
+                Spacer(Modifier.height(24.dp))
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    if (state.reflecting) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(24.dp),
+                            strokeWidth = 2.dp,
+                        )
+                    }
+
+                    ReflectionCard(
+                        questions = state.reflectionQuestions,
+                        visible = state.reflectionQuestions.isNotEmpty(),
+                    )
+
+                    if (state.reframeText.isBlank() && !state.reframing && state.reflectionQuestions.isNotEmpty()) {
+                        TextButton(onClick = { vm.requestReframe() }) {
+                            Text("See it from another angle")
+                        }
+                    }
+                    if (state.reframing) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(24.dp),
+                            strokeWidth = 2.dp,
+                        )
+                    }
+                    ReframeCard(
+                        text = state.reframeText,
+                        visible = state.reframeText.isNotBlank(),
+                    )
+                }
+            }
         }
     }
 }

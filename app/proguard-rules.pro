@@ -12,3 +12,6 @@
 
 # Biometric
 -keep class androidx.biometric.** { *; }
+
+# LLM JNI bridge — native methods must survive R8
+-keep class com.wellness.companion.data.llm.LlamaBridge { *; }

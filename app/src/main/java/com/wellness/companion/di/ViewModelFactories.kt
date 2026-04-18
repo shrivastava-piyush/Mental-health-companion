@@ -25,6 +25,7 @@ object ViewModelFactories {
                 JournalEditorViewModel(
                     container.journalRepository,
                     container.coldOpenGenerator,
+                    container.reflectionEngine,
                     entryId,
                 )
             }
@@ -42,6 +43,7 @@ object ViewModelFactories {
                 container.metricRepository,
                 container.journalRepository,
                 container.mirrorGenerator,
+                container.reflectionEngine,
             )
         }
     }

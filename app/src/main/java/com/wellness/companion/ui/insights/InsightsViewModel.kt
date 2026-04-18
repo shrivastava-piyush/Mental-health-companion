@@ -8,6 +8,7 @@ import com.wellness.companion.data.repository.JournalRepository
 import com.wellness.companion.data.repository.MetricRepository
 import com.wellness.companion.data.repository.MoodRepository
 import com.wellness.companion.domain.Time
+import com.wellness.companion.domain.llm.ReflectionEngine
 import com.wellness.companion.domain.narrative.MirrorGenerator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -24,6 +25,7 @@ class InsightsViewModel(
     metric: MetricRepository,
     journal: JournalRepository,
     private val mirrorGen: MirrorGenerator,
+    private val reflection: ReflectionEngine?,
 ) : ViewModel() {
 
     data class UiState(
@@ -32,9 +34,11 @@ class InsightsViewModel(
         val totalMoods: Int = 0,
         val totalJournals: Int = 0,
         val mirror: MirrorGenerator.Mirror? = null,
+        val patternNarrative: String = "",
     )
 
     private val _mirror = MutableStateFlow<MirrorGenerator.Mirror?>(null)
+    private val _narrative = MutableStateFlow("")
 
     val state: StateFlow<UiState> = combine(
         mood.observeDailyAggregate(Time.daysAgoMillis(30), Long.MAX_VALUE),
@@ -42,8 +46,17 @@ class InsightsViewModel(
         mood.observeCount(),
         journal.observeCount(),
         _mirror,
-    ) { trend, metrics, totalMoods, totalJournals, mirror ->
-        UiState(trend, metrics, totalMoods, totalJournals, mirror)
+        _narrative,
+    ) { values ->
+        @Suppress("UNCHECKED_CAST")
+        UiState(
+            trend = values[0] as List<DailyMoodBucket>,
+            metrics = values[1] as List<MetricSnapshot>,
+            totalMoods = values[2] as Int,
+            totalJournals = values[3] as Int,
+            mirror = values[4] as MirrorGenerator.Mirror?,
+            patternNarrative = values[5] as String,
+        )
     }.stateIn(
         viewModelScope,
         SharingStarted.WhileSubscribed(5_000),
@@ -55,10 +68,26 @@ class InsightsViewModel(
             val now = System.currentTimeMillis()
             val from = Time.daysAgoMillis(30)
             val label = "Your month \u2014 ${monthLabel(from)} to ${monthLabel(now)}"
-            _mirror.value = mirrorGen.generate(from, now, label)
+            val mirror = mirrorGen.generate(from, now, label)
+            _mirror.value = mirror
+
+            if (mirror != null && reflection != null) {
+                val narrative = reflection.narrateMirror(mirror)
+                _narrative.value = narrative?.text ?: ""
+            }
+        }
+    }
+
+    fun downloadModel(modelManager: com.wellness.companion.data.llm.ModelManager) {
+        viewModelScope.launch {
+            modelManager.download(MODEL_URL)
         }
     }
 
     private fun monthLabel(millis: Long): String =
         SimpleDateFormat("MMM d", Locale.getDefault()).format(Date(millis))
+
+    private companion object {
+        const val MODEL_URL = "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf"
+    }
 }

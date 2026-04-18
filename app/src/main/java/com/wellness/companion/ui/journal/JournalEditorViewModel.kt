@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wellness.companion.data.db.entities.JournalEntry
 import com.wellness.companion.data.repository.JournalRepository
+import com.wellness.companion.domain.llm.ReflectionEngine
 import com.wellness.companion.domain.narrative.ColdOpenGenerator
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,6 +14,7 @@ import kotlinx.coroutines.launch
 class JournalEditorViewModel(
     private val repo: JournalRepository,
     private val coldOpen: ColdOpenGenerator,
+    private val reflection: ReflectionEngine?,
     private val entryId: Long,
 ) : ViewModel() {
 
@@ -23,9 +25,14 @@ class JournalEditorViewModel(
         val savedAt: Long? = null,
         val loaded: Boolean = false,
         val coldOpen: ColdOpenGenerator.ColdOpen? = null,
+        val reflectionQuestions: List<String> = emptyList(),
+        val reframeText: String = "",
+        val reflecting: Boolean = false,
+        val reframing: Boolean = false,
+        val hasLlm: Boolean = false,
     )
 
-    private val _state = MutableStateFlow(UiState())
+    private val _state = MutableStateFlow(UiState(hasLlm = reflection != null))
     val state: StateFlow<UiState> = _state.asStateFlow()
 
     init {
@@ -44,7 +51,7 @@ class JournalEditorViewModel(
                 }
             }
         } else {
-            _state.value = UiState(loaded = true)
+            _state.value = _state.value.copy(loaded = true)
             viewModelScope.launch {
                 val prompt = coldOpen.generate()
                 _state.value = _state.value.copy(coldOpen = prompt)
@@ -73,6 +80,41 @@ class JournalEditorViewModel(
             )
             _state.value = s.copy(id = savedId, savedAt = now)
             onSaved(savedId)
+
+            triggerReflection(s.title.ifBlank { "Untitled" }, s.body)
+        }
+    }
+
+    fun requestReframe() {
+        val s = _state.value
+        if (s.body.isBlank() || s.reframing) return
+        viewModelScope.launch {
+            _state.value = _state.value.copy(reframing = true)
+            val result = reflection?.reframe(s.title.ifBlank { "Untitled" }, s.body)
+            _state.value = _state.value.copy(
+                reframeText = result?.text ?: "",
+                reframing = false,
+            )
+        }
+    }
+
+    fun dismissReflection() {
+        _state.value = _state.value.copy(reflectionQuestions = emptyList())
+    }
+
+    fun dismissReframe() {
+        _state.value = _state.value.copy(reframeText = "")
+    }
+
+    private fun triggerReflection(title: String, body: String) {
+        if (reflection == null) return
+        viewModelScope.launch {
+            _state.value = _state.value.copy(reflecting = true)
+            val result = reflection.reflect(title, body)
+            _state.value = _state.value.copy(
+                reflectionQuestions = result?.questions ?: emptyList(),
+                reflecting = false,
+            )
         }
     }
 

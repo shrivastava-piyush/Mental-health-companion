@@ -20,19 +20,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.wellness.companion.data.llm.ModelManager
 import com.wellness.companion.di.AppContainer
 import com.wellness.companion.di.ViewModelFactories
 import com.wellness.companion.ui.components.MetricBars
 import com.wellness.companion.ui.components.MirrorCard
+import com.wellness.companion.ui.components.ModelDownloadCard
 import com.wellness.companion.ui.components.MoodTrendChart
 
 @Composable
 fun InsightsScreen(container: AppContainer, contentPadding: PaddingValues) {
     val vm: InsightsViewModel = viewModel(factory = ViewModelFactories.insights(container))
     val state by vm.state.collectAsStateWithLifecycle()
+    val modelStatus by container.modelManager.status.collectAsStateWithLifecycle()
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
@@ -61,9 +65,34 @@ fun InsightsScreen(container: AppContainer, contentPadding: PaddingValues) {
                 StatCard("Journal notes", state.totalJournals.toString(), Modifier.weight(1f))
             }
 
-            // ── Mirror Moment ───────────────────────────────────────
             state.mirror?.let { mirror ->
                 MirrorCard(mirror)
+            }
+
+            if (state.patternNarrative.isNotBlank()) {
+                Card(
+                    shape = RoundedCornerShape(22.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    ),
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Column(Modifier.padding(20.dp)) {
+                        Text(
+                            "What your month is saying",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        )
+                        Spacer(Modifier.height(8.dp))
+                        Text(
+                            state.patternNarrative,
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                fontStyle = FontStyle.Italic,
+                            ),
+                            color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        )
+                    }
+                }
             }
 
             Card(
@@ -89,6 +118,12 @@ fun InsightsScreen(container: AppContainer, contentPadding: PaddingValues) {
                     MetricBars(state.metrics)
                 }
             }
+
+            ModelDownloadCard(
+                status = modelStatus,
+                onDownload = { vm.downloadModel(container.modelManager) },
+                onDelete = { container.modelManager.deleteModel() },
+            )
         }
     }
 }
