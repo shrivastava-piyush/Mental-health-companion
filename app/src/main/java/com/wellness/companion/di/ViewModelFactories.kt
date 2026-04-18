@@ -26,6 +26,7 @@ object ViewModelFactories {
                     container.journalRepository,
                     container.coldOpenGenerator,
                     container.reflectionEngine,
+                    container.database.moodDao(),
                     entryId,
                 )
             }

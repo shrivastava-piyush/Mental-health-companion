@@ -2,6 +2,7 @@ package com.wellness.companion.ui.journal
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.wellness.companion.data.db.MoodDao
 import com.wellness.companion.data.db.entities.JournalEntry
 import com.wellness.companion.data.repository.JournalRepository
 import com.wellness.companion.domain.llm.ReflectionEngine
@@ -10,13 +11,17 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.util.Calendar
 
 class JournalEditorViewModel(
     private val repo: JournalRepository,
     private val coldOpen: ColdOpenGenerator,
     private val reflection: ReflectionEngine?,
+    private val moodDao: MoodDao,
     private val entryId: Long,
 ) : ViewModel() {
+
+    data class GuidedExchange(val question: String, val answer: String)
 
     data class UiState(
         val id: Long = 0,
@@ -30,6 +35,17 @@ class JournalEditorViewModel(
         val reflecting: Boolean = false,
         val reframing: Boolean = false,
         val hasLlm: Boolean = false,
+        val starterPrompt: String = "",
+        val goDeeperNudge: String = "",
+        val nudging: Boolean = false,
+        val titleSuggestion: String = "",
+        val suggestingTitle: Boolean = false,
+        val guidedMode: Boolean = false,
+        val guidedExchanges: List<GuidedExchange> = emptyList(),
+        val guidedCurrentQuestion: String = "",
+        val guidedAnswer: String = "",
+        val guidedGenerating: Boolean = false,
+        val guidedComplete: Boolean = false,
     )
 
     private val _state = MutableStateFlow(UiState(hasLlm = reflection != null))
@@ -56,6 +72,7 @@ class JournalEditorViewModel(
                 val prompt = coldOpen.generate()
                 _state.value = _state.value.copy(coldOpen = prompt)
             }
+            generateStarterPrompt()
         }
     }
 
@@ -80,7 +97,6 @@ class JournalEditorViewModel(
             )
             _state.value = s.copy(id = savedId, savedAt = now)
             onSaved(savedId)
-
             triggerReflection(s.title.ifBlank { "Untitled" }, s.body)
         }
     }
@@ -98,12 +114,144 @@ class JournalEditorViewModel(
         }
     }
 
-    fun dismissReflection() {
-        _state.value = _state.value.copy(reflectionQuestions = emptyList())
+    fun dismissReflection() { _state.value = _state.value.copy(reflectionQuestions = emptyList()) }
+    fun dismissReframe()    { _state.value = _state.value.copy(reframeText = "") }
+    fun dismissNudge()      { _state.value = _state.value.copy(goDeeperNudge = "") }
+
+    fun requestGoDeeper() {
+        val s = _state.value
+        if (s.body.isBlank() || s.nudging || reflection == null) return
+        viewModelScope.launch {
+            _state.value = _state.value.copy(nudging = true)
+            val nudge = reflection.goDeeper(s.body)
+            _state.value = _state.value.copy(
+                goDeeperNudge = nudge ?: "",
+                nudging = false,
+            )
+        }
     }
 
-    fun dismissReframe() {
-        _state.value = _state.value.copy(reframeText = "")
+    fun requestTitleSuggestion() {
+        val s = _state.value
+        if (s.body.isBlank() || s.suggestingTitle || reflection == null) return
+        viewModelScope.launch {
+            _state.value = _state.value.copy(suggestingTitle = true)
+            val title = reflection.suggestTitle(s.body)
+            _state.value = _state.value.copy(
+                titleSuggestion = title ?: "",
+                suggestingTitle = false,
+            )
+        }
+    }
+
+    fun acceptTitleSuggestion() {
+        val suggestion = _state.value.titleSuggestion
+        if (suggestion.isNotBlank()) {
+            _state.value = _state.value.copy(title = suggestion, titleSuggestion = "")
+        }
+    }
+
+    fun dismissTitleSuggestion() { _state.value = _state.value.copy(titleSuggestion = "") }
+
+    // ── Guided mode ──────────────────────────────────────────────
+
+    fun startGuidedMode() {
+        if (reflection == null) return
+        _state.value = _state.value.copy(guidedMode = true, guidedGenerating = true)
+        viewModelScope.launch {
+            val question = reflection.guidedQuestion(emptyList())
+            _state.value = _state.value.copy(
+                guidedCurrentQuestion = question ?: "What's on your mind right now?",
+                guidedGenerating = false,
+            )
+        }
+    }
+
+    fun onGuidedAnswerChange(value: String) {
+        _state.value = _state.value.copy(guidedAnswer = value)
+    }
+
+    fun submitGuidedAnswer() {
+        val s = _state.value
+        if (s.guidedAnswer.isBlank() || s.guidedGenerating) return
+        val newExchange = GuidedExchange(s.guidedCurrentQuestion, s.guidedAnswer)
+        val exchanges = s.guidedExchanges + newExchange
+
+        if (exchanges.size >= MAX_GUIDED_EXCHANGES) {
+            _state.value = s.copy(
+                guidedExchanges = exchanges,
+                guidedAnswer = "",
+                guidedGenerating = true,
+                guidedComplete = true,
+            )
+            compileGuidedEntry(exchanges)
+        } else {
+            _state.value = s.copy(
+                guidedExchanges = exchanges,
+                guidedAnswer = "",
+                guidedGenerating = true,
+            )
+            viewModelScope.launch {
+                val pairs = exchanges.map { it.question to it.answer }
+                val next = reflection?.guidedQuestion(pairs)
+                _state.value = _state.value.copy(
+                    guidedCurrentQuestion = next ?: "What else comes to mind?",
+                    guidedGenerating = false,
+                )
+            }
+        }
+    }
+
+    fun finishGuidedEarly() {
+        val exchanges = _state.value.guidedExchanges
+        if (exchanges.isEmpty()) {
+            _state.value = _state.value.copy(guidedMode = false)
+            return
+        }
+        _state.value = _state.value.copy(guidedGenerating = true, guidedComplete = true)
+        compileGuidedEntry(exchanges)
+    }
+
+    fun exitGuidedMode() {
+        _state.value = _state.value.copy(guidedMode = false)
+    }
+
+    private fun compileGuidedEntry(exchanges: List<GuidedExchange>) {
+        viewModelScope.launch {
+            val pairs = exchanges.map { it.question to it.answer }
+            val compiled = reflection?.compileGuided(pairs)
+            val body = compiled ?: exchanges.joinToString("\n\n") { it.answer }
+            _state.value = _state.value.copy(
+                body = body,
+                guidedMode = false,
+                guidedGenerating = false,
+            )
+            val title = reflection?.suggestTitle(body)
+            if (!title.isNullOrBlank()) {
+                _state.value = _state.value.copy(title = title)
+            }
+        }
+    }
+
+    // ── Internal ─────────────────────────────────────────────────
+
+    private fun generateStarterPrompt() {
+        if (reflection == null) return
+        viewModelScope.launch {
+            val labels = moodDao.recentLabels(1)
+            val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+            val timeOfDay = when {
+                hour < 6 -> "late night"
+                hour < 12 -> "morning"
+                hour < 17 -> "afternoon"
+                hour < 21 -> "evening"
+                else -> "night"
+            }
+            val starter = reflection.contextualStarter(labels.firstOrNull(), timeOfDay)
+            if (!starter.isNullOrBlank()) {
+                _state.value = _state.value.copy(starterPrompt = starter)
+            }
+        }
     }
 
     private fun triggerReflection(title: String, body: String) {
@@ -126,5 +274,6 @@ class JournalEditorViewModel(
 
     private companion object {
         val WordSplit = Regex("\\s+")
+        const val MAX_GUIDED_EXCHANGES = 5
     }
 }
