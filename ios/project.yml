@@ -1,0 +1,38 @@
+name: WellnessCompanion
+options:
+  bundleIdPrefix: com.wellness.companion
+  deploymentTarget:
+    iOS: "16.0"
+  xcodeVersion: "15.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_IDENTITY: ""
+    INFOPLIST_FILE: WellnessCompanion/App/Info.plist
+
+targets:
+  WellnessCompanion:
+    type: application
+    platform: iOS
+    sources:
+      - path: WellnessCompanion
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.wellness.companion
+        TARGETED_DEVICE_FAMILY: "1,2"
+        SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD: false
+        CLANG_CXX_LANGUAGE_STANDARD: "c++17"
+        OTHER_CFLAGS: "-DGGML_USE_CPU -DNDEBUG"
+        HEADER_SEARCH_PATHS:
+          - "$(SRCROOT)/../app/src/main/cpp/llama.cpp/include"
+          - "$(SRCROOT)/../app/src/main/cpp/llama.cpp/ggml/include"
+          - "$(SRCROOT)/../app/src/main/cpp/llama.cpp/common"
+        SWIFT_OBJC_BRIDGING_HEADER: "WellnessCompanion/App/BridgingHeader.h"
+    info:
+      path: WellnessCompanion/App/Info.plist
+      properties:
+        NSFaceIDUsageDescription: "Unlock your wellness journal"
+        UILaunchScreen: {}
