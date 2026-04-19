@@ -60,10 +60,12 @@ fun JournalEditorScreen(
     entryId: Long,
     onBack: () -> Unit,
     contentPadding: PaddingValues,
+    prefilledPrompt: String = "",
+    onOpenJournalWithPrompt: (String) -> Unit = {},
 ) {
     val vm: JournalEditorViewModel = viewModel(
-        key = "editor-$entryId",
-        factory = ViewModelFactories.journalEditor(container, entryId),
+        key = "editor-$entryId-${prefilledPrompt.hashCode()}",
+        factory = ViewModelFactories.journalEditor(container, entryId, prefilledPrompt),
     )
     val state by vm.state.collectAsStateWithLifecycle()
 
@@ -246,6 +248,7 @@ fun JournalEditorScreen(
                     ReflectionCard(
                         questions = state.reflectionQuestions,
                         visible = state.reflectionQuestions.isNotEmpty(),
+                        onQuestionClick = onOpenJournalWithPrompt.takeIf { state.reflectionQuestions.isNotEmpty() },
                     )
 
                     if (state.reframeText.isBlank() && !state.reframing && state.reflectionQuestions.isNotEmpty()) {

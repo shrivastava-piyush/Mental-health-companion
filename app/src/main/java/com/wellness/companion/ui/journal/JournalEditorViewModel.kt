@@ -19,6 +19,7 @@ class JournalEditorViewModel(
     private val reflection: ReflectionEngine?,
     private val moodDao: MoodDao,
     private val entryId: Long,
+    private val prefilledPrompt: String = "",
 ) : ViewModel() {
 
     data class GuidedExchange(val question: String, val answer: String)
@@ -67,12 +68,15 @@ class JournalEditorViewModel(
                 }
             }
         } else {
-            _state.value = _state.value.copy(loaded = true)
+            _state.value = _state.value.copy(
+                loaded = true,
+                starterPrompt = prefilledPrompt,
+            )
             viewModelScope.launch {
                 val prompt = coldOpen.generate()
                 _state.value = _state.value.copy(coldOpen = prompt)
             }
-            generateStarterPrompt()
+            if (prefilledPrompt.isBlank()) generateStarterPrompt()
         }
     }
 

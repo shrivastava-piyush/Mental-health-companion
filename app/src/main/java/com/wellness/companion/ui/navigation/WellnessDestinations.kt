@@ -12,10 +12,15 @@ sealed class WellnessDestination(val route: String) {
     data object Journal  : WellnessDestination("journal")
     data object Insights : WellnessDestination("insights")
 
-    /** In-journal editor; `new` if creating. */
-    data object JournalEditor : WellnessDestination("journal/editor/{id}") {
-        fun build(id: Long?): String = "journal/editor/${id ?: -1L}"
+    /** In-journal editor; `new` if creating. Prompt is URL-encoded when present. */
+    data object JournalEditor : WellnessDestination("journal/editor/{id}?prompt={prompt}") {
+        fun build(id: Long?, prompt: String = ""): String {
+            val base = "journal/editor/${id ?: -1L}"
+            return if (prompt.isBlank()) "$base?prompt="
+            else "$base?prompt=${java.net.URLEncoder.encode(prompt, "UTF-8")}"
+        }
         const val ARG = "id"
+        const val ARG_PROMPT = "prompt"
     }
 
     data object ThreadDetail : WellnessDestination("journal/thread/{threadId}/{label}") {

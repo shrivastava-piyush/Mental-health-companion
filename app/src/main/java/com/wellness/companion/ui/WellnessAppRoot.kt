@@ -137,17 +137,31 @@ private fun ShellNavHost(
         }
         composable(
             route = WellnessDestination.JournalEditor.route,
-            arguments = listOf(navArgument(WellnessDestination.JournalEditor.ARG) {
-                type = NavType.LongType
-                defaultValue = -1L
-            }),
+            arguments = listOf(
+                navArgument(WellnessDestination.JournalEditor.ARG) {
+                    type = NavType.LongType
+                    defaultValue = -1L
+                },
+                navArgument(WellnessDestination.JournalEditor.ARG_PROMPT) {
+                    type = NavType.StringType
+                    defaultValue = ""
+                },
+            ),
         ) { entry ->
             val id = entry.arguments?.getLong(WellnessDestination.JournalEditor.ARG) ?: -1L
+            val prompt = java.net.URLDecoder.decode(
+                entry.arguments?.getString(WellnessDestination.JournalEditor.ARG_PROMPT).orEmpty(),
+                "UTF-8",
+            )
             JournalEditorScreen(
                 container = container,
                 entryId = if (id > 0L) id else 0L,
                 onBack = { nav.popBackStack() },
                 contentPadding = contentPadding,
+                prefilledPrompt = prompt,
+                onOpenJournalWithPrompt = { question ->
+                    nav.navigate(WellnessDestination.JournalEditor.build(null, question))
+                },
             )
         }
         composable(
