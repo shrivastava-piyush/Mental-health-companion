@@ -1,103 +1,27 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="360" height="720" viewBox="0 0 360 720">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#FBF8F3"/>
-      <stop offset="100%" stop-color="#F3EEE7"/>
-    </linearGradient>
-    <filter id="shadow" x="-4%" y="-4%" width="108%" height="108%">
-      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#23272A" flood-opacity="0.06"/>
-    </filter>
-  </defs>
+  <rect width="360" height="720" fill="#0D0D12"/>
+  
+  <text x="28" y="80" font-family="sans-serif" font-weight="900" font-size="34" fill="white">Patterns</text>
+  <text x="28" y="105" font-family="sans-serif" font-size="14" fill="white" opacity="0.5">Gentle observations</text>
 
-  <!-- Status bar -->
-  <rect width="360" height="28" fill="#FBF8F3"/>
-  <text x="20" y="19" font-family="sans-serif" font-size="11" fill="#6A6F73">9:41</text>
-  <circle cx="310" cy="14" r="4" fill="none" stroke="#6A6F73" stroke-width="1.2"/>
-  <rect x="322" y="10" width="18" height="8" rx="2" fill="none" stroke="#6A6F73" stroke-width="1.2"/>
-  <rect x="324" y="12" width="10" height="4" rx="1" fill="#6F9A74"/>
+  <!-- Stats -->
+  <rect x="28" y="140" width="144" height="110" rx="32" fill="white" opacity="0.08"/>
+  <text x="48" y="200" font-family="sans-serif" font-weight="900" font-size="28" fill="white">12</text>
+  <text x="48" y="220" font-family="sans-serif" font-weight="900" font-size="10" fill="white" opacity="0.4">LOGS</text>
 
-  <!-- Background -->
-  <rect y="28" width="360" height="692" fill="url(#bg)"/>
+  <rect x="188" y="140" width="144" height="110" rx="32" fill="white" opacity="0.08"/>
+  <text x="208" y="200" font-family="sans-serif" font-weight="900" font-size="28" fill="white">8</text>
+  <text x="208" y="220" font-family="sans-serif" font-weight="900" font-size="10" fill="white" opacity="0.4">NOTES</text>
 
-  <!-- Header -->
-  <text x="24" y="72" font-family="sans-serif" font-weight="500" font-size="22" fill="#23272A">Insights</text>
-  <text x="24" y="94" font-family="sans-serif" font-size="13" fill="#6A6F73">Gentle patterns, not judgements.</text>
+  <!-- Flow Chart -->
+  <text x="28" y="300" font-family="sans-serif" font-size="10" font-weight="900" fill="white" opacity="0.4" letter-spacing="1">EMOTIONAL FLOW</text>
+  <rect x="28" y="320" width="304" height="160" rx="40" fill="white" opacity="0.05"/>
+  <path d="M50,430 Q100,350 150,400 T310,380" fill="none" stroke="#6F9A74" stroke-width="4" stroke-linecap="round"/>
 
-  <!-- Stat cards row -->
-  <rect x="20" y="114" width="152" height="82" rx="18" fill="#D7E6D8" filter="url(#shadow)"/>
-  <text x="36" y="154" font-family="sans-serif" font-weight="500" font-size="28" fill="#4C7451">247</text>
-  <text x="36" y="178" font-family="sans-serif" font-weight="500" font-size="12" fill="#4C7451">Mood logs</text>
-
-  <rect x="188" y="114" width="152" height="82" rx="18" fill="#D7E6D8" filter="url(#shadow)"/>
-  <text x="204" y="154" font-family="sans-serif" font-weight="500" font-size="28" fill="#4C7451">63</text>
-  <text x="204" y="178" font-family="sans-serif" font-weight="500" font-size="12" fill="#4C7451">Journal notes</text>
-
-  <!-- 30-day valence chart card -->
-  <rect x="20" y="214" width="320" height="172" rx="18" fill="#FFFFFF" filter="url(#shadow)"/>
-  <text x="36" y="244" font-family="sans-serif" font-weight="600" font-size="15" fill="#23272A">30-day valence</text>
-  <g transform="translate(36,260)">
-    <!-- Grid line (neutral) -->
-    <line x1="0" y1="56" x2="288" y2="56" stroke="#23272A" stroke-opacity="0.06" stroke-width="0.8"/>
-    <!-- Area fill -->
-    <path d="M0,112 L0,78 C24,72 48,60 72,56 C96,52 120,48 144,42 C168,38 192,50 216,44 C240,38 264,30 288,34 L288,112 Z" fill="#6F9A74" opacity="0.15"/>
-    <!-- Trend line -->
-    <path d="M0,78 C24,72 48,60 72,56 C96,52 120,48 144,42 C168,38 192,50 216,44 C240,38 264,30 288,34" fill="none" stroke="#6F9A74" stroke-width="2.5" stroke-linecap="round"/>
-    <!-- Dots -->
-    <circle cx="144" cy="42" r="3.5" fill="#6F9A74"/><circle cx="144" cy="42" r="2" fill="#FBF8F3"/>
-    <circle cx="192" cy="50" r="3.5" fill="#6F9A74"/><circle cx="192" cy="50" r="2" fill="#FBF8F3"/>
-    <circle cx="216" cy="44" r="3.5" fill="#6F9A74"/><circle cx="216" cy="44" r="2" fill="#FBF8F3"/>
-    <circle cx="252" cy="34" r="3.5" fill="#6F9A74"/><circle cx="252" cy="34" r="2" fill="#FBF8F3"/>
-    <circle cx="270" cy="32" r="3.5" fill="#6F9A74"/><circle cx="270" cy="32" r="2" fill="#FBF8F3"/>
-    <circle cx="288" cy="34" r="3.5" fill="#6F9A74"/><circle cx="288" cy="34" r="2" fill="#FBF8F3"/>
-  </g>
-
-  <!-- Today's metrics card -->
-  <rect x="20" y="404" width="320" height="238" rx="18" fill="#FFFFFF" filter="url(#shadow)"/>
-  <text x="36" y="434" font-family="sans-serif" font-weight="600" font-size="15" fill="#23272A">Today's metrics</text>
-
-  <!-- Sleep bar -->
-  <text x="36" y="466" font-family="sans-serif" font-weight="500" font-size="13" fill="#6A6F73">Sleep</text>
-  <rect x="116" y="454" width="168" height="14" rx="7" fill="#F3EEE7"/>
-  <rect x="116" y="454" width="150" height="14" rx="7" fill="#8676B4"/>
-  <text x="296" y="466" font-family="sans-serif" font-weight="500" font-size="13" fill="#23272A">7.2h</text>
-
-  <!-- Activity bar -->
-  <text x="36" y="500" font-family="sans-serif" font-weight="500" font-size="13" fill="#6A6F73">Activity</text>
-  <rect x="116" y="488" width="168" height="14" rx="7" fill="#F3EEE7"/>
-  <rect x="116" y="488" width="118" height="14" rx="7" fill="#6F9A74"/>
-  <text x="296" y="500" font-family="sans-serif" font-weight="500" font-size="13" fill="#23272A">21min</text>
-
-  <!-- Hydration bar -->
-  <text x="36" y="534" font-family="sans-serif" font-weight="500" font-size="13" fill="#6A6F73">Hydration</text>
-  <rect x="116" y="522" width="168" height="14" rx="7" fill="#F3EEE7"/>
-  <rect x="116" y="522" width="84" height="14" rx="7" fill="#C97A7A"/>
-  <text x="296" y="534" font-family="sans-serif" font-weight="500" font-size="13" fill="#23272A">1.0L</text>
-
-  <!-- Steps bar -->
-  <text x="36" y="568" font-family="sans-serif" font-weight="500" font-size="13" fill="#6A6F73">Steps</text>
-  <rect x="116" y="556" width="168" height="14" rx="7" fill="#F3EEE7"/>
-  <rect x="116" y="556" width="130" height="14" rx="7" fill="#6F9A74"/>
-  <text x="296" y="568" font-family="sans-serif" font-weight="500" font-size="13" fill="#23272A">7804</text>
-
-  <!-- Meditation bar -->
-  <text x="36" y="602" font-family="sans-serif" font-weight="500" font-size="13" fill="#6A6F73">Meditation</text>
-  <rect x="116" y="590" width="168" height="14" rx="7" fill="#F3EEE7"/>
-  <rect x="116" y="590" width="67" height="14" rx="7" fill="#8676B4"/>
-  <text x="296" y="602" font-family="sans-serif" font-weight="500" font-size="13" fill="#23272A">8min</text>
-
-  <!-- Bottom nav bar -->
-  <rect y="692" width="360" height="56" fill="#FFFFFF"/>
-  <line x1="0" y1="692" x2="360" y2="692" stroke="#23272A" stroke-opacity="0.05"/>
-  <!-- Mood tab -->
-  <circle cx="60" cy="712" r="10" fill="none" stroke="#6A6F73" stroke-width="1.2"/>
-  <path d="M54,712 Q57,706 60,710 Q63,706 66,712" fill="none" stroke="#6A6F73" stroke-width="1.2"/>
-  <text x="60" y="734" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#6A6F73">Mood</text>
-  <!-- Journal tab -->
-  <rect x="170" y="704" width="14" height="16" rx="2" fill="none" stroke="#6A6F73" stroke-width="1.2"/>
-  <line x1="173" y1="709" x2="181" y2="709" stroke="#6A6F73" stroke-width="1"/>
-  <line x1="173" y1="713" x2="180" y2="713" stroke="#6A6F73" stroke-width="1"/>
-  <text x="180" y="734" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#6A6F73">Journal</text>
-  <!-- Insights tab (active) -->
-  <polyline points="288,718 294,708 300,714 306,704" fill="none" stroke="#6F9A74" stroke-width="1.6" stroke-linecap="round"/>
-  <text x="300" y="734" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#6F9A74" font-weight="600">Insights</text>
+  <!-- Model Card -->
+  <rect x="28" y="520" width="304" height="100" rx="32" fill="white" opacity="0.05"/>
+  <text x="48" y="555" font-family="sans-serif" font-weight="bold" font-size="14" fill="white">Reflection Engine</text>
+  <text x="48" y="572" font-family="sans-serif" font-size="11" fill="white" opacity="0.5">Engine Active</text>
+  <circle cx="280" cy="565" r="12" fill="none" stroke="cyan" stroke-width="2"/>
+  <path d="M276,565 L279,569 L285,562" fill="none" stroke="cyan" stroke-width="2"/>
 </svg>

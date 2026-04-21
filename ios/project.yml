@@ -186,9 +186,11 @@ targets:
       - path: ../app/src/main/cpp/llama.cpp/ggml/src/ggml-cpu/arch/arm/cpu-feats.cpp
       - path: ../app/src/main/cpp/llama.cpp/ggml/src/ggml-cpu/arch/arm/repack.cpp
         name: ggml-repack-arm.cpp
+      - path: WellnessCompanion/App/Assets.xcassets
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.wellness.companion
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         TARGETED_DEVICE_FAMILY: "1,2"
         SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD: false
         CLANG_CXX_LANGUAGE_STANDARD: "c++17"
