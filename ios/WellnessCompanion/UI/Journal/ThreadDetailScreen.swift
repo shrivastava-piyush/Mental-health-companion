@@ -10,57 +10,70 @@ struct ThreadDetailScreen: View {
     @State private var showEditor = false
 
     var body: some View {
-        NavigationStack {
-            List {
-                Section {
-                    Text("\(entries.count) entries in this thread")
-                        .foregroundStyle(.secondary)
-                }
-
-                ForEach(entries) { entry in
-                    Button {
-                        selectedEntryId = entry.id
-                        showEditor = true
-                    } label: {
-                        HStack {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(entry.title)
-                                    .font(.headline)
-                                    .lineLimit(1)
-                                Text("\(entry.wordCount) words")
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                            }
-                            Spacer()
-                            Text(formatDate(entry.createdAt))
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
+        ZStack {
+            LiquidAura(scrollOffset: 0).ignoresSafeArea()
+            
+            VStack(spacing: 0) {
+                // Header
+                HStack {
+                    Button { dismiss() } label: {
+                        Image(systemName: "chevron.down")
+                            .font(.title2.bold())
+                            .foregroundStyle(.white.opacity(0.6))
                     }
-                    .tint(.primary)
+                    Spacer()
+                    Text("THEME").miniCaps().foregroundStyle(Color.white.opacity(0.4))
+                    Spacer()
+                    Spacer().frame(width: 40)
                 }
-            }
-            .navigationTitle(thread.label)
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Done") { dismiss() }
+                .padding(.horizontal, 28)
+                .padding(.top, 20)
+                
+                ScrollView(showsIndicators: false) {
+                    VStack(alignment: .leading, spacing: 40) {
+                        
+                        // Hero Header
+                        VStack(alignment: .leading, spacing: 12) {
+                            ZStack(alignment: .center) {
+                                Circle().fill(.white.opacity(0.1)).frame(width: 48, height: 48)
+                                Image(systemName: "sparkles").font(.title3).foregroundStyle(.cyan)
+                            }
+                            
+                            Text(thread.label)
+                                .font(.system(size: 34, weight: .black, design: .rounded))
+                                .foregroundStyle(.white)
+                            
+                            Text("\(entries.count) connected reflections")
+                                .font(.subheadline.bold())
+                                .foregroundStyle(.white.opacity(0.5))
+                        }
+                        
+                        // Entries Timeline
+                        VStack(spacing: 16) {
+                            ForEach(entries) { entry in
+                                Button {
+                                    selectedEntryId = entry.id
+                                    showEditor = true
+                                } label: {
+                                    LiquidEntryRow(summary: entry)
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                        
+                        Spacer(minLength: 100)
+                    }
+                    .padding(28)
                 }
-            }
-            .sheet(isPresented: $showEditor) {
-                if let id = selectedEntryId {
-                    JournalEditorScreen(entryId: id)
-                }
-            }
-            .onAppear {
-                entries = container.narrativeStore.entriesForThread(thread.id)
             }
         }
-    }
-
-    private func formatDate(_ millis: Int64) -> String {
-        let f = DateFormatter()
-        f.dateFormat = "MMM d, yyyy"
-        return f.string(from: Date(timeIntervalSince1970: Double(millis) / 1000))
+        .sheet(isPresented: $showEditor) {
+            if let id = selectedEntryId {
+                JournalEditorScreen(entryId: id)
+            }
+        }
+        .onAppear {
+            entries = container.narrativeStore.entriesForThread(thread.id)
+        }
     }
 }

@@ -9,129 +9,139 @@ struct JournalListScreen: View {
     @State private var showThread: NarrativeThread? = nil
 
     var body: some View {
-        NavigationStack {
-            List {
-                Section {
-                    Text("On-device only. Not backed up, not shared.")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                        .listRowBackground(Color.clear)
-                }
-
-                if !threads.isEmpty {
-                    Section("Your threads") {
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 10) {
-                                ForEach(threads) { thread in
-                                    ThreadChipView(thread: thread) {
-                                        showThread = thread
+        ZStack {
+            // Main Content
+            ScrollView(showsIndicators: false) {
+                VStack(alignment: .leading, spacing: 50) {
+                    
+                    // 1. Hero Header
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("JOURNAL").miniCaps().foregroundStyle(Color.white.opacity(0.4))
+                        Text("Reflections")
+                            .font(.system(size: 44, weight: .black, design: .rounded))
+                            .foregroundStyle(.white)
+                        Text("\(entries.count) notes captured in sanctuary")
+                            .font(.subheadline.bold())
+                            .foregroundStyle(.white.opacity(0.5))
+                    }
+                    .padding(.top, 40)
+                    
+                    // 2. Thematic Bubbles
+                    if !threads.isEmpty {
+                        VStack(alignment: .leading, spacing: 20) {
+                            Text("Themes").sectionHeader()
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 16) {
+                                    ForEach(threads) { thread in
+                                        ThreadBubble(thread: thread) { showThread = thread }
                                     }
                                 }
                             }
                         }
-                        .listRowInsets(EdgeInsets())
-                        .listRowBackground(Color.clear)
                     }
-                }
-
-                if entries.isEmpty && threads.isEmpty {
-                    Section {
-                        Text("No entries yet.\nWrite freely — it stays on this device.")
-                            .multilineTextAlignment(.center)
-                            .foregroundStyle(.secondary)
+                    
+                    // 3. Immersive Timeline
+                    VStack(alignment: .leading, spacing: 32) {
+                        Text("Timeline").sectionHeader()
+                        
+                        if entries.isEmpty {
+                            VStack(spacing: 20) {
+                                Image(systemName: "leaf")
+                                    .font(.system(size: 40))
+                                    .foregroundStyle(.white.opacity(0.2))
+                                Text("Your story begins here.")
+                                    .font(.system(size: 20, weight: .medium, design: .serif))
+                                    .foregroundStyle(.white.opacity(0.4))
+                            }
                             .frame(maxWidth: .infinity)
-                            .padding(.vertical, 40)
-                    }
-                }
-
-                if !entries.isEmpty {
-                    Section("All entries") {
-                        ForEach(entries) { summary in
-                            Button {
-                                editingId = summary.id
-                                showEditor = true
-                            } label: {
-                                HStack {
-                                    VStack(alignment: .leading, spacing: 4) {
-                                        Text(summary.title)
-                                            .font(.headline)
-                                            .lineLimit(1)
-                                        Text("\(summary.wordCount) words")
-                                            .font(.caption)
-                                            .foregroundStyle(.secondary)
-                                    }
-                                    Spacer()
-                                    Text(formatDate(summary.updatedAt))
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
+                            .padding(.top, 60)
+                        } else {
+                            ForEach(entries) { summary in
+                                Button {
+                                    editingId = summary.id
+                                    showEditor = true
+                                } label: {
+                                    LiquidEntryRow(summary: summary)
                                 }
+                                .buttonStyle(.plain)
                             }
-                            .tint(.primary)
                         }
                     }
+                    
+                    Spacer(minLength: 150)
                 }
+                .padding(.horizontal, 28)
             }
-            .navigationTitle("Journal")
-            .toolbar {
-                ToolbarItem(placement: .primaryAction) {
+            
+            // 4. Glowing FAB
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
                     Button {
                         editingId = nil
                         showEditor = true
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     } label: {
-                        Image(systemName: "plus")
+                        ZStack {
+                            Circle()
+                                .fill(.white.opacity(0.2))
+                                .frame(width: 80, height: 80)
+                                .blur(radius: 10)
+                            
+                            Circle()
+                                .fill(LinearGradient(colors: [.liquidRose, .liquidAmber], startPoint: .topLeading, endPoint: .bottomTrailing))
+                                .frame(width: 70, height: 70)
+                                .shadow(color: .liquidRose.opacity(0.4), radius: 15, y: 8)
+                            
+                            Image(systemName: "plus")
+                                .font(.title.bold())
+                                .foregroundStyle(.white)
+                        }
                     }
+                    .padding(28)
                 }
             }
-            .sheet(isPresented: $showEditor, onDismiss: refresh) {
-                JournalEditorScreen(entryId: editingId)
-            }
-            .sheet(item: $showThread) { thread in
-                ThreadDetailScreen(thread: thread)
-            }
-            .onAppear(perform: refresh)
         }
+        .sheet(isPresented: $showEditor, onDismiss: refresh) {
+            JournalEditorScreen(entryId: editingId)
+        }
+        .sheet(item: $showThread) { thread in
+            ThreadDetailScreen(thread: thread)
+        }
+        .onAppear(perform: refresh)
     }
-
+    
     private func refresh() {
-        entries = container.journalStore.fetchSummaries()
-        threads = container.narrativeStore.activeThreads()
-    }
-
-    private func formatDate(_ millis: Int64) -> String {
-        let f = DateFormatter()
-        f.dateFormat = "MMM d"
-        return f.string(from: Date(timeIntervalSince1970: Double(millis) / 1000))
-    }
-}
-
-struct ThreadChipView: View {
-    let thread: NarrativeThread
-    let onTap: () -> Void
-
-    var body: some View {
-        Button(action: onTap) {
-            VStack(alignment: .leading, spacing: 4) {
-                Text(thread.label)
-                    .font(.subheadline)
-                    .fontWeight(.medium)
-                    .lineLimit(1)
-                Text("\(thread.entryCount) entries")
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-                Text(thread.status.capitalized)
-                    .font(.caption2)
-                    .foregroundStyle(thread.status == "ongoing" ? .blue : .secondary)
-            }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 12)
-            .frame(width: 140)
-            .background(
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(thread.status == "ongoing" ? Color.lavenderMist.opacity(0.3) : Color(.systemGray5))
-            )
+        withAnimation(.spring()) {
+            entries = container.journalStore.fetchSummaries()
+            threads = container.narrativeStore.activeThreads()
         }
-        .tint(.primary)
     }
 }
 
-extension NarrativeThread: @retroactive Identifiable {}
+struct ThreadBubble: View {
+    let thread: NarrativeThread
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            VStack(alignment: .leading, spacing: 14) {
+                Image(systemName: "sparkles")
+                    .font(.title3)
+                    .foregroundStyle(.cyan)
+                
+                Text(thread.label)
+                    .font(.subheadline.bold())
+                    .foregroundStyle(.white)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.leading)
+            }
+            .padding(20)
+            .frame(width: 150, height: 130, alignment: .topLeading)
+            .background(.white.opacity(0.08))
+            .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+        }
+        .buttonStyle(.plain)
+    }
+}

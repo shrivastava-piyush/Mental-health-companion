@@ -1,0 +1,1347 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		01CBB15056331E18EF06352D /* gptneox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FE2EBEE08DED85B0C6EA326 /* gptneox.cpp */; };
+		01CC419F3DD6E2033B2C0851 /* TextAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B8322DE3E0ADD20AF3A41 /* TextAnalyzer.swift */; };
+		0217D47609055384B13651D0 /* stablelm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7AAE139A44C299067378B89B /* stablelm.cpp */; };
+		02199F10E6F7D2752B79023F /* lfm2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3FBB7F08836CBA4BA2D6CF42 /* lfm2.cpp */; };
+		03D02D026FA159EC06885598 /* llama-grammar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EC8AFF9A066697344CBFE678 /* llama-grammar.cpp */; };
+		04270E0E53EEF5FC1BFEF87A /* MetricStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141642FB84E41898170FEAA4 /* MetricStore.swift */; };
+		06B98ED5F71C6FC42BAA8589 /* qwen3vl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EEAD50433AE0622B872D0600 /* qwen3vl.cpp */; };
+		0D7C24DEA46C43E40C796955 /* step35-iswa.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 83161B4DF907565AB0F34114 /* step35-iswa.cpp */; };
+		0D7F3252DE2B4031293BB112 /* qwen2moe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C472F707D6A71D84AD4BA344 /* qwen2moe.cpp */; };
+		10554E5C3F389E3EFBC9CF8C /* phi3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 791606C669AAD520A883BD98 /* phi3.cpp */; };
+		11BC0B77EC2440EB371AF1BE /* plamo3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 739589FDDC8242B6D428C3DF /* plamo3.cpp */; };
+		12523E528D32A5AF79E19DA7 /* orion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 599C85041E6B00F557449D36 /* orion.cpp */; };
+		12FC8FE77BAAE36AC5EE4012 /* command-r.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2C1C94339203CE3152C30CCA /* command-r.cpp */; };
+		1817A5AD4298EC59FF8A7E74 /* LiquidEntryRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96E086FD5F5CA99EB39DA6A9 /* LiquidEntryRow.swift */; };
+		1A761A88A9EE636C10B4C6A1 /* plamo2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3A791B3509EBEDDEB30C7458 /* plamo2.cpp */; };
+		1BC357EF982FE82688933120 /* rnd1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A7E6BADD39626E07D8F950A /* rnd1.cpp */; };
+		1C958E1EC845E86E2DA6EBBF /* unicode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97AD2B9CF59453D8C3D81DFD /* unicode.cpp */; };
+		1EE24330F66667C0586FDEF9 /* llama-cparams.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1D27BDC057F31AB808D59B3D /* llama-cparams.cpp */; };
+		1FF7AA8FBA1843BB031A0EF6 /* ThreadDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA31C3AFFD0A0E8871B5B1C /* ThreadDetector.swift */; };
+		22530E1DD3FA0253DA9F708F /* mamba-base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7C8C162198E241497907970A /* mamba-base.cpp */; };
+		23344F03AB0085F4E1FF7F79 /* ggml-repack-arm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 26549183E93749CDBCFE24FE /* ggml-repack-arm.cpp */; };
+		2364B77BC048083FFE0E98B2 /* gemma.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FB7D6B1D78815D00F978CC25 /* gemma.cpp */; };
+		2508CB9D0A45ADB501638E4E /* llada.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33F00936106CA34A841B9766 /* llada.cpp */; };
+		250F445087C9F72256C17D92 /* arwkv7.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE974C070D7845DB1E14625A /* arwkv7.cpp */; };
+		2576FF6277F1B09016F62357 /* grok.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 184E731EF7924F818F689C04 /* grok.cpp */; };
+		2592E83493B42A9DCF6E7ED1 /* gemma-embedding.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 456C98DFD9B7E7866C3611A9 /* gemma-embedding.cpp */; };
+		2697BCC53394EB7248658FFF /* bitnet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0A620AB54823BA4B68A25E5F /* bitnet.cpp */; };
+		276E77D6E5406CFDDD06FABB /* arcee.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D3FC7F77E3DE5D1AAF8DC7CC /* arcee.cpp */; };
+		283CC522F0AE9E2854901CB2 /* llama.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FBA22757EA60D996CC3E0F5 /* llama.cpp */; };
+		29946401599FD0A0AEE6018F /* exaone-moe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1D5E85ADC73EF32FEF43F09C /* exaone-moe.cpp */; };
+		2B0AE90C9D408933C31329FE /* olmo2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8B1E8987BDF7187870D4A837 /* olmo2.cpp */; };
+		2C5E62B8ADBC4875943541A3 /* ggml-alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = 82D64CF312ABEF022BD2423D /* ggml-alloc.c */; };
+		2DCF7E274B8FE90837BC6A1D /* LlamaEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA71DA28B1B492238F2FB2D4 /* LlamaEngine.swift */; };
+		2E0774CBC75EB454E9644364 /* MirrorGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8FF1E5BDBB5DDD8615845F /* MirrorGenerator.swift */; };
+		2E1273CF1E6EE16E8A3C745D /* ggml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFCEBD2EE2C961B00FC920A1 /* ggml.cpp */; };
+		2E3840B4D47AD7EE5684FCBA /* qwen2vl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC65FA34D0EFA47D6B08C800 /* qwen2vl.cpp */; };
+		3076AB629047256332927F17 /* wavtokenizer-dec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F8932DD5BCD833D95EBE24D /* wavtokenizer-dec.cpp */; };
+		30AF4559B7F379173DB3B475 /* llama-quant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 34B57D5E932A55F841A71642 /* llama-quant.cpp */; };
+		3288D2EAAC90FB8AAB06C2DD /* gpt2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AE20C9208011483DAD11730 /* gpt2.cpp */; };
+		333146D2EB8103DB62925FF6 /* jais2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A2514AC40ADA7EC73E93C38 /* jais2.cpp */; };
+		33AE7CF03950CC7105EC007D /* cohere2-iswa.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76050F729E5E8EF31DC6446E /* cohere2-iswa.cpp */; };
+		357FABF26804F72727BA07E8 /* smollm3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C472FD2B7EE5991E0D5B340A /* smollm3.cpp */; };
+		3695E42EA911AC2C3E0A5876 /* refact.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7CD3B03129EE07631267CD71 /* refact.cpp */; };
+		3730C4F2281F10771DDC125E /* bloom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17B7EEEE85C4674635EEA1F1 /* bloom.cpp */; };
+		37C23B3EBEC3A5E6C9722887 /* WellnessCompanionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35489FDA525F8DA514DDC1F9 /* WellnessCompanionApp.swift */; };
+		38E0C9A4F5DF8797FFF1E725 /* openai-moe-iswa.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 51162C65466B81E959F4B24C /* openai-moe-iswa.cpp */; };
+		3B334CC9E4E5158424D65EA4 /* gemma4-iswa.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 285F852A8F65D3763F3609F1 /* gemma4-iswa.cpp */; };
+		3C693C58FBE54E3CBE35F7D9 /* ernie4-5-moe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B0948DC1494D0DDF4675E05 /* ernie4-5-moe.cpp */; };
+		3EC8CD396D3569A0E11E1395 /* dots1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4CFB5CBD50D2A58B81CB96A6 /* dots1.cpp */; };
+		432A3650B56299AAE853F924 /* binary-ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F98BC6BFDBFB17F0C30CAF5 /* binary-ops.cpp */; };
+		440D2FA3FAEE0EC6AFADFD05 /* gemma3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0ED273F588577A73E971526F /* gemma3.cpp */; };
+		459C9F288A5416AC07C43D4C /* ggml-quants.c in Sources */ = {isa = PBXBuildFile; fileRef = DD708483329AB6BB28A4986E /* ggml-quants.c */; };
+		4922246008A3329A3A29A78B /* gemma2-iswa.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 067C1140D392BD03AF867F84 /* gemma2-iswa.cpp */; };
+		4BB25F1B5207635D1CBDF9FD /* WellnessTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB77DE7FDD3D4AEDB3DB1DC5 /* WellnessTheme.swift */; };
+		4D49DF010096FA1A159DD8D5 /* llama-memory-recurrent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A63F6CFF406C1A54DD2114EF /* llama-memory-recurrent.cpp */; };
+		4D50B1851520C219B1052B2D /* llama-model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D5410FFFCE8045AA5452528E /* llama-model.cpp */; };
+		4E0936FEA15A80332A6BC4B1 /* minimax-m2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 64BBCB34EAE41C0F6433810C /* minimax-m2.cpp */; };
+		4E1BBCB3E066BF7763E9D6F5 /* openelm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42595684FE518F45762BA026 /* openelm.cpp */; };
+		4F605A9DA79A47AAB9B39A5C /* rwkv7-base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B61DF31A08A141F2B133FAFE /* rwkv7-base.cpp */; };
+		5050904B0C04130999F0EAFE /* ggml-backend-reg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8D6B31925A8E78DB5728DEF4 /* ggml-backend-reg.cpp */; };
+		524C03166E7C5EB593B4DDB4 /* llama-batch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 90AAB22AE7D337363805CF0E /* llama-batch.cpp */; };
+		57ADD54AD06009EF8E3FCB39 /* exaone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA1D7A658E3521632A981337 /* exaone.cpp */; };
+		5950B1A0939734BFBD3A9784 /* phi2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49EF43C2CEFDF3E492DA09EE /* phi2.cpp */; };
+		5954C914CC213D60ED320775 /* llama4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E44B8B46AB6EC1F35EC7C393 /* llama4.cpp */; };
+		5BCE17DC2642C8369C15305D /* deepseek.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 10CEEF715BF596DDA7612F1F /* deepseek.cpp */; };
+		5F8437C8C38A2C684633E890 /* gguf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2FBB97846C461DB9ECAA332 /* gguf.cpp */; };
+		5FB7E64C270BAC542AE2BB7B /* chatglm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EABC228048161D701ED16B2 /* chatglm.cpp */; };
+		60400AB388B12BE9B5ADA33C /* xverse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8468C730AB7EF643D941190E /* xverse.cpp */; };
+		626343B77548662E3DD63B89 /* repack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D922ABB891C3280FE85CCD27 /* repack.cpp */; };
+		626988E80B4C4C52B99928B5 /* paddleocr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96CACFB1CDF9D2FDA3BEA171 /* paddleocr.cpp */; };
+		6323197C3AF924D1F47B57F5 /* granite-hybrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B63DD00E760C3D7557B9F3D7 /* granite-hybrid.cpp */; };
+		63B9BC16B08F21C915A02F42 /* jais.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 25DBA99E5F054FD9344A3E74 /* jais.cpp */; };
+		64EE8E1EE92B46E9D547E3AD /* qwen3moe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA5EC46E430C4540E818F112 /* qwen3moe.cpp */; };
+		66B32E5B659AFB9C132CBF27 /* mimo2-iswa.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D45776A016FE7C5348BF4A8 /* mimo2-iswa.cpp */; };
+		66EA319C3045D47752325289 /* mpt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 674E7E3F915D2B4067D33054 /* mpt.cpp */; };
+		6A11AF4D362984340C339A20 /* pangu-embedded.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8BD65EFF9EDE3548D25C099E /* pangu-embedded.cpp */; };
+		6B349323AA843D746AA345C5 /* dbrx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F7E464A6FB31456BB173549 /* dbrx.cpp */; };
+		6D536D3EC8DFF06F2B59087D /* olmoe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DD2E16CDD8830C9199983DC1 /* olmoe.cpp */; };
+		6D684CE6BF7A69B331FB3EBE /* minicpm3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B36153CC913A8680F9856722 /* minicpm3.cpp */; };
+		6F32622ED93E62A09CF29ADB /* traits.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91D27646DAEA1721AB515D95 /* traits.cpp */; };
+		6F76922F5772487A0288FFE3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC17DA5564BE1B4F92BC7052 /* ContentView.swift */; };
+		6FE217FE665401D6B99337DD /* llama-model-loader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7F5B8D4FB3B73B282289562 /* llama-model-loader.cpp */; };
+		7164040263A45C0FD1966806 /* cpu-feats.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8B574490DAFF817C1F99BED /* cpu-feats.cpp */; };
+		71CDD3C5F295633FE5FFDB8E /* grovemoe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6311BDB32F579909AE928ABD /* grovemoe.cpp */; };
+		7518C360FAED2FB8741E70CE /* ggml-backend.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FDDF278598A28816A81B7C26 /* ggml-backend.cpp */; };
+		769ABDBFFFB8503EF3F1019B /* glm4-moe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA2AD3E5DEB60BD7DB401BB9 /* glm4-moe.cpp */; };
+		76B2C1D751EB397EF0568FF1 /* llama-memory-hybrid-iswa.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F0F206DAF388710EE1442DAB /* llama-memory-hybrid-iswa.cpp */; };
+		7927915FA3385DE69E02894E /* rwkv6-base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A99E8D473F3340C94FCE14D6 /* rwkv6-base.cpp */; };
+		794D14EE8C5B069EFED15216 /* llama-arch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 28BF76D0FF507BAD5361C8BF /* llama-arch.cpp */; };
+		794F5E2615E09C9DF201644B /* bailingmoe2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 862A82677528AED26518B312 /* bailingmoe2.cpp */; };
+		79DDA142E0A317A01E253984 /* hunyuan-dense.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63178CEFEF1E4504C87E2D40 /* hunyuan-dense.cpp */; };
+		7A1257F199BD628A655529B5 /* plamo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1C23F83DEE54CB9962E8B801 /* plamo.cpp */; };
+		7AE7A24D8423E5189212E20D /* exaone4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C1C60102A624C9286DD11832 /* exaone4.cpp */; };
+		7C4A55C48357EA28EDB75DEE /* llama-kv-cache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49AA3F21285137805073BB40 /* llama-kv-cache.cpp */; };
+		7F31120E53F901970BDE7C6A /* dream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B4193B34D79BDB64101A6CB /* dream.cpp */; };
+		7F98E606172D31EB8671153D /* JournalStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 069D28D8A5DB874B68AEB282 /* JournalStore.swift */; };
+		800E30E956974696575B5DAC /* rwkv6.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A831B79DEC8852A96E048C6E /* rwkv6.cpp */; };
+		82BF319E72B35DBABD7E0B03 /* AppContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72EB52FAE0DFEAC62E173F9 /* AppContainer.swift */; };
+		8554A7D209CAE17B5B4D9BA2 /* cogvlm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEDD0FC46F07995A90C3527D /* cogvlm.cpp */; };
+		8AEFBEDB5E1E2E4D540BBC0D /* hbm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0BF71B8A4AD8486DF55A61E2 /* hbm.cpp */; };
+		8E6FBEFA5F2CEC79C75D9FE1 /* baichuan.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA882A50C79882BAE164169E /* baichuan.cpp */; };
+		8F79E63B9FDD81F64F133C98 /* qwen3next.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 856894FAD3E018AC2787057F /* qwen3next.cpp */; };
+		8FED88F6C4BCB79414B8BC8C /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3BD6418D7A60C151D2F2FC /* HomeScreen.swift */; };
+		909B95F21D5CDA614B337C9D /* ModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0527C4B6C5AFDCECFB874C9C /* ModelManager.swift */; };
+		90AE209F9743A5152B9DAC55 /* ggml-threading.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A22DDF735E85927D7A82809 /* ggml-threading.cpp */; };
+		97DAB0B5B0C356F7FBA9665E /* internlm2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BBCF6C6FAD516C4E69ABC6FA /* internlm2.cpp */; };
+		9B1266D68E71232FA57B5222 /* ggml-opt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E8E65EC331F639FC36F873CD /* ggml-opt.cpp */; };
+		9D0F6C36A1CE095894930573 /* llama-chat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3610E540F36C01541D276295 /* llama-chat.cpp */; };
+		9D91FF27D42EB8C37A8E96CB /* granite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A29F214F77ACEF7DA5ED8D76 /* granite.cpp */; };
+		9EFAE875467E0B150B0594C6 /* kimi-linear.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BD8BD179DC6B8755AE3C9F56 /* kimi-linear.cpp */; };
+		9F0894BF9330345EAF93D1C6 /* olmo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5BFBECCEB4C46EE61900B759 /* olmo.cpp */; };
+		A04D1113468FD29D652C136A /* ggml.c in Sources */ = {isa = PBXBuildFile; fileRef = 6AA7C9F3B866C5ED7FCF4788 /* ggml.c */; };
+		A0601D35B9013035F2EBF923 /* ggml-backend-dl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 38DD4F8578B63C6718947389 /* ggml-backend-dl.cpp */; };
+		A0DDD8208DE5589E689AA8C2 /* afmoe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA39F6017ECE2DDB64BFBB70 /* afmoe.cpp */; };
+		A3AB25C64067F3E746334210 /* rwkv7.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3FD8B8FF5655A2CB2DDB8A88 /* rwkv7.cpp */; };
+		A417557BDBA6CFAF3D501C73 /* qwen2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C4833AFC9D7DC46344BC92E9 /* qwen2.cpp */; };
+		A4C37A70B3D3542F4C92D451 /* qwen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA7A73826E0F03A8ADD9702F /* qwen.cpp */; };
+		A852343A8507D66349B0F74F /* mamba.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709FFEF903118D1177F500C2 /* mamba.cpp */; };
+		A91D917CFFB39E47D5D7ED8E /* plm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96F38A6FA49B3209CFC3B097 /* plm.cpp */; };
+		AA7D9AD8C5552CA979B91135 /* bert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8BBD31B96EA90B9C0555BAC /* bert.cpp */; };
+		AA966CF0D17DA6FB2648237E /* jamba.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D318F6E8537C4028A5B8AA3C /* jamba.cpp */; };
+		AC3C104C74B8C0C7CDCFC658 /* qwen3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6CB49BF0B7B05414E2815F7C /* qwen3.cpp */; };
+		B0CB2A073D86E079D2109B2F /* vec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BFEB164F7E9D67C259CE514F /* vec.cpp */; };
+		B2174DAB02B76F9AD720EFDF /* unicode-data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96594C134501507D50304E8E /* unicode-data.cpp */; };
+		B23CA7A3D328C809F9040C2B /* llama-adapter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DBE047771EFE822284E72E43 /* llama-adapter.cpp */; };
+		B335B7B4DB4F0AD073F635FF /* t5encoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8494A6CA89B3D9CE98DACFB /* t5encoder.cpp */; };
+		B482D71E6C6B574520E9D427 /* MoodTrendChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160E296A2C559D9B667B40D6 /* MoodTrendChartView.swift */; };
+		B6FC7A0C3433BC7FCB773051 /* maincoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FC736BD9157756824A4DB310 /* maincoder.cpp */; };
+		B80E31160CCB4CAF46406B2C /* ernie4-5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 62A71A2A3CFF1BDA5EACB864 /* ernie4-5.cpp */; };
+		B893E868BBACB6F299A39E82 /* nemotron-h.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 12E1E6A5E30BAC79438A398C /* nemotron-h.cpp */; };
+		B9B5251EE463B2FBD4878E13 /* JournalListScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B63B76D0949A6D5119D0D03 /* JournalListScreen.swift */; };
+		B9CB73DEFFF07CD525B65E7E /* quants.c in Sources */ = {isa = PBXBuildFile; fileRef = 3E6277B812E20CBCC3D4AB69 /* quants.c */; };
+		BAB745AEF9B86DCAF936DE25 /* eurobert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0D8F1108405A8F15A0F11502 /* eurobert.cpp */; };
+		BB27C181873F728FF2D20315 /* ggml-cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B315D63F6E38A9ECCA0FC4C9 /* ggml-cpu.cpp */; };
+		BCE0D93DE468A1BA8E2B1A93 /* apertus.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8431BFC0E246539DC0B32610 /* apertus.cpp */; };
+		BF1CAEB0D3FDD4438F45FB84 /* mistral3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8C91C3F8648DBB30A968B7F /* mistral3.cpp */; };
+		C0FE854EF760DCE361A5DD45 /* deci.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 193931C6BFCCAB508FA264F7 /* deci.cpp */; };
+		C10DFA5730BAA9D65EECFC38 /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAB8A536D0F9E2218CDA189 /* FlowLayout.swift */; };
+		C505D8299FC8AFEE050D18BA /* delta-net-base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 409183FB848739B061312A48 /* delta-net-base.cpp */; };
+		C75A21B175DAE7A85566C08C /* modern-bert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EA8E8B3C7348165C459256D5 /* modern-bert.cpp */; };
+		C9D4C48D4EF44AB32EAC49CC /* llama-sampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DC24FFBD78FD29A24D34E57 /* llama-sampler.cpp */; };
+		CD4D73E34E9208A6CA9F8C29 /* ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AAA0462727B7367898A75A /* ops.cpp */; };
+		CD6EB0C4CB2562304D8773B0 /* MoodScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BBCB10443B772577811C03 /* MoodScreen.swift */; };
+		D04BE5FEBEE1E95676879BA9 /* llama-mmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60C4EE9EE518F03D5E0D3E3C /* llama-mmap.cpp */; };
+		D16A670AD740EF519730DB20 /* codeshell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9E8D8E741846906E7444DCB8 /* codeshell.cpp */; };
+		D4EF0DF0A1C9675108C5C82D /* llama-memory-hybrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F00088675E6FBFA5CCAFD3D7 /* llama-memory-hybrid.cpp */; };
+		D70F83C328A31FEBDBC2C698 /* WellnessDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 704190AA591B6362414C73FE /* WellnessDatabase.swift */; };
+		D7128FF5D89E8FA2BCFA362F /* llada-moe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5FB1568FD37A6E566D59A635 /* llada-moe.cpp */; };
+		D7E42067A115C2E6A18B6E0A /* chameleon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3FA665207718C801EA56D73B /* chameleon.cpp */; };
+		D7EC21F664DEE5E9015C4803 /* llama-model-saver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0D140C0182499344BF07DF6C /* llama-model-saver.cpp */; };
+		D8059A938D79D2274AFFB8CE /* bailingmoe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 783D68342EADA3734C2065E7 /* bailingmoe.cpp */; };
+		D831857169365E55C9E5BCD9 /* qwen35.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D7DBB1CEBCDE7272C4A65629 /* qwen35.cpp */; };
+		D86AAB13FB8CFC5306D20786 /* ThreadDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF293A28FF991F5A95BB3773 /* ThreadDetailScreen.swift */; };
+		D8E201F91E953BAA9B81DE14 /* InsightsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A520FA293A4C179FA973A9C3 /* InsightsScreen.swift */; };
+		D9E604803621E3224D539BEB /* falcon-h1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A28663E4313CFDEC6EF6BA8A /* falcon-h1.cpp */; };
+		DA8FECB16182C1F62731F03B /* AppRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10A4AC0B5014A3D241F428B2 /* AppRootView.swift */; };
+		DCDD13D7D150ECD2770015CB /* ColdOpenGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEAE8A83B5B11F38644AD013 /* ColdOpenGenerator.swift */; };
+		DD1595422E00B06B49F0E9DE /* starcoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 23A58282E1C80147F6437FD9 /* starcoder.cpp */; };
+		DD7E145EE2824266E07A071C /* falcon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F617DFC130C6051124DC70E9 /* falcon.cpp */; };
+		DEF1F76D461693F76B712756 /* llama-kv-cache-iswa.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A10EDEEAC18A0CC8300C5509 /* llama-kv-cache-iswa.cpp */; };
+		DF199BC0398BDE4908BC2254 /* rwkv6qwen2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9DC134907B1FA1D458D3EF02 /* rwkv6qwen2.cpp */; };
+		E0553F12683B943F7C8011C7 /* ggml-quants-arm.c in Sources */ = {isa = PBXBuildFile; fileRef = E04546ABF0F55495BAAECA54 /* ggml-quants-arm.c */; };
+		E064F670AF7C151BE4FF437C /* deepseek2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEFCE4887A7F93948B8F3362 /* deepseek2.cpp */; };
+		E07B4AC8F3D3543958E53741 /* JournalEditorScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935D5E1F52D4D334CCC56D1A /* JournalEditorScreen.swift */; };
+		E09D788F27E09BFDC8C35467 /* MoodStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914C35F6279E5DEE38369FB6 /* MoodStore.swift */; };
+		E123A65442D6C7FC05B19F03 /* neo-bert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CCF11C7F3349512C0156F108 /* neo-bert.cpp */; };
+		E1341697CE4E29E3E2DC8848 /* llama-context.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5BC7EA92F34F0AA415D8A958 /* llama-context.cpp */; };
+		E284878B497557CA5AC844B6 /* nemotron.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5B994447C8BAE8C907B28BA /* nemotron.cpp */; };
+		E633ED085783681F2B7991D4 /* ggml-backend-meta.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 088EC1AA67D90E8DDF7ACF58 /* ggml-backend-meta.cpp */; };
+		E7FBDD28F125294D2A52298C /* LlmPrompts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66964A83C665927A4A2434A /* LlmPrompts.swift */; };
+		EA3F16C8EE2028518D4E0F4C /* hunyuan-moe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 223629CF4DD6A3F220F0D761 /* hunyuan-moe.cpp */; };
+		EA5A4153226691F4463E064F /* llama-impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A7665F57531325AE22EEC0AD /* llama-impl.cpp */; };
+		EB1ADC2E345738106B882877 /* starcoder2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E215ABFF721D2FD4D8C489E /* starcoder2.cpp */; };
+		ED53256AA97E7A5EB2854A8B /* llama-model-impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6D3FA8B2F7DE096BFF9FA85 /* llama-model-impl.cpp */; };
+		EEC6A47C902DAF7175ED5A65 /* smallthinker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AD8F6A0837D835426A91CC0 /* smallthinker.cpp */; };
+		EFEDFD37F79F9BE1BD4740DD /* seed-oss.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 243FE5CC4B511ED4D91C5637 /* seed-oss.cpp */; };
+		F02665BEAC8018FAFA41F5EF /* llama-io.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ECB5B9720D8BE632DB8EE39B /* llama-io.cpp */; };
+		F1D76459E720AE32A12CC658 /* arctic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 79A1F582941C9AC5868EEDEE /* arctic.cpp */; };
+		F25FCE834FAAD743C55C1155 /* NarrativeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9230CA3339EF78D03F8C5C10 /* NarrativeStore.swift */; };
+		F550F09E127B28F75F9BB5E2 /* ReflectionEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7EA50BF8AA99404A52D91B /* ReflectionEngine.swift */; };
+		F60914DD1F6BAA7121454EF9 /* t5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 52FB997EDA80472ECCEF0495 /* t5.cpp */; };
+		F6B4A4510BA53D0AC4B56062 /* llama-vocab.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BF3FE4E04C746D88E9A44DD6 /* llama-vocab.cpp */; };
+		F6FE61AA52C01FBC88E0D025 /* LiquidAura.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C4CB6B5A5D0D1F0BBB8A3E /* LiquidAura.swift */; };
+		F710DC09897C54AFF9F30C23 /* qwen3vl-moe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6CB14A00F561A51A16B2A2FB /* qwen3vl-moe.cpp */; };
+		F7FFECCEC3C60A52E59097BF /* llama-graph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5A0AA94BBC59BA7F432BBE8 /* llama-graph.cpp */; };
+		FAC298C52017FAC8F96D7270 /* unary-ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4B55CC1BD59770BE6B85E4DD /* unary-ops.cpp */; };
+		FC0DF5D3635424E6F6701260 /* BiometricGateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A037253E9B763694DB0F7094 /* BiometricGateView.swift */; };
+		FC440D99E97A65417A172746 /* llama-hparams.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C3F21555F6B79EF2606FAF61 /* llama-hparams.cpp */; };
+		FCFA274E90F1FDA0AB5AAEC3 /* glm4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8420951A6EA1B6F98B587423 /* glm4.cpp */; };
+		FDAA04C030C558C7A89869CD /* qwen35moe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99D259FADC147D9AB5B919F5 /* qwen35moe.cpp */; };
+		FDF79FE2FEFCC1AFA6C7B3CA /* ggml-cpu.c in Sources */ = {isa = PBXBuildFile; fileRef = AE8F7394387816BE2B8655EB /* ggml-cpu.c */; };
+		FEAD868294217DF179090F51 /* gemma3n-iswa.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 811AC9FFA34C3E59BA3106F9 /* gemma3n-iswa.cpp */; };
+		FEFF9C20412BE2020CC54637 /* llama-memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 38837F98A769598CCFCD27D7 /* llama-memory.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0527C4B6C5AFDCECFB874C9C /* ModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelManager.swift; sourceTree = "<group>"; };
+		067C1140D392BD03AF867F84 /* gemma2-iswa.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "gemma2-iswa.cpp"; sourceTree = "<group>"; };
+		069D28D8A5DB874B68AEB282 /* JournalStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalStore.swift; sourceTree = "<group>"; };
+		088EC1AA67D90E8DDF7ACF58 /* ggml-backend-meta.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "ggml-backend-meta.cpp"; sourceTree = "<group>"; };
+		0A620AB54823BA4B68A25E5F /* bitnet.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bitnet.cpp; sourceTree = "<group>"; };
+		0BF71B8A4AD8486DF55A61E2 /* hbm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = hbm.cpp; sourceTree = "<group>"; };
+		0D140C0182499344BF07DF6C /* llama-model-saver.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-model-saver.cpp"; sourceTree = "<group>"; };
+		0D8F1108405A8F15A0F11502 /* eurobert.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = eurobert.cpp; sourceTree = "<group>"; };
+		0EABC228048161D701ED16B2 /* chatglm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = chatglm.cpp; sourceTree = "<group>"; };
+		0ED273F588577A73E971526F /* gemma3.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gemma3.cpp; sourceTree = "<group>"; };
+		10A4AC0B5014A3D241F428B2 /* AppRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRootView.swift; sourceTree = "<group>"; };
+		10CEEF715BF596DDA7612F1F /* deepseek.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = deepseek.cpp; sourceTree = "<group>"; };
+		12E1E6A5E30BAC79438A398C /* nemotron-h.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "nemotron-h.cpp"; sourceTree = "<group>"; };
+		141642FB84E41898170FEAA4 /* MetricStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricStore.swift; sourceTree = "<group>"; };
+		160E296A2C559D9B667B40D6 /* MoodTrendChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodTrendChartView.swift; sourceTree = "<group>"; };
+		165B8322DE3E0ADD20AF3A41 /* TextAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAnalyzer.swift; sourceTree = "<group>"; };
+		17B7EEEE85C4674635EEA1F1 /* bloom.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bloom.cpp; sourceTree = "<group>"; };
+		184E731EF7924F818F689C04 /* grok.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = grok.cpp; sourceTree = "<group>"; };
+		193931C6BFCCAB508FA264F7 /* deci.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = deci.cpp; sourceTree = "<group>"; };
+		1C23F83DEE54CB9962E8B801 /* plamo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = plamo.cpp; sourceTree = "<group>"; };
+		1D27BDC057F31AB808D59B3D /* llama-cparams.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-cparams.cpp"; sourceTree = "<group>"; };
+		1D5E85ADC73EF32FEF43F09C /* exaone-moe.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "exaone-moe.cpp"; sourceTree = "<group>"; };
+		1E215ABFF721D2FD4D8C489E /* starcoder2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = starcoder2.cpp; sourceTree = "<group>"; };
+		1F7E464A6FB31456BB173549 /* dbrx.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = dbrx.cpp; sourceTree = "<group>"; };
+		223629CF4DD6A3F220F0D761 /* hunyuan-moe.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "hunyuan-moe.cpp"; sourceTree = "<group>"; };
+		23A58282E1C80147F6437FD9 /* starcoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = starcoder.cpp; sourceTree = "<group>"; };
+		243FE5CC4B511ED4D91C5637 /* seed-oss.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "seed-oss.cpp"; sourceTree = "<group>"; };
+		25DBA99E5F054FD9344A3E74 /* jais.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = jais.cpp; sourceTree = "<group>"; };
+		26549183E93749CDBCFE24FE /* ggml-repack-arm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "ggml-repack-arm.cpp"; path = repack.cpp; sourceTree = "<group>"; };
+		285F852A8F65D3763F3609F1 /* gemma4-iswa.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "gemma4-iswa.cpp"; sourceTree = "<group>"; };
+		28BF76D0FF507BAD5361C8BF /* llama-arch.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-arch.cpp"; sourceTree = "<group>"; };
+		2AD8F6A0837D835426A91CC0 /* smallthinker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = smallthinker.cpp; sourceTree = "<group>"; };
+		2B0948DC1494D0DDF4675E05 /* ernie4-5-moe.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "ernie4-5-moe.cpp"; sourceTree = "<group>"; };
+		2B4193B34D79BDB64101A6CB /* dream.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = dream.cpp; sourceTree = "<group>"; };
+		2B63B76D0949A6D5119D0D03 /* JournalListScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalListScreen.swift; sourceTree = "<group>"; };
+		2C1C94339203CE3152C30CCA /* command-r.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "command-r.cpp"; sourceTree = "<group>"; };
+		33F00936106CA34A841B9766 /* llada.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = llada.cpp; sourceTree = "<group>"; };
+		34B57D5E932A55F841A71642 /* llama-quant.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-quant.cpp"; sourceTree = "<group>"; };
+		35489FDA525F8DA514DDC1F9 /* WellnessCompanionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WellnessCompanionApp.swift; sourceTree = "<group>"; };
+		3610E540F36C01541D276295 /* llama-chat.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-chat.cpp"; sourceTree = "<group>"; };
+		38837F98A769598CCFCD27D7 /* llama-memory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-memory.cpp"; sourceTree = "<group>"; };
+		38DD4F8578B63C6718947389 /* ggml-backend-dl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "ggml-backend-dl.cpp"; sourceTree = "<group>"; };
+		3A791B3509EBEDDEB30C7458 /* plamo2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = plamo2.cpp; sourceTree = "<group>"; };
+		3D45776A016FE7C5348BF4A8 /* mimo2-iswa.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "mimo2-iswa.cpp"; sourceTree = "<group>"; };
+		3DAB8A536D0F9E2218CDA189 /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
+		3DC24FFBD78FD29A24D34E57 /* llama-sampler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-sampler.cpp"; sourceTree = "<group>"; };
+		3E6277B812E20CBCC3D4AB69 /* quants.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = quants.c; sourceTree = "<group>"; };
+		3FA665207718C801EA56D73B /* chameleon.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = chameleon.cpp; sourceTree = "<group>"; };
+		3FBB7F08836CBA4BA2D6CF42 /* lfm2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = lfm2.cpp; sourceTree = "<group>"; };
+		3FD8B8FF5655A2CB2DDB8A88 /* rwkv7.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = rwkv7.cpp; sourceTree = "<group>"; };
+		409183FB848739B061312A48 /* delta-net-base.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "delta-net-base.cpp"; sourceTree = "<group>"; };
+		42595684FE518F45762BA026 /* openelm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = openelm.cpp; sourceTree = "<group>"; };
+		456C98DFD9B7E7866C3611A9 /* gemma-embedding.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "gemma-embedding.cpp"; sourceTree = "<group>"; };
+		4759CF75BE6B4B4585CD9C92 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		49AA3F21285137805073BB40 /* llama-kv-cache.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-kv-cache.cpp"; sourceTree = "<group>"; };
+		49EF43C2CEFDF3E492DA09EE /* phi2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = phi2.cpp; sourceTree = "<group>"; };
+		4B55CC1BD59770BE6B85E4DD /* unary-ops.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "unary-ops.cpp"; sourceTree = "<group>"; };
+		4CFB5CBD50D2A58B81CB96A6 /* dots1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = dots1.cpp; sourceTree = "<group>"; };
+		4D3BD6418D7A60C151D2F2FC /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
+		4FE2EBEE08DED85B0C6EA326 /* gptneox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gptneox.cpp; sourceTree = "<group>"; };
+		50AAA0462727B7367898A75A /* ops.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ops.cpp; sourceTree = "<group>"; };
+		51162C65466B81E959F4B24C /* openai-moe-iswa.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "openai-moe-iswa.cpp"; sourceTree = "<group>"; };
+		52FB997EDA80472ECCEF0495 /* t5.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = t5.cpp; sourceTree = "<group>"; };
+		599C85041E6B00F557449D36 /* orion.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = orion.cpp; sourceTree = "<group>"; };
+		5BC7EA92F34F0AA415D8A958 /* llama-context.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-context.cpp"; sourceTree = "<group>"; };
+		5BFBECCEB4C46EE61900B759 /* olmo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = olmo.cpp; sourceTree = "<group>"; };
+		5FB1568FD37A6E566D59A635 /* llada-moe.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llada-moe.cpp"; sourceTree = "<group>"; };
+		5FBA22757EA60D996CC3E0F5 /* llama.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = llama.cpp; sourceTree = "<group>"; };
+		60C4EE9EE518F03D5E0D3E3C /* llama-mmap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-mmap.cpp"; sourceTree = "<group>"; };
+		62A71A2A3CFF1BDA5EACB864 /* ernie4-5.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "ernie4-5.cpp"; sourceTree = "<group>"; };
+		6311BDB32F579909AE928ABD /* grovemoe.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = grovemoe.cpp; sourceTree = "<group>"; };
+		63178CEFEF1E4504C87E2D40 /* hunyuan-dense.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "hunyuan-dense.cpp"; sourceTree = "<group>"; };
+		64BBCB34EAE41C0F6433810C /* minimax-m2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "minimax-m2.cpp"; sourceTree = "<group>"; };
+		674E7E3F915D2B4067D33054 /* mpt.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = mpt.cpp; sourceTree = "<group>"; };
+		69BBCB10443B772577811C03 /* MoodScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodScreen.swift; sourceTree = "<group>"; };
+		6A7E6BADD39626E07D8F950A /* rnd1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = rnd1.cpp; sourceTree = "<group>"; };
+		6AA7C9F3B866C5ED7FCF4788 /* ggml.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ggml.c; sourceTree = "<group>"; };
+		6AE20C9208011483DAD11730 /* gpt2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gpt2.cpp; sourceTree = "<group>"; };
+		6CB14A00F561A51A16B2A2FB /* qwen3vl-moe.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "qwen3vl-moe.cpp"; sourceTree = "<group>"; };
+		6CB49BF0B7B05414E2815F7C /* qwen3.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = qwen3.cpp; sourceTree = "<group>"; };
+		6D9172768493EA8001E25158 /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
+		704190AA591B6362414C73FE /* WellnessDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WellnessDatabase.swift; sourceTree = "<group>"; };
+		709FFEF903118D1177F500C2 /* mamba.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = mamba.cpp; sourceTree = "<group>"; };
+		739589FDDC8242B6D428C3DF /* plamo3.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = plamo3.cpp; sourceTree = "<group>"; };
+		76050F729E5E8EF31DC6446E /* cohere2-iswa.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "cohere2-iswa.cpp"; sourceTree = "<group>"; };
+		783D68342EADA3734C2065E7 /* bailingmoe.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bailingmoe.cpp; sourceTree = "<group>"; };
+		791606C669AAD520A883BD98 /* phi3.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = phi3.cpp; sourceTree = "<group>"; };
+		79A1F582941C9AC5868EEDEE /* arctic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = arctic.cpp; sourceTree = "<group>"; };
+		7AAE139A44C299067378B89B /* stablelm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = stablelm.cpp; sourceTree = "<group>"; };
+		7AC53AEC645C9747C51EECC4 /* WellnessCompanion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WellnessCompanion.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7C7EA50BF8AA99404A52D91B /* ReflectionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectionEngine.swift; sourceTree = "<group>"; };
+		7C8C162198E241497907970A /* mamba-base.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "mamba-base.cpp"; sourceTree = "<group>"; };
+		7CD3B03129EE07631267CD71 /* refact.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = refact.cpp; sourceTree = "<group>"; };
+		811AC9FFA34C3E59BA3106F9 /* gemma3n-iswa.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "gemma3n-iswa.cpp"; sourceTree = "<group>"; };
+		82D64CF312ABEF022BD2423D /* ggml-alloc.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "ggml-alloc.c"; sourceTree = "<group>"; };
+		83161B4DF907565AB0F34114 /* step35-iswa.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "step35-iswa.cpp"; sourceTree = "<group>"; };
+		8420951A6EA1B6F98B587423 /* glm4.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = glm4.cpp; sourceTree = "<group>"; };
+		8431BFC0E246539DC0B32610 /* apertus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = apertus.cpp; sourceTree = "<group>"; };
+		8468C730AB7EF643D941190E /* xverse.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = xverse.cpp; sourceTree = "<group>"; };
+		856894FAD3E018AC2787057F /* qwen3next.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = qwen3next.cpp; sourceTree = "<group>"; };
+		862A82677528AED26518B312 /* bailingmoe2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bailingmoe2.cpp; sourceTree = "<group>"; };
+		8A22DDF735E85927D7A82809 /* ggml-threading.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "ggml-threading.cpp"; sourceTree = "<group>"; };
+		8A2514AC40ADA7EC73E93C38 /* jais2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = jais2.cpp; sourceTree = "<group>"; };
+		8B1E8987BDF7187870D4A837 /* olmo2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = olmo2.cpp; sourceTree = "<group>"; };
+		8BD65EFF9EDE3548D25C099E /* pangu-embedded.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "pangu-embedded.cpp"; sourceTree = "<group>"; };
+		8D6B31925A8E78DB5728DEF4 /* ggml-backend-reg.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "ggml-backend-reg.cpp"; sourceTree = "<group>"; };
+		90AAB22AE7D337363805CF0E /* llama-batch.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-batch.cpp"; sourceTree = "<group>"; };
+		914C35F6279E5DEE38369FB6 /* MoodStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodStore.swift; sourceTree = "<group>"; };
+		91D27646DAEA1721AB515D95 /* traits.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = traits.cpp; sourceTree = "<group>"; };
+		9230CA3339EF78D03F8C5C10 /* NarrativeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NarrativeStore.swift; sourceTree = "<group>"; };
+		935D5E1F52D4D334CCC56D1A /* JournalEditorScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalEditorScreen.swift; sourceTree = "<group>"; };
+		96594C134501507D50304E8E /* unicode-data.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "unicode-data.cpp"; sourceTree = "<group>"; };
+		96CACFB1CDF9D2FDA3BEA171 /* paddleocr.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = paddleocr.cpp; sourceTree = "<group>"; };
+		96E086FD5F5CA99EB39DA6A9 /* LiquidEntryRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidEntryRow.swift; sourceTree = "<group>"; };
+		96F38A6FA49B3209CFC3B097 /* plm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = plm.cpp; sourceTree = "<group>"; };
+		97AD2B9CF59453D8C3D81DFD /* unicode.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = unicode.cpp; sourceTree = "<group>"; };
+		99D259FADC147D9AB5B919F5 /* qwen35moe.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = qwen35moe.cpp; sourceTree = "<group>"; };
+		9DC134907B1FA1D458D3EF02 /* rwkv6qwen2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = rwkv6qwen2.cpp; sourceTree = "<group>"; };
+		9E8D8E741846906E7444DCB8 /* codeshell.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = codeshell.cpp; sourceTree = "<group>"; };
+		9F8932DD5BCD833D95EBE24D /* wavtokenizer-dec.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "wavtokenizer-dec.cpp"; sourceTree = "<group>"; };
+		9F98BC6BFDBFB17F0C30CAF5 /* binary-ops.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "binary-ops.cpp"; sourceTree = "<group>"; };
+		A037253E9B763694DB0F7094 /* BiometricGateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricGateView.swift; sourceTree = "<group>"; };
+		A10EDEEAC18A0CC8300C5509 /* llama-kv-cache-iswa.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-kv-cache-iswa.cpp"; sourceTree = "<group>"; };
+		A28663E4313CFDEC6EF6BA8A /* falcon-h1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "falcon-h1.cpp"; sourceTree = "<group>"; };
+		A29F214F77ACEF7DA5ED8D76 /* granite.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = granite.cpp; sourceTree = "<group>"; };
+		A520FA293A4C179FA973A9C3 /* InsightsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightsScreen.swift; sourceTree = "<group>"; };
+		A63F6CFF406C1A54DD2114EF /* llama-memory-recurrent.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-memory-recurrent.cpp"; sourceTree = "<group>"; };
+		A7665F57531325AE22EEC0AD /* llama-impl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-impl.cpp"; sourceTree = "<group>"; };
+		A831B79DEC8852A96E048C6E /* rwkv6.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = rwkv6.cpp; sourceTree = "<group>"; };
+		A99E8D473F3340C94FCE14D6 /* rwkv6-base.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "rwkv6-base.cpp"; sourceTree = "<group>"; };
+		AA71DA28B1B492238F2FB2D4 /* LlamaEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LlamaEngine.swift; sourceTree = "<group>"; };
+		AC65FA34D0EFA47D6B08C800 /* qwen2vl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = qwen2vl.cpp; sourceTree = "<group>"; };
+		ADA31C3AFFD0A0E8871B5B1C /* ThreadDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadDetector.swift; sourceTree = "<group>"; };
+		AE8F7394387816BE2B8655EB /* ggml-cpu.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "ggml-cpu.c"; sourceTree = "<group>"; };
+		B315D63F6E38A9ECCA0FC4C9 /* ggml-cpu.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "ggml-cpu.cpp"; sourceTree = "<group>"; };
+		B36153CC913A8680F9856722 /* minicpm3.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = minicpm3.cpp; sourceTree = "<group>"; };
+		B61DF31A08A141F2B133FAFE /* rwkv7-base.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "rwkv7-base.cpp"; sourceTree = "<group>"; };
+		B63DD00E760C3D7557B9F3D7 /* granite-hybrid.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "granite-hybrid.cpp"; sourceTree = "<group>"; };
+		BBCF6C6FAD516C4E69ABC6FA /* internlm2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = internlm2.cpp; sourceTree = "<group>"; };
+		BD8BD179DC6B8755AE3C9F56 /* kimi-linear.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kimi-linear.cpp"; sourceTree = "<group>"; };
+		BE974C070D7845DB1E14625A /* arwkv7.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = arwkv7.cpp; sourceTree = "<group>"; };
+		BEAE8A83B5B11F38644AD013 /* ColdOpenGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColdOpenGenerator.swift; sourceTree = "<group>"; };
+		BF3FE4E04C746D88E9A44DD6 /* llama-vocab.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-vocab.cpp"; sourceTree = "<group>"; };
+		BFCEBD2EE2C961B00FC920A1 /* ggml.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ggml.cpp; sourceTree = "<group>"; };
+		BFEB164F7E9D67C259CE514F /* vec.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = vec.cpp; sourceTree = "<group>"; };
+		C1C60102A624C9286DD11832 /* exaone4.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = exaone4.cpp; sourceTree = "<group>"; };
+		C3F21555F6B79EF2606FAF61 /* llama-hparams.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-hparams.cpp"; sourceTree = "<group>"; };
+		C472F707D6A71D84AD4BA344 /* qwen2moe.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = qwen2moe.cpp; sourceTree = "<group>"; };
+		C472FD2B7EE5991E0D5B340A /* smollm3.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = smollm3.cpp; sourceTree = "<group>"; };
+		C4833AFC9D7DC46344BC92E9 /* qwen2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = qwen2.cpp; sourceTree = "<group>"; };
+		C66964A83C665927A4A2434A /* LlmPrompts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LlmPrompts.swift; sourceTree = "<group>"; };
+		CA1D7A658E3521632A981337 /* exaone.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = exaone.cpp; sourceTree = "<group>"; };
+		CA39F6017ECE2DDB64BFBB70 /* afmoe.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = afmoe.cpp; sourceTree = "<group>"; };
+		CCF11C7F3349512C0156F108 /* neo-bert.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "neo-bert.cpp"; sourceTree = "<group>"; };
+		CEDD0FC46F07995A90C3527D /* cogvlm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cogvlm.cpp; sourceTree = "<group>"; };
+		CEFCE4887A7F93948B8F3362 /* deepseek2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = deepseek2.cpp; sourceTree = "<group>"; };
+		D318F6E8537C4028A5B8AA3C /* jamba.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = jamba.cpp; sourceTree = "<group>"; };
+		D3FC7F77E3DE5D1AAF8DC7CC /* arcee.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = arcee.cpp; sourceTree = "<group>"; };
+		D5410FFFCE8045AA5452528E /* llama-model.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-model.cpp"; sourceTree = "<group>"; };
+		D6D3FA8B2F7DE096BFF9FA85 /* llama-model-impl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "llama-model-impl.cpp"; path = llama.cpp; sourceTree = "<group>"; };
+		D7C4CB6B5A5D0D1F0BBB8A3E /* LiquidAura.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidAura.swift; sourceTree = "<group>"; };
+		D7DBB1CEBCDE7272C4A65629 /* qwen35.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = qwen35.cpp; sourceTree = "<group>"; };
+		D7F5B8D4FB3B73B282289562 /* llama-model-loader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-model-loader.cpp"; sourceTree = "<group>"; };
+		D8494A6CA89B3D9CE98DACFB /* t5encoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = t5encoder.cpp; sourceTree = "<group>"; };
+		D922ABB891C3280FE85CCD27 /* repack.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = repack.cpp; sourceTree = "<group>"; };
+		DA2AD3E5DEB60BD7DB401BB9 /* glm4-moe.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "glm4-moe.cpp"; sourceTree = "<group>"; };
+		DA7A73826E0F03A8ADD9702F /* qwen.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = qwen.cpp; sourceTree = "<group>"; };
+		DA882A50C79882BAE164169E /* baichuan.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = baichuan.cpp; sourceTree = "<group>"; };
+		DBE047771EFE822284E72E43 /* llama-adapter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-adapter.cpp"; sourceTree = "<group>"; };
+		DC17DA5564BE1B4F92BC7052 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		DD2E16CDD8830C9199983DC1 /* olmoe.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = olmoe.cpp; sourceTree = "<group>"; };
+		DD708483329AB6BB28A4986E /* ggml-quants.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "ggml-quants.c"; sourceTree = "<group>"; };
+		DF293A28FF991F5A95BB3773 /* ThreadDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadDetailScreen.swift; sourceTree = "<group>"; };
+		E04546ABF0F55495BAAECA54 /* ggml-quants-arm.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = "ggml-quants-arm.c"; path = quants.c; sourceTree = "<group>"; };
+		E2FBB97846C461DB9ECAA332 /* gguf.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gguf.cpp; sourceTree = "<group>"; };
+		E44B8B46AB6EC1F35EC7C393 /* llama4.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = llama4.cpp; sourceTree = "<group>"; };
+		E5A0AA94BBC59BA7F432BBE8 /* llama-graph.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-graph.cpp"; sourceTree = "<group>"; };
+		E5B994447C8BAE8C907B28BA /* nemotron.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = nemotron.cpp; sourceTree = "<group>"; };
+		E8E65EC331F639FC36F873CD /* ggml-opt.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "ggml-opt.cpp"; sourceTree = "<group>"; };
+		EA8E8B3C7348165C459256D5 /* modern-bert.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "modern-bert.cpp"; sourceTree = "<group>"; };
+		EB77DE7FDD3D4AEDB3DB1DC5 /* WellnessTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WellnessTheme.swift; sourceTree = "<group>"; };
+		EC8AFF9A066697344CBFE678 /* llama-grammar.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-grammar.cpp"; sourceTree = "<group>"; };
+		ECB5B9720D8BE632DB8EE39B /* llama-io.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-io.cpp"; sourceTree = "<group>"; };
+		EEAD50433AE0622B872D0600 /* qwen3vl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = qwen3vl.cpp; sourceTree = "<group>"; };
+		F00088675E6FBFA5CCAFD3D7 /* llama-memory-hybrid.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-memory-hybrid.cpp"; sourceTree = "<group>"; };
+		F0F206DAF388710EE1442DAB /* llama-memory-hybrid-iswa.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-memory-hybrid-iswa.cpp"; sourceTree = "<group>"; };
+		F617DFC130C6051124DC70E9 /* falcon.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = falcon.cpp; sourceTree = "<group>"; };
+		F72EB52FAE0DFEAC62E173F9 /* AppContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContainer.swift; sourceTree = "<group>"; };
+		F8B574490DAFF817C1F99BED /* cpu-feats.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "cpu-feats.cpp"; sourceTree = "<group>"; };
+		F8BBD31B96EA90B9C0555BAC /* bert.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bert.cpp; sourceTree = "<group>"; };
+		F8C91C3F8648DBB30A968B7F /* mistral3.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = mistral3.cpp; sourceTree = "<group>"; };
+		FA5EC46E430C4540E818F112 /* qwen3moe.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = qwen3moe.cpp; sourceTree = "<group>"; };
+		FB7D6B1D78815D00F978CC25 /* gemma.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gemma.cpp; sourceTree = "<group>"; };
+		FC736BD9157756824A4DB310 /* maincoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = maincoder.cpp; sourceTree = "<group>"; };
+		FD8FF1E5BDBB5DDD8615845F /* MirrorGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MirrorGenerator.swift; sourceTree = "<group>"; };
+		FDDF278598A28816A81B7C26 /* ggml-backend.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "ggml-backend.cpp"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0C116D0F0695764A8CCC6DC1 = {
+			isa = PBXGroup;
+			children = (
+				41B28485B4AD66EEC8950743 /* Mental-health-companion */,
+				2D69BA90A59F387CD002DE9A /* WellnessCompanion */,
+				7D764933346B5D77ED56A48A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1AB99226A182668EEA2C2FAC /* src */ = {
+			isa = PBXGroup;
+			children = (
+				AB7792D86982A79DF15B9060 /* main */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		1B704C9C832A5895C003813B /* ggml */ = {
+			isa = PBXGroup;
+			children = (
+				B78DDD99037A8FE370C63D47 /* src */,
+			);
+			path = ggml;
+			sourceTree = "<group>";
+		};
+		1CD4B045F5A684D7FEAF0127 /* Mood */ = {
+			isa = PBXGroup;
+			children = (
+				69BBCB10443B772577811C03 /* MoodScreen.swift */,
+			);
+			path = Mood;
+			sourceTree = "<group>";
+		};
+		1D334220EC56FADC1DB2AD2D /* src */ = {
+			isa = PBXGroup;
+			children = (
+				DBE047771EFE822284E72E43 /* llama-adapter.cpp */,
+				28BF76D0FF507BAD5361C8BF /* llama-arch.cpp */,
+				90AAB22AE7D337363805CF0E /* llama-batch.cpp */,
+				3610E540F36C01541D276295 /* llama-chat.cpp */,
+				5BC7EA92F34F0AA415D8A958 /* llama-context.cpp */,
+				1D27BDC057F31AB808D59B3D /* llama-cparams.cpp */,
+				EC8AFF9A066697344CBFE678 /* llama-grammar.cpp */,
+				E5A0AA94BBC59BA7F432BBE8 /* llama-graph.cpp */,
+				C3F21555F6B79EF2606FAF61 /* llama-hparams.cpp */,
+				A7665F57531325AE22EEC0AD /* llama-impl.cpp */,
+				ECB5B9720D8BE632DB8EE39B /* llama-io.cpp */,
+				A10EDEEAC18A0CC8300C5509 /* llama-kv-cache-iswa.cpp */,
+				49AA3F21285137805073BB40 /* llama-kv-cache.cpp */,
+				F0F206DAF388710EE1442DAB /* llama-memory-hybrid-iswa.cpp */,
+				F00088675E6FBFA5CCAFD3D7 /* llama-memory-hybrid.cpp */,
+				A63F6CFF406C1A54DD2114EF /* llama-memory-recurrent.cpp */,
+				38837F98A769598CCFCD27D7 /* llama-memory.cpp */,
+				60C4EE9EE518F03D5E0D3E3C /* llama-mmap.cpp */,
+				D7F5B8D4FB3B73B282289562 /* llama-model-loader.cpp */,
+				0D140C0182499344BF07DF6C /* llama-model-saver.cpp */,
+				D5410FFFCE8045AA5452528E /* llama-model.cpp */,
+				34B57D5E932A55F841A71642 /* llama-quant.cpp */,
+				3DC24FFBD78FD29A24D34E57 /* llama-sampler.cpp */,
+				BF3FE4E04C746D88E9A44DD6 /* llama-vocab.cpp */,
+				5FBA22757EA60D996CC3E0F5 /* llama.cpp */,
+				96594C134501507D50304E8E /* unicode-data.cpp */,
+				97AD2B9CF59453D8C3D81DFD /* unicode.cpp */,
+				5DFBD42971B6C4E54222A46E /* models */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		29B4E8DBD2C61938A66F7E50 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				A037253E9B763694DB0F7094 /* BiometricGateView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		2D69BA90A59F387CD002DE9A /* WellnessCompanion */ = {
+			isa = PBXGroup;
+			children = (
+				72150DBEDAEB0A07AE03E48A /* App */,
+				6ECC6ED214E0DEB41B164D0B /* Data */,
+				C36E47A0611214874476D0D3 /* Domain */,
+				706498F264AA1AA06CFAD22C /* UI */,
+			);
+			path = WellnessCompanion;
+			sourceTree = "<group>";
+		};
+		3EFED3D492BCA7CE8A2DAD59 /* app */ = {
+			isa = PBXGroup;
+			children = (
+				1AB99226A182668EEA2C2FAC /* src */,
+			);
+			path = app;
+			sourceTree = "<group>";
+		};
+		41B28485B4AD66EEC8950743 /* Mental-health-companion */ = {
+			isa = PBXGroup;
+			children = (
+				3EFED3D492BCA7CE8A2DAD59 /* app */,
+			);
+			name = "Mental-health-companion";
+			path = ..;
+			sourceTree = "<group>";
+		};
+		4BB1B799AB919C278C9C02FB /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				EB77DE7FDD3D4AEDB3DB1DC5 /* WellnessTheme.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		56D46617CB5BD9C4EE790B93 /* ggml-cpu */ = {
+			isa = PBXGroup;
+			children = (
+				9F98BC6BFDBFB17F0C30CAF5 /* binary-ops.cpp */,
+				AE8F7394387816BE2B8655EB /* ggml-cpu.c */,
+				B315D63F6E38A9ECCA0FC4C9 /* ggml-cpu.cpp */,
+				0BF71B8A4AD8486DF55A61E2 /* hbm.cpp */,
+				50AAA0462727B7367898A75A /* ops.cpp */,
+				3E6277B812E20CBCC3D4AB69 /* quants.c */,
+				D922ABB891C3280FE85CCD27 /* repack.cpp */,
+				91D27646DAEA1721AB515D95 /* traits.cpp */,
+				4B55CC1BD59770BE6B85E4DD /* unary-ops.cpp */,
+				BFEB164F7E9D67C259CE514F /* vec.cpp */,
+				7286AD1AF7095E1CA8C51856 /* arch */,
+			);
+			path = "ggml-cpu";
+			sourceTree = "<group>";
+		};
+		5B5F21B247C51E3F62AB2F1D /* Narrative */ = {
+			isa = PBXGroup;
+			children = (
+				BEAE8A83B5B11F38644AD013 /* ColdOpenGenerator.swift */,
+				FD8FF1E5BDBB5DDD8615845F /* MirrorGenerator.swift */,
+				ADA31C3AFFD0A0E8871B5B1C /* ThreadDetector.swift */,
+			);
+			path = Narrative;
+			sourceTree = "<group>";
+		};
+		5DFBD42971B6C4E54222A46E /* models */ = {
+			isa = PBXGroup;
+			children = (
+				CA39F6017ECE2DDB64BFBB70 /* afmoe.cpp */,
+				8431BFC0E246539DC0B32610 /* apertus.cpp */,
+				D3FC7F77E3DE5D1AAF8DC7CC /* arcee.cpp */,
+				79A1F582941C9AC5868EEDEE /* arctic.cpp */,
+				BE974C070D7845DB1E14625A /* arwkv7.cpp */,
+				DA882A50C79882BAE164169E /* baichuan.cpp */,
+				783D68342EADA3734C2065E7 /* bailingmoe.cpp */,
+				862A82677528AED26518B312 /* bailingmoe2.cpp */,
+				F8BBD31B96EA90B9C0555BAC /* bert.cpp */,
+				0A620AB54823BA4B68A25E5F /* bitnet.cpp */,
+				17B7EEEE85C4674635EEA1F1 /* bloom.cpp */,
+				3FA665207718C801EA56D73B /* chameleon.cpp */,
+				0EABC228048161D701ED16B2 /* chatglm.cpp */,
+				9E8D8E741846906E7444DCB8 /* codeshell.cpp */,
+				CEDD0FC46F07995A90C3527D /* cogvlm.cpp */,
+				76050F729E5E8EF31DC6446E /* cohere2-iswa.cpp */,
+				2C1C94339203CE3152C30CCA /* command-r.cpp */,
+				1F7E464A6FB31456BB173549 /* dbrx.cpp */,
+				193931C6BFCCAB508FA264F7 /* deci.cpp */,
+				10CEEF715BF596DDA7612F1F /* deepseek.cpp */,
+				CEFCE4887A7F93948B8F3362 /* deepseek2.cpp */,
+				409183FB848739B061312A48 /* delta-net-base.cpp */,
+				4CFB5CBD50D2A58B81CB96A6 /* dots1.cpp */,
+				2B4193B34D79BDB64101A6CB /* dream.cpp */,
+				2B0948DC1494D0DDF4675E05 /* ernie4-5-moe.cpp */,
+				62A71A2A3CFF1BDA5EACB864 /* ernie4-5.cpp */,
+				0D8F1108405A8F15A0F11502 /* eurobert.cpp */,
+				1D5E85ADC73EF32FEF43F09C /* exaone-moe.cpp */,
+				CA1D7A658E3521632A981337 /* exaone.cpp */,
+				C1C60102A624C9286DD11832 /* exaone4.cpp */,
+				A28663E4313CFDEC6EF6BA8A /* falcon-h1.cpp */,
+				F617DFC130C6051124DC70E9 /* falcon.cpp */,
+				456C98DFD9B7E7866C3611A9 /* gemma-embedding.cpp */,
+				FB7D6B1D78815D00F978CC25 /* gemma.cpp */,
+				067C1140D392BD03AF867F84 /* gemma2-iswa.cpp */,
+				0ED273F588577A73E971526F /* gemma3.cpp */,
+				811AC9FFA34C3E59BA3106F9 /* gemma3n-iswa.cpp */,
+				285F852A8F65D3763F3609F1 /* gemma4-iswa.cpp */,
+				DA2AD3E5DEB60BD7DB401BB9 /* glm4-moe.cpp */,
+				8420951A6EA1B6F98B587423 /* glm4.cpp */,
+				6AE20C9208011483DAD11730 /* gpt2.cpp */,
+				4FE2EBEE08DED85B0C6EA326 /* gptneox.cpp */,
+				B63DD00E760C3D7557B9F3D7 /* granite-hybrid.cpp */,
+				A29F214F77ACEF7DA5ED8D76 /* granite.cpp */,
+				184E731EF7924F818F689C04 /* grok.cpp */,
+				6311BDB32F579909AE928ABD /* grovemoe.cpp */,
+				63178CEFEF1E4504C87E2D40 /* hunyuan-dense.cpp */,
+				223629CF4DD6A3F220F0D761 /* hunyuan-moe.cpp */,
+				BBCF6C6FAD516C4E69ABC6FA /* internlm2.cpp */,
+				25DBA99E5F054FD9344A3E74 /* jais.cpp */,
+				8A2514AC40ADA7EC73E93C38 /* jais2.cpp */,
+				D318F6E8537C4028A5B8AA3C /* jamba.cpp */,
+				BD8BD179DC6B8755AE3C9F56 /* kimi-linear.cpp */,
+				3FBB7F08836CBA4BA2D6CF42 /* lfm2.cpp */,
+				5FB1568FD37A6E566D59A635 /* llada-moe.cpp */,
+				33F00936106CA34A841B9766 /* llada.cpp */,
+				D6D3FA8B2F7DE096BFF9FA85 /* llama-model-impl.cpp */,
+				E44B8B46AB6EC1F35EC7C393 /* llama4.cpp */,
+				FC736BD9157756824A4DB310 /* maincoder.cpp */,
+				7C8C162198E241497907970A /* mamba-base.cpp */,
+				709FFEF903118D1177F500C2 /* mamba.cpp */,
+				3D45776A016FE7C5348BF4A8 /* mimo2-iswa.cpp */,
+				B36153CC913A8680F9856722 /* minicpm3.cpp */,
+				64BBCB34EAE41C0F6433810C /* minimax-m2.cpp */,
+				F8C91C3F8648DBB30A968B7F /* mistral3.cpp */,
+				EA8E8B3C7348165C459256D5 /* modern-bert.cpp */,
+				674E7E3F915D2B4067D33054 /* mpt.cpp */,
+				12E1E6A5E30BAC79438A398C /* nemotron-h.cpp */,
+				E5B994447C8BAE8C907B28BA /* nemotron.cpp */,
+				CCF11C7F3349512C0156F108 /* neo-bert.cpp */,
+				5BFBECCEB4C46EE61900B759 /* olmo.cpp */,
+				8B1E8987BDF7187870D4A837 /* olmo2.cpp */,
+				DD2E16CDD8830C9199983DC1 /* olmoe.cpp */,
+				51162C65466B81E959F4B24C /* openai-moe-iswa.cpp */,
+				42595684FE518F45762BA026 /* openelm.cpp */,
+				599C85041E6B00F557449D36 /* orion.cpp */,
+				96CACFB1CDF9D2FDA3BEA171 /* paddleocr.cpp */,
+				8BD65EFF9EDE3548D25C099E /* pangu-embedded.cpp */,
+				49EF43C2CEFDF3E492DA09EE /* phi2.cpp */,
+				791606C669AAD520A883BD98 /* phi3.cpp */,
+				1C23F83DEE54CB9962E8B801 /* plamo.cpp */,
+				3A791B3509EBEDDEB30C7458 /* plamo2.cpp */,
+				739589FDDC8242B6D428C3DF /* plamo3.cpp */,
+				96F38A6FA49B3209CFC3B097 /* plm.cpp */,
+				DA7A73826E0F03A8ADD9702F /* qwen.cpp */,
+				C4833AFC9D7DC46344BC92E9 /* qwen2.cpp */,
+				C472F707D6A71D84AD4BA344 /* qwen2moe.cpp */,
+				AC65FA34D0EFA47D6B08C800 /* qwen2vl.cpp */,
+				6CB49BF0B7B05414E2815F7C /* qwen3.cpp */,
+				FA5EC46E430C4540E818F112 /* qwen3moe.cpp */,
+				856894FAD3E018AC2787057F /* qwen3next.cpp */,
+				6CB14A00F561A51A16B2A2FB /* qwen3vl-moe.cpp */,
+				EEAD50433AE0622B872D0600 /* qwen3vl.cpp */,
+				D7DBB1CEBCDE7272C4A65629 /* qwen35.cpp */,
+				99D259FADC147D9AB5B919F5 /* qwen35moe.cpp */,
+				7CD3B03129EE07631267CD71 /* refact.cpp */,
+				6A7E6BADD39626E07D8F950A /* rnd1.cpp */,
+				A99E8D473F3340C94FCE14D6 /* rwkv6-base.cpp */,
+				A831B79DEC8852A96E048C6E /* rwkv6.cpp */,
+				9DC134907B1FA1D458D3EF02 /* rwkv6qwen2.cpp */,
+				B61DF31A08A141F2B133FAFE /* rwkv7-base.cpp */,
+				3FD8B8FF5655A2CB2DDB8A88 /* rwkv7.cpp */,
+				243FE5CC4B511ED4D91C5637 /* seed-oss.cpp */,
+				2AD8F6A0837D835426A91CC0 /* smallthinker.cpp */,
+				C472FD2B7EE5991E0D5B340A /* smollm3.cpp */,
+				7AAE139A44C299067378B89B /* stablelm.cpp */,
+				23A58282E1C80147F6437FD9 /* starcoder.cpp */,
+				1E215ABFF721D2FD4D8C489E /* starcoder2.cpp */,
+				83161B4DF907565AB0F34114 /* step35-iswa.cpp */,
+				52FB997EDA80472ECCEF0495 /* t5.cpp */,
+				D8494A6CA89B3D9CE98DACFB /* t5encoder.cpp */,
+				9F8932DD5BCD833D95EBE24D /* wavtokenizer-dec.cpp */,
+				8468C730AB7EF643D941190E /* xverse.cpp */,
+			);
+			path = models;
+			sourceTree = "<group>";
+		};
+		6ECC6ED214E0DEB41B164D0B /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				CDA5E06D4AA01C2E97493DFF /* Database */,
+				C54A6B522DC86CBB7F219BE2 /* LLM */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		706498F264AA1AA06CFAD22C /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				29B4E8DBD2C61938A66F7E50 /* Auth */,
+				B48D6FF26EE2A6FAF9B8D8D3 /* Components */,
+				B6BFFEBB673DF1C6C6F3EDBA /* Home */,
+				ED96AE509D519C3684A3AA48 /* Insights */,
+				AEDEA0F06C35BC9463595804 /* Journal */,
+				1CD4B045F5A684D7FEAF0127 /* Mood */,
+				4BB1B799AB919C278C9C02FB /* Theme */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		72150DBEDAEB0A07AE03E48A /* App */ = {
+			isa = PBXGroup;
+			children = (
+				F72EB52FAE0DFEAC62E173F9 /* AppContainer.swift */,
+				6D9172768493EA8001E25158 /* BridgingHeader.h */,
+				DC17DA5564BE1B4F92BC7052 /* ContentView.swift */,
+				4759CF75BE6B4B4585CD9C92 /* Info.plist */,
+				35489FDA525F8DA514DDC1F9 /* WellnessCompanionApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		7286AD1AF7095E1CA8C51856 /* arch */ = {
+			isa = PBXGroup;
+			children = (
+				F1F049E566864438B42E119B /* arm */,
+			);
+			path = arch;
+			sourceTree = "<group>";
+		};
+		7D764933346B5D77ED56A48A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7AC53AEC645C9747C51EECC4 /* WellnessCompanion.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		86E1A89E6F9E1FFF2FB8169B /* llama.cpp */ = {
+			isa = PBXGroup;
+			children = (
+				1B704C9C832A5895C003813B /* ggml */,
+				1D334220EC56FADC1DB2AD2D /* src */,
+			);
+			path = llama.cpp;
+			sourceTree = "<group>";
+		};
+		AB7792D86982A79DF15B9060 /* main */ = {
+			isa = PBXGroup;
+			children = (
+				FB24040E3B54B67B4D363466 /* cpp */,
+			);
+			path = main;
+			sourceTree = "<group>";
+		};
+		AEDEA0F06C35BC9463595804 /* Journal */ = {
+			isa = PBXGroup;
+			children = (
+				935D5E1F52D4D334CCC56D1A /* JournalEditorScreen.swift */,
+				2B63B76D0949A6D5119D0D03 /* JournalListScreen.swift */,
+				96E086FD5F5CA99EB39DA6A9 /* LiquidEntryRow.swift */,
+				DF293A28FF991F5A95BB3773 /* ThreadDetailScreen.swift */,
+			);
+			path = Journal;
+			sourceTree = "<group>";
+		};
+		B48D6FF26EE2A6FAF9B8D8D3 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				3DAB8A536D0F9E2218CDA189 /* FlowLayout.swift */,
+				D7C4CB6B5A5D0D1F0BBB8A3E /* LiquidAura.swift */,
+				160E296A2C559D9B667B40D6 /* MoodTrendChartView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		B6BFFEBB673DF1C6C6F3EDBA /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				10A4AC0B5014A3D241F428B2 /* AppRootView.swift */,
+				4D3BD6418D7A60C151D2F2FC /* HomeScreen.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		B78DDD99037A8FE370C63D47 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				82D64CF312ABEF022BD2423D /* ggml-alloc.c */,
+				38DD4F8578B63C6718947389 /* ggml-backend-dl.cpp */,
+				088EC1AA67D90E8DDF7ACF58 /* ggml-backend-meta.cpp */,
+				8D6B31925A8E78DB5728DEF4 /* ggml-backend-reg.cpp */,
+				FDDF278598A28816A81B7C26 /* ggml-backend.cpp */,
+				E8E65EC331F639FC36F873CD /* ggml-opt.cpp */,
+				DD708483329AB6BB28A4986E /* ggml-quants.c */,
+				8A22DDF735E85927D7A82809 /* ggml-threading.cpp */,
+				6AA7C9F3B866C5ED7FCF4788 /* ggml.c */,
+				BFCEBD2EE2C961B00FC920A1 /* ggml.cpp */,
+				E2FBB97846C461DB9ECAA332 /* gguf.cpp */,
+				56D46617CB5BD9C4EE790B93 /* ggml-cpu */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		C36E47A0611214874476D0D3 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				C7AC14E89C4A1A0954EED69D /* LLM */,
+				5B5F21B247C51E3F62AB2F1D /* Narrative */,
+				D7D886B21454870A3E474732 /* NLP */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		C54A6B522DC86CBB7F219BE2 /* LLM */ = {
+			isa = PBXGroup;
+			children = (
+				AA71DA28B1B492238F2FB2D4 /* LlamaEngine.swift */,
+				0527C4B6C5AFDCECFB874C9C /* ModelManager.swift */,
+			);
+			path = LLM;
+			sourceTree = "<group>";
+		};
+		C7AC14E89C4A1A0954EED69D /* LLM */ = {
+			isa = PBXGroup;
+			children = (
+				C66964A83C665927A4A2434A /* LlmPrompts.swift */,
+				7C7EA50BF8AA99404A52D91B /* ReflectionEngine.swift */,
+			);
+			path = LLM;
+			sourceTree = "<group>";
+		};
+		CDA5E06D4AA01C2E97493DFF /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				069D28D8A5DB874B68AEB282 /* JournalStore.swift */,
+				141642FB84E41898170FEAA4 /* MetricStore.swift */,
+				914C35F6279E5DEE38369FB6 /* MoodStore.swift */,
+				9230CA3339EF78D03F8C5C10 /* NarrativeStore.swift */,
+				704190AA591B6362414C73FE /* WellnessDatabase.swift */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		D7D886B21454870A3E474732 /* NLP */ = {
+			isa = PBXGroup;
+			children = (
+				165B8322DE3E0ADD20AF3A41 /* TextAnalyzer.swift */,
+			);
+			path = NLP;
+			sourceTree = "<group>";
+		};
+		ED96AE509D519C3684A3AA48 /* Insights */ = {
+			isa = PBXGroup;
+			children = (
+				A520FA293A4C179FA973A9C3 /* InsightsScreen.swift */,
+			);
+			path = Insights;
+			sourceTree = "<group>";
+		};
+		F1F049E566864438B42E119B /* arm */ = {
+			isa = PBXGroup;
+			children = (
+				F8B574490DAFF817C1F99BED /* cpu-feats.cpp */,
+				E04546ABF0F55495BAAECA54 /* ggml-quants-arm.c */,
+				26549183E93749CDBCFE24FE /* ggml-repack-arm.cpp */,
+			);
+			path = arm;
+			sourceTree = "<group>";
+		};
+		FB24040E3B54B67B4D363466 /* cpp */ = {
+			isa = PBXGroup;
+			children = (
+				86E1A89E6F9E1FFF2FB8169B /* llama.cpp */,
+			);
+			path = cpp;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D3CF021761E1C4A434B4A18D /* WellnessCompanion */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5E3A0B053CB4C7FC84483A19 /* Build configuration list for PBXNativeTarget "WellnessCompanion" */;
+			buildPhases = (
+				E63D4DAD56B533584B452C4B /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WellnessCompanion;
+			packageProductDependencies = (
+			);
+			productName = WellnessCompanion;
+			productReference = 7AC53AEC645C9747C51EECC4 /* WellnessCompanion.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DCBF558367218A8977D112C6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
+			};
+			buildConfigurationList = 388D1E87881E425A8BE39CE9 /* Build configuration list for PBXProject "WellnessCompanion" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 0C116D0F0695764A8CCC6DC1;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 7D764933346B5D77ED56A48A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D3CF021761E1C4A434B4A18D /* WellnessCompanion */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E63D4DAD56B533584B452C4B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82BF319E72B35DBABD7E0B03 /* AppContainer.swift in Sources */,
+				DA8FECB16182C1F62731F03B /* AppRootView.swift in Sources */,
+				FC0DF5D3635424E6F6701260 /* BiometricGateView.swift in Sources */,
+				DCDD13D7D150ECD2770015CB /* ColdOpenGenerator.swift in Sources */,
+				6F76922F5772487A0288FFE3 /* ContentView.swift in Sources */,
+				C10DFA5730BAA9D65EECFC38 /* FlowLayout.swift in Sources */,
+				8FED88F6C4BCB79414B8BC8C /* HomeScreen.swift in Sources */,
+				D8E201F91E953BAA9B81DE14 /* InsightsScreen.swift in Sources */,
+				E07B4AC8F3D3543958E53741 /* JournalEditorScreen.swift in Sources */,
+				B9B5251EE463B2FBD4878E13 /* JournalListScreen.swift in Sources */,
+				7F98E606172D31EB8671153D /* JournalStore.swift in Sources */,
+				F6FE61AA52C01FBC88E0D025 /* LiquidAura.swift in Sources */,
+				1817A5AD4298EC59FF8A7E74 /* LiquidEntryRow.swift in Sources */,
+				2DCF7E274B8FE90837BC6A1D /* LlamaEngine.swift in Sources */,
+				E7FBDD28F125294D2A52298C /* LlmPrompts.swift in Sources */,
+				04270E0E53EEF5FC1BFEF87A /* MetricStore.swift in Sources */,
+				2E0774CBC75EB454E9644364 /* MirrorGenerator.swift in Sources */,
+				909B95F21D5CDA614B337C9D /* ModelManager.swift in Sources */,
+				CD6EB0C4CB2562304D8773B0 /* MoodScreen.swift in Sources */,
+				E09D788F27E09BFDC8C35467 /* MoodStore.swift in Sources */,
+				B482D71E6C6B574520E9D427 /* MoodTrendChartView.swift in Sources */,
+				F25FCE834FAAD743C55C1155 /* NarrativeStore.swift in Sources */,
+				F550F09E127B28F75F9BB5E2 /* ReflectionEngine.swift in Sources */,
+				01CC419F3DD6E2033B2C0851 /* TextAnalyzer.swift in Sources */,
+				D86AAB13FB8CFC5306D20786 /* ThreadDetailScreen.swift in Sources */,
+				1FF7AA8FBA1843BB031A0EF6 /* ThreadDetector.swift in Sources */,
+				37C23B3EBEC3A5E6C9722887 /* WellnessCompanionApp.swift in Sources */,
+				D70F83C328A31FEBDBC2C698 /* WellnessDatabase.swift in Sources */,
+				4BB25F1B5207635D1CBDF9FD /* WellnessTheme.swift in Sources */,
+				A0DDD8208DE5589E689AA8C2 /* afmoe.cpp in Sources */,
+				BCE0D93DE468A1BA8E2B1A93 /* apertus.cpp in Sources */,
+				276E77D6E5406CFDDD06FABB /* arcee.cpp in Sources */,
+				F1D76459E720AE32A12CC658 /* arctic.cpp in Sources */,
+				250F445087C9F72256C17D92 /* arwkv7.cpp in Sources */,
+				8E6FBEFA5F2CEC79C75D9FE1 /* baichuan.cpp in Sources */,
+				D8059A938D79D2274AFFB8CE /* bailingmoe.cpp in Sources */,
+				794F5E2615E09C9DF201644B /* bailingmoe2.cpp in Sources */,
+				AA7D9AD8C5552CA979B91135 /* bert.cpp in Sources */,
+				432A3650B56299AAE853F924 /* binary-ops.cpp in Sources */,
+				2697BCC53394EB7248658FFF /* bitnet.cpp in Sources */,
+				3730C4F2281F10771DDC125E /* bloom.cpp in Sources */,
+				D7E42067A115C2E6A18B6E0A /* chameleon.cpp in Sources */,
+				5FB7E64C270BAC542AE2BB7B /* chatglm.cpp in Sources */,
+				D16A670AD740EF519730DB20 /* codeshell.cpp in Sources */,
+				8554A7D209CAE17B5B4D9BA2 /* cogvlm.cpp in Sources */,
+				33AE7CF03950CC7105EC007D /* cohere2-iswa.cpp in Sources */,
+				12FC8FE77BAAE36AC5EE4012 /* command-r.cpp in Sources */,
+				7164040263A45C0FD1966806 /* cpu-feats.cpp in Sources */,
+				6B349323AA843D746AA345C5 /* dbrx.cpp in Sources */,
+				C0FE854EF760DCE361A5DD45 /* deci.cpp in Sources */,
+				5BCE17DC2642C8369C15305D /* deepseek.cpp in Sources */,
+				E064F670AF7C151BE4FF437C /* deepseek2.cpp in Sources */,
+				C505D8299FC8AFEE050D18BA /* delta-net-base.cpp in Sources */,
+				3EC8CD396D3569A0E11E1395 /* dots1.cpp in Sources */,
+				7F31120E53F901970BDE7C6A /* dream.cpp in Sources */,
+				3C693C58FBE54E3CBE35F7D9 /* ernie4-5-moe.cpp in Sources */,
+				B80E31160CCB4CAF46406B2C /* ernie4-5.cpp in Sources */,
+				BAB745AEF9B86DCAF936DE25 /* eurobert.cpp in Sources */,
+				29946401599FD0A0AEE6018F /* exaone-moe.cpp in Sources */,
+				57ADD54AD06009EF8E3FCB39 /* exaone.cpp in Sources */,
+				7AE7A24D8423E5189212E20D /* exaone4.cpp in Sources */,
+				D9E604803621E3224D539BEB /* falcon-h1.cpp in Sources */,
+				DD7E145EE2824266E07A071C /* falcon.cpp in Sources */,
+				2592E83493B42A9DCF6E7ED1 /* gemma-embedding.cpp in Sources */,
+				2364B77BC048083FFE0E98B2 /* gemma.cpp in Sources */,
+				4922246008A3329A3A29A78B /* gemma2-iswa.cpp in Sources */,
+				440D2FA3FAEE0EC6AFADFD05 /* gemma3.cpp in Sources */,
+				FEAD868294217DF179090F51 /* gemma3n-iswa.cpp in Sources */,
+				3B334CC9E4E5158424D65EA4 /* gemma4-iswa.cpp in Sources */,
+				2C5E62B8ADBC4875943541A3 /* ggml-alloc.c in Sources */,
+				A0601D35B9013035F2EBF923 /* ggml-backend-dl.cpp in Sources */,
+				E633ED085783681F2B7991D4 /* ggml-backend-meta.cpp in Sources */,
+				5050904B0C04130999F0EAFE /* ggml-backend-reg.cpp in Sources */,
+				7518C360FAED2FB8741E70CE /* ggml-backend.cpp in Sources */,
+				FDF79FE2FEFCC1AFA6C7B3CA /* ggml-cpu.c in Sources */,
+				BB27C181873F728FF2D20315 /* ggml-cpu.cpp in Sources */,
+				9B1266D68E71232FA57B5222 /* ggml-opt.cpp in Sources */,
+				459C9F288A5416AC07C43D4C /* ggml-quants.c in Sources */,
+				90AE209F9743A5152B9DAC55 /* ggml-threading.cpp in Sources */,
+				A04D1113468FD29D652C136A /* ggml.c in Sources */,
+				2E1273CF1E6EE16E8A3C745D /* ggml.cpp in Sources */,
+				5F8437C8C38A2C684633E890 /* gguf.cpp in Sources */,
+				769ABDBFFFB8503EF3F1019B /* glm4-moe.cpp in Sources */,
+				FCFA274E90F1FDA0AB5AAEC3 /* glm4.cpp in Sources */,
+				3288D2EAAC90FB8AAB06C2DD /* gpt2.cpp in Sources */,
+				01CBB15056331E18EF06352D /* gptneox.cpp in Sources */,
+				6323197C3AF924D1F47B57F5 /* granite-hybrid.cpp in Sources */,
+				9D91FF27D42EB8C37A8E96CB /* granite.cpp in Sources */,
+				2576FF6277F1B09016F62357 /* grok.cpp in Sources */,
+				71CDD3C5F295633FE5FFDB8E /* grovemoe.cpp in Sources */,
+				8AEFBEDB5E1E2E4D540BBC0D /* hbm.cpp in Sources */,
+				79DDA142E0A317A01E253984 /* hunyuan-dense.cpp in Sources */,
+				EA3F16C8EE2028518D4E0F4C /* hunyuan-moe.cpp in Sources */,
+				97DAB0B5B0C356F7FBA9665E /* internlm2.cpp in Sources */,
+				63B9BC16B08F21C915A02F42 /* jais.cpp in Sources */,
+				333146D2EB8103DB62925FF6 /* jais2.cpp in Sources */,
+				AA966CF0D17DA6FB2648237E /* jamba.cpp in Sources */,
+				9EFAE875467E0B150B0594C6 /* kimi-linear.cpp in Sources */,
+				02199F10E6F7D2752B79023F /* lfm2.cpp in Sources */,
+				D7128FF5D89E8FA2BCFA362F /* llada-moe.cpp in Sources */,
+				2508CB9D0A45ADB501638E4E /* llada.cpp in Sources */,
+				B23CA7A3D328C809F9040C2B /* llama-adapter.cpp in Sources */,
+				794D14EE8C5B069EFED15216 /* llama-arch.cpp in Sources */,
+				524C03166E7C5EB593B4DDB4 /* llama-batch.cpp in Sources */,
+				9D0F6C36A1CE095894930573 /* llama-chat.cpp in Sources */,
+				E1341697CE4E29E3E2DC8848 /* llama-context.cpp in Sources */,
+				1EE24330F66667C0586FDEF9 /* llama-cparams.cpp in Sources */,
+				03D02D026FA159EC06885598 /* llama-grammar.cpp in Sources */,
+				F7FFECCEC3C60A52E59097BF /* llama-graph.cpp in Sources */,
+				FC440D99E97A65417A172746 /* llama-hparams.cpp in Sources */,
+				EA5A4153226691F4463E064F /* llama-impl.cpp in Sources */,
+				F02665BEAC8018FAFA41F5EF /* llama-io.cpp in Sources */,
+				DEF1F76D461693F76B712756 /* llama-kv-cache-iswa.cpp in Sources */,
+				7C4A55C48357EA28EDB75DEE /* llama-kv-cache.cpp in Sources */,
+				76B2C1D751EB397EF0568FF1 /* llama-memory-hybrid-iswa.cpp in Sources */,
+				D4EF0DF0A1C9675108C5C82D /* llama-memory-hybrid.cpp in Sources */,
+				4D49DF010096FA1A159DD8D5 /* llama-memory-recurrent.cpp in Sources */,
+				FEFF9C20412BE2020CC54637 /* llama-memory.cpp in Sources */,
+				D04BE5FEBEE1E95676879BA9 /* llama-mmap.cpp in Sources */,
+				6FE217FE665401D6B99337DD /* llama-model-loader.cpp in Sources */,
+				D7EC21F664DEE5E9015C4803 /* llama-model-saver.cpp in Sources */,
+				4D50B1851520C219B1052B2D /* llama-model.cpp in Sources */,
+				30AF4559B7F379173DB3B475 /* llama-quant.cpp in Sources */,
+				C9D4C48D4EF44AB32EAC49CC /* llama-sampler.cpp in Sources */,
+				F6B4A4510BA53D0AC4B56062 /* llama-vocab.cpp in Sources */,
+				283CC522F0AE9E2854901CB2 /* llama.cpp in Sources */,
+				ED53256AA97E7A5EB2854A8B /* llama-model-impl.cpp in Sources */,
+				5954C914CC213D60ED320775 /* llama4.cpp in Sources */,
+				B6FC7A0C3433BC7FCB773051 /* maincoder.cpp in Sources */,
+				22530E1DD3FA0253DA9F708F /* mamba-base.cpp in Sources */,
+				A852343A8507D66349B0F74F /* mamba.cpp in Sources */,
+				66B32E5B659AFB9C132CBF27 /* mimo2-iswa.cpp in Sources */,
+				6D684CE6BF7A69B331FB3EBE /* minicpm3.cpp in Sources */,
+				4E0936FEA15A80332A6BC4B1 /* minimax-m2.cpp in Sources */,
+				BF1CAEB0D3FDD4438F45FB84 /* mistral3.cpp in Sources */,
+				C75A21B175DAE7A85566C08C /* modern-bert.cpp in Sources */,
+				66EA319C3045D47752325289 /* mpt.cpp in Sources */,
+				B893E868BBACB6F299A39E82 /* nemotron-h.cpp in Sources */,
+				E284878B497557CA5AC844B6 /* nemotron.cpp in Sources */,
+				E123A65442D6C7FC05B19F03 /* neo-bert.cpp in Sources */,
+				9F0894BF9330345EAF93D1C6 /* olmo.cpp in Sources */,
+				2B0AE90C9D408933C31329FE /* olmo2.cpp in Sources */,
+				6D536D3EC8DFF06F2B59087D /* olmoe.cpp in Sources */,
+				38E0C9A4F5DF8797FFF1E725 /* openai-moe-iswa.cpp in Sources */,
+				4E1BBCB3E066BF7763E9D6F5 /* openelm.cpp in Sources */,
+				CD4D73E34E9208A6CA9F8C29 /* ops.cpp in Sources */,
+				12523E528D32A5AF79E19DA7 /* orion.cpp in Sources */,
+				626988E80B4C4C52B99928B5 /* paddleocr.cpp in Sources */,
+				6A11AF4D362984340C339A20 /* pangu-embedded.cpp in Sources */,
+				5950B1A0939734BFBD3A9784 /* phi2.cpp in Sources */,
+				10554E5C3F389E3EFBC9CF8C /* phi3.cpp in Sources */,
+				7A1257F199BD628A655529B5 /* plamo.cpp in Sources */,
+				1A761A88A9EE636C10B4C6A1 /* plamo2.cpp in Sources */,
+				11BC0B77EC2440EB371AF1BE /* plamo3.cpp in Sources */,
+				A91D917CFFB39E47D5D7ED8E /* plm.cpp in Sources */,
+				B9CB73DEFFF07CD525B65E7E /* quants.c in Sources */,
+				E0553F12683B943F7C8011C7 /* ggml-quants-arm.c in Sources */,
+				A4C37A70B3D3542F4C92D451 /* qwen.cpp in Sources */,
+				A417557BDBA6CFAF3D501C73 /* qwen2.cpp in Sources */,
+				0D7F3252DE2B4031293BB112 /* qwen2moe.cpp in Sources */,
+				2E3840B4D47AD7EE5684FCBA /* qwen2vl.cpp in Sources */,
+				AC3C104C74B8C0C7CDCFC658 /* qwen3.cpp in Sources */,
+				D831857169365E55C9E5BCD9 /* qwen35.cpp in Sources */,
+				FDAA04C030C558C7A89869CD /* qwen35moe.cpp in Sources */,
+				64EE8E1EE92B46E9D547E3AD /* qwen3moe.cpp in Sources */,
+				8F79E63B9FDD81F64F133C98 /* qwen3next.cpp in Sources */,
+				F710DC09897C54AFF9F30C23 /* qwen3vl-moe.cpp in Sources */,
+				06B98ED5F71C6FC42BAA8589 /* qwen3vl.cpp in Sources */,
+				3695E42EA911AC2C3E0A5876 /* refact.cpp in Sources */,
+				626343B77548662E3DD63B89 /* repack.cpp in Sources */,
+				23344F03AB0085F4E1FF7F79 /* ggml-repack-arm.cpp in Sources */,
+				1BC357EF982FE82688933120 /* rnd1.cpp in Sources */,
+				7927915FA3385DE69E02894E /* rwkv6-base.cpp in Sources */,
+				800E30E956974696575B5DAC /* rwkv6.cpp in Sources */,
+				DF199BC0398BDE4908BC2254 /* rwkv6qwen2.cpp in Sources */,
+				4F605A9DA79A47AAB9B39A5C /* rwkv7-base.cpp in Sources */,
+				A3AB25C64067F3E746334210 /* rwkv7.cpp in Sources */,
+				EFEDFD37F79F9BE1BD4740DD /* seed-oss.cpp in Sources */,
+				EEC6A47C902DAF7175ED5A65 /* smallthinker.cpp in Sources */,
+				357FABF26804F72727BA07E8 /* smollm3.cpp in Sources */,
+				0217D47609055384B13651D0 /* stablelm.cpp in Sources */,
+				DD1595422E00B06B49F0E9DE /* starcoder.cpp in Sources */,
+				EB1ADC2E345738106B882877 /* starcoder2.cpp in Sources */,
+				0D7C24DEA46C43E40C796955 /* step35-iswa.cpp in Sources */,
+				F60914DD1F6BAA7121454EF9 /* t5.cpp in Sources */,
+				B335B7B4DB4F0AD073F635FF /* t5encoder.cpp in Sources */,
+				6F32622ED93E62A09CF29ADB /* traits.cpp in Sources */,
+				FAC298C52017FAC8F96D7270 /* unary-ops.cpp in Sources */,
+				B2174DAB02B76F9AD720EFDF /* unicode-data.cpp in Sources */,
+				1C958E1EC845E86E2DA6EBBF /* unicode.cpp in Sources */,
+				B0CB2A073D86E079D2109B2F /* vec.cpp in Sources */,
+				3076AB629047256332927F17 /* wavtokenizer-dec.cpp in Sources */,
+				60400AB388B12BE9B5ADA33C /* xverse.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		379649108D941AB3D587D83E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = X98J4V8PX3;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/include",
+					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/ggml/include",
+					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/common",
+					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/src",
+					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/src/models",
+					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/ggml/src",
+					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/ggml/src/ggml-cpu",
+					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/ggml/src/ggml-cpu/arch/arm",
+				);
+				INFOPLIST_FILE = WellnessCompanion/App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_CFLAGS = (
+					"-DGGML_USE_CPU",
+					"-DNDEBUG",
+					"-O3",
+					"-DGGML_VERSION=\\\"1\\\"",
+					"-DGGML_COMMIT=\\\"unknown\\\"",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(inherited)",
+					"-DGGML_USE_CPU",
+					"-DNDEBUG",
+					"-O3",
+					"-DGGML_VERSION=\\\"1\\\"",
+					"-DGGML_COMMIT=\\\"unknown\\\"",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.wellness.companion;
+				SDKROOT = iphoneos;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = WellnessCompanion/App/BridgingHeader.h;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CCF5DBB91CD0589082DA1D65 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = X98J4V8PX3;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/include",
+					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/ggml/include",
+					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/common",
+					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/src",
+					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/src/models",
+					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/ggml/src",
+					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/ggml/src/ggml-cpu",
+					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/ggml/src/ggml-cpu/arch/arm",
+				);
+				INFOPLIST_FILE = WellnessCompanion/App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_CFLAGS = (
+					"-DGGML_USE_CPU",
+					"-DNDEBUG",
+					"-O3",
+					"-DGGML_VERSION=\\\"1\\\"",
+					"-DGGML_COMMIT=\\\"unknown\\\"",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(inherited)",
+					"-DGGML_USE_CPU",
+					"-DNDEBUG",
+					"-O3",
+					"-DGGML_VERSION=\\\"1\\\"",
+					"-DGGML_COMMIT=\\\"unknown\\\"",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.wellness.companion;
+				SDKROOT = iphoneos;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = WellnessCompanion/App/BridgingHeader.h;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		D8E15AAECD82E82DF329EFB8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = WellnessCompanion/App/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		FF4321AFB251D8C46406454F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = WellnessCompanion/App/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		388D1E87881E425A8BE39CE9 /* Build configuration list for PBXProject "WellnessCompanion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FF4321AFB251D8C46406454F /* Debug */,
+				D8E15AAECD82E82DF329EFB8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		5E3A0B053CB4C7FC84483A19 /* Build configuration list for PBXNativeTarget "WellnessCompanion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				379649108D941AB3D587D83E /* Debug */,
+				CCF5DBB91CD0589082DA1D65 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DCBF558367218A8977D112C6 /* Project object */;
+}

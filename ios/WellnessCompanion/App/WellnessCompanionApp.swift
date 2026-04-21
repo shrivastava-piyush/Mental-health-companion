@@ -8,6 +8,7 @@ struct WellnessCompanionApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(container)
+                .preferredColorScheme(.dark) // Liquid Glass is designed for a deep, immersive dark aesthetic
         }
     }
 }

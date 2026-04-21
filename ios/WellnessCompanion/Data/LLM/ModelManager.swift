@@ -31,7 +31,6 @@ final class ModelManager: ObservableObject {
     }
 
     func download(url: String) {
-        guard case .downloading = status else {} // allow re-entry only if not downloading
         if case .downloading = status { return }
         status = .downloading(0)
 

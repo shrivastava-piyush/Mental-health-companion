@@ -5,10 +5,16 @@ struct ContentView: View {
     @State private var isUnlocked = false
 
     var body: some View {
-        if isUnlocked {
-            MainTabView()
-        } else {
-            BiometricGateView(onUnlocked: { isUnlocked = true })
+        Group {
+            if isUnlocked {
+                AppRootView()
+            } else {
+                BiometricGateView(onUnlocked: { 
+                    withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
+                        isUnlocked = true 
+                    }
+                })
+            }
         }
     }
 }

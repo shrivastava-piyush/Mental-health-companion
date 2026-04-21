@@ -2,212 +2,116 @@ import SwiftUI
 
 struct InsightsScreen: View {
     @EnvironmentObject private var container: AppContainer
-    @State private var totalMoods = 0
-    @State private var totalJournals = 0
-    @State private var trend: [DailyMoodBucket] = []
-    @State private var metrics: [MetricSnapshot] = []
-    @State private var mirror: Mirror? = nil
-    @State private var patternNarrative = ""
+    @State private var totalMoods = 0; @State private var totalJournals = 0
+    @State private var trend: [DailyMoodBucket] = []; @State private var metrics: [MetricSnapshot] = []
+    @State private var mirror: Mirror? = nil; @State private var patternNarrative = ""
 
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(spacing: 18) {
-                    Text("Gentle patterns, not judgements.")
-                        .foregroundStyle(.secondary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-
-                    HStack(spacing: 12) {
-                        StatCard(label: "Mood logs", value: "\(totalMoods)")
-                        StatCard(label: "Journal notes", value: "\(totalJournals)")
+        ZStack {
+            LiquidAura(scrollOffset: 0).ignoresSafeArea()
+            
+            ScrollView(showsIndicators: false) {
+                VStack(alignment: .leading, spacing: 50) {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("PULSE").miniCaps().foregroundStyle(Color.white.opacity(0.4))
+                        Text("Patterns").font(.system(size: 44, weight: .black, design: .rounded)).foregroundStyle(.white)
+                        Text("Gentle observations of your journey").font(.subheadline.bold()).foregroundStyle(.white.opacity(0.5))
+                    }.padding(.top, 40)
+                    
+                    HStack(spacing: 20) {
+                        LiquidStatCard(label: "Logs", value: "\(totalMoods)", icon: "face.smiling", color: .liquidTeal)
+                        LiquidStatCard(label: "Notes", value: "\(totalJournals)", icon: "text.quote", color: .liquidRose)
                     }
-
-                    if let m = mirror {
-                        MirrorCardView(mirror: m)
-                    }
-
+                    
                     if !patternNarrative.isEmpty {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("What your month is saying")
-                                .font(.headline)
-                            Text(patternNarrative)
-                                .italic()
-                                .foregroundStyle(.secondary)
+                        VStack(alignment: .leading, spacing: 20) {
+                            Text("Perspective").sectionHeader()
+                            VStack(alignment: .leading, spacing: 20) {
+                                Image(systemName: "quote.opening").font(.title).foregroundStyle(.white.opacity(0.2))
+                                Text(patternNarrative).font(.system(size: 20, weight: .medium, design: .serif)).italic().lineSpacing(8).foregroundStyle(.white)
+                            }.padding(32).background(.white.opacity(0.08)).clipShape(RoundedRectangle(cornerRadius: 40, style: .continuous))
                         }
-                        .wellnessCard()
                     }
-
-                    if !trend.isEmpty {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("30-day valence").font(.headline)
-                            MoodTrendChartView(buckets: trend)
-                                .frame(height: 140)
-                        }
-                        .wellnessCard()
+                    
+                    VStack(alignment: .leading, spacing: 24) {
+                        Text("Emotional Flow").sectionHeader()
+                        MoodTrendChartView(buckets: trend).frame(height: 180).padding(24).background(.white.opacity(0.05)).clipShape(RoundedRectangle(cornerRadius: 40, style: .continuous))
                     }
-
-                    if !metrics.isEmpty {
-                        VStack(alignment: .leading, spacing: 12) {
-                            Text("Today's metrics").font(.headline)
-                            ForEach(metrics) { metric in
-                                HStack {
-                                    Text(metric.type.displayName)
-                                        .font(.subheadline)
-                                    Spacer()
-                                    ProgressView(value: metric.value, total: metric.type.maxValue)
-                                        .frame(width: 120)
-                                    Text(String(format: "%.0f", metric.value))
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
-                                        .frame(width: 40)
-                                }
-                            }
-                        }
-                        .wellnessCard()
-                    }
-
+                    
                     ModelDownloadCardView()
-                }
-                .padding(.horizontal, 20)
-                .padding(.vertical, 12)
+                    Spacer(minLength: 150)
+                }.padding(.horizontal, 28)
             }
-            .navigationTitle("Insights")
-            .onAppear(perform: refresh)
-        }
+        }.onAppear(perform: refresh)
     }
-
+    
     private func refresh() {
         let now = Int64(Date().timeIntervalSince1970 * 1000)
         let thirtyDaysAgo = now - 30 * 86_400_000
-        totalMoods = container.moodStore.count
-        totalJournals = container.journalStore.count
+        totalMoods = container.moodStore.count; totalJournals = container.journalStore.count
         trend = container.moodStore.dailyAggregate(from: thirtyDaysAgo, to: now)
         metrics = container.metricStore.latestPerType()
-
         Task {
-            let df = DateFormatter()
-            df.dateFormat = "MMM d"
-            let label = "Your month — \(df.string(from: Date(timeIntervalSince1970: Double(thirtyDaysAgo) / 1000))) to \(df.string(from: Date()))"
+            let df = DateFormatter(); df.dateFormat = "MMM d"
+            let label = "\(df.string(from: Date(timeIntervalSince1970: Double(thirtyDaysAgo) / 1000))) — \(df.string(from: Date()))"
             let m = container.mirrorGenerator.generate(from: thirtyDaysAgo, to: now, periodLabel: label)
             await MainActor.run { mirror = m }
-
             if let m, let engine = container.reflectionEngine {
                 let narrative = await engine.narrateMirror(m)
-                await MainActor.run { patternNarrative = narrative ?? "" }
+                await MainActor.run { withAnimation(.spring()) { patternNarrative = narrative ?? "" } }
             }
         }
     }
 }
 
-struct StatCard: View {
-    let label: String
-    let value: String
-
+struct LiquidStatCard: View {
+    let label: String; let value: String; let icon: String; let color: Color
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(value)
-                .font(.title)
-                .fontWeight(.bold)
-            Text(label)
-                .font(.caption)
-                .fontWeight(.medium)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .wellnessCard()
-    }
-}
-
-struct MirrorCardView: View {
-    let mirror: Mirror
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text(mirror.periodLabel)
-                .font(.title3)
-                .fontWeight(.medium)
-            Text("\(mirror.totalMoods) mood logs · \(mirror.totalEntries) journal entries")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-
-            if mirror.moodArc.count >= 2 {
-                MoodTrendChartView(buckets: mirror.moodArc)
-                    .frame(height: 80)
+        VStack(alignment: .leading, spacing: 14) {
+            ZStack {
+                Circle().fill(color.opacity(0.2)).frame(width: 44, height: 44)
+                Image(systemName: icon).font(.headline).foregroundStyle(color)
             }
-
-            if !mirror.topWords.isEmpty {
-                Text("Words on your mind")
-                    .font(.caption)
-                    .fontWeight(.medium)
-                HStack(spacing: 12) {
-                    ForEach(mirror.topWords, id: \.0) { word, count in
-                        Text("\(word) (\(count))")
-                            .font(.subheadline)
-                            .fontWeight(.semibold)
-                    }
-                }
+            VStack(alignment: .leading, spacing: 0) {
+                Text(value).font(.system(size: 32, weight: .black, design: .rounded)).foregroundStyle(.white)
+                Text(label).miniCaps().foregroundStyle(Color.white.opacity(0.4))
             }
-
-            if !mirror.highlightSnippet.isEmpty {
-                Text("Most invested entry").font(.caption).fontWeight(.medium)
-                Text("\u{201C}\(mirror.highlightSnippet)…\u{201D}")
-                    .italic()
-                    .lineLimit(3)
-                Text("— \(mirror.highlightTitle)")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-
-            if let cb = mirror.callback {
-                Text(cb).foregroundStyle(.secondary)
-            }
-        }
-        .padding(20)
-        .background(Color.lavenderMist.opacity(0.2), in: RoundedRectangle(cornerRadius: 22))
+        }.frame(maxWidth: .infinity, alignment: .leading).padding(24).background(.white.opacity(0.08)).clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
     }
 }
 
 struct ModelDownloadCardView: View {
     @EnvironmentObject private var container: AppContainer
-
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Reflection engine").font(.headline)
-            Text("A small on-device model that asks you deeper questions about your entries. Nothing leaves your phone.")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-
+        VStack(alignment: .leading, spacing: 20) {
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("REFLECTION ENGINE").miniCaps().foregroundStyle(Color.white.opacity(0.4))
+                    Text("Offline Intelligence").font(.headline).foregroundStyle(.white)
+                }
+                Spacer(); Image(systemName: "brain.head.profile").font(.title2).foregroundStyle(.cyan)
+            }
             switch container.modelManager.status {
             case .notDownloaded:
-                Button("Download (~600 MB)") {
-                    container.modelManager.download(
-                        url: "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf"
-                    )
+                Button(action: { container.modelManager.download(url: "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf") }) {
+                    Text("Download Assistant").font(.subheadline.bold()).foregroundStyle(.white).frame(maxWidth: .infinity).frame(height: 54).background(Color.liquidIndigo, in: Capsule())
                 }
-                .buttonStyle(.borderedProminent)
-            case .downloading(let progress):
-                ProgressView(value: progress)
-                Text("\(Int(progress * 100))%")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+            case .downloading(let p):
+                HStack(spacing: 20) {
+                    ZStack {
+                        Circle().stroke(Color.white.opacity(0.1), lineWidth: 4)
+                        Circle().trim(from: 0, to: CGFloat(p)).stroke(.cyan, style: StrokeStyle(lineWidth: 4, lineCap: .round)).rotationEffect(.degrees(-90))
+                        Text("\(Int(p*100))%").font(.system(size: 8, weight: .black)).foregroundStyle(.white)
+                    }.frame(width: 44, height: 44)
+                    Text("Loading Intelligence…").font(.subheadline.bold()).foregroundStyle(Color.white.opacity(0.6))
+                }
             case .ready:
                 HStack {
-                    Text("Ready").foregroundStyle(.green).fontWeight(.medium)
-                    Spacer()
-                    Button("Remove", role: .destructive) {
-                        container.modelManager.deleteModel()
-                    }
-                    .buttonStyle(.bordered)
+                    Label("Engine Ready", systemImage: "checkmark.seal.fill").font(.subheadline.bold()).foregroundStyle(.cyan)
+                    Spacer(); Button("Remove") { container.modelManager.deleteModel() }.font(.caption.bold()).foregroundStyle(Color.white.opacity(0.4))
                 }
-            case .error(let msg):
-                Text(msg).foregroundStyle(.red).font(.caption)
-                Button("Retry") {
-                    container.modelManager.download(
-                        url: "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf"
-                    )
-                }
-                .buttonStyle(.bordered)
+            case .error(let msg): Text(msg).foregroundStyle(.red).font(.caption)
             }
-        }
-        .wellnessCard()
+        }.padding(28).background(.white.opacity(0.05)).clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
     }
 }
