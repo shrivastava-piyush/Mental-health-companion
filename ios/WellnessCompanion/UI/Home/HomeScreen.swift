@@ -10,12 +10,6 @@ struct HomeScreen: View {
     @State private var showJournal = false
     @State private var selectedSpark: String? = nil
     
-    private let quotes = [
-        ("The only way to make sense out of change is to plunge into it, move with it, and join the dance.", "Alan Watts"),
-        ("Knowing yourself is the beginning of all wisdom.", "Aristotle"),
-        ("The wound is the place where the Light enters you.", "Rumi"),
-        ("Your vision will become clear only when you can look into your own heart.", "Carl Jung")
-    ]
     @State private var selectedQuote = ("Focus on the present moment.", "Breathe")
     @State private var aiSpark: String? = nil
 
@@ -110,7 +104,7 @@ struct HomeScreen: View {
             scrollOffset = value
         }
         .onAppear(perform: loadData)
-        .fullScreenCover(isPresented: $showMoodLog) {
+        .fullScreenCover(isPresented: $showMoodLog, onDismiss: loadData) {
             MoodScreen()
         }
         .sheet(isPresented: $showJournal, onDismiss: loadData) {
@@ -181,16 +175,22 @@ struct HomeScreen: View {
     }
 
     private func loadData() {
-        selectedQuote = quotes.randomElement()!
         let now = Int64(Date().timeIntervalSince1970 * 1000)
-        recentMood = container.moodStore.fetchRange(from: now - 86400000, to: now).last
+        recentMood = container.moodStore.fetchRange(from: now - 86400000 * 7, to: now).last
         recentJournal = container.journalStore.fetchSummaries(limit: 1).first
         
+        // Adapt Quote and Sound
+        let valence = recentMood?.valence ?? 0
+        let category = MoodCategory(valence: valence)
+        selectedQuote = WellnessContentProvider.quote(for: category)
+        container.atmosphereManager.adaptTo(valence: valence)
+
         if let engine = container.reflectionEngine {
             Task {
                 let hour = Calendar.current.component(.hour, from: Date())
                 let tod = hour < 6 ? "late night" : hour < 12 ? "morning" : hour < 17 ? "afternoon" : hour < 21 ? "evening" : "night"
-                aiSpark = await engine.contextualStarter(moodLabel: recentMood?.label, timeOfDay: tod)
+                let spark = await engine.contextualStarter(moodLabel: recentMood?.label, timeOfDay: tod)
+                await MainActor.run { aiSpark = spark }
             }
         }
     }
@@ -207,12 +207,5 @@ struct HomeScreen: View {
         let date = Date(timeIntervalSince1970: Double(millis) / 1000)
         let formatter = RelativeDateTimeFormatter(); formatter.unitsStyle = .full
         return formatter.localizedString(for: date, relativeTo: Date())
-    }
-}
-
-struct ScrollOffsetKey: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = nextValue()
     }
 }
