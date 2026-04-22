@@ -25,7 +25,7 @@ struct HomeScreen: View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .center, spacing: 60) {
                 
-                // 1. Zero-Border Quote Hero
+                // 1. Hero Quote
                 VStack(spacing: 32) {
                     Image(systemName: "sparkles")
                         .font(.system(size: 30))
@@ -46,38 +46,9 @@ struct HomeScreen: View {
                         .foregroundStyle(.white.opacity(0.5))
                 }
                 .frame(maxWidth: .infinity)
-                .padding(.top, 80)
+                .padding(.top, 100)
                 
-                // 2. Immersive "Enter Sanctuary" Trigger
-                Button {
-                    UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-                    showMoodLog = true
-                } label: {
-                    VStack(spacing: 16) {
-                        ZStack {
-                            Circle()
-                                .fill(.white.opacity(0.1))
-                                .frame(width: 120, height: 120)
-                                .blur(radius: 10)
-                            
-                            Circle()
-                                .fill(LinearGradient(colors: [.liquidTeal, .liquidIndigo], startPoint: .topLeading, endPoint: .bottomTrailing))
-                                .frame(width: 100, height: 100)
-                                .shadow(color: .liquidTeal.opacity(0.5), radius: 20, y: 10)
-                            
-                            Image(systemName: "touchid")
-                                .font(.system(size: 40))
-                                .foregroundStyle(.white)
-                        }
-                        
-                        Text("Enter Sanctuary")
-                            .font(.system(size: 20, weight: .black, design: .rounded))
-                            .foregroundStyle(.white)
-                    }
-                }
-                .buttonStyle(.plain)
-                
-                // 3. Floating Reflection Sparks
+                // 2. Floating Reflection Sparks (Now higher up)
                 VStack(alignment: .leading, spacing: 24) {
                     HStack {
                         Text("Sparks").sectionHeader().foregroundStyle(.white.opacity(0.5))
@@ -96,6 +67,38 @@ struct HomeScreen: View {
                         .padding(.horizontal, 28)
                     }
                 }
+                
+                // 3. Redesigned Check-in (Below the fold/Sparks)
+                Button {
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    showMoodLog = true
+                } label: {
+                    HStack(spacing: 20) {
+                        ZStack {
+                            Circle().fill(.white.opacity(0.1)).frame(width: 54, height: 54)
+                            Image(systemName: "leaf.fill")
+                                .font(.system(size: 24))
+                                .foregroundStyle(LinearGradient(colors: [.liquidTeal, .liquidIndigo], startPoint: .top, endPoint: .bottom))
+                        }
+                        
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Sanctuary Check-in").font(.headline).foregroundStyle(.white)
+                            Text("Observe your inner state").font(.caption).foregroundStyle(.white.opacity(0.5))
+                        }
+                        
+                        Spacer()
+                        
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 14, weight: .bold))
+                            .foregroundStyle(.white.opacity(0.3))
+                    }
+                    .padding(24)
+                    .background(.white.opacity(0.08))
+                    .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+                    .overlay(RoundedRectangle(cornerRadius: 32, style: .continuous).stroke(.white.opacity(0.1), lineWidth: 1))
+                }
+                .padding(.horizontal, 28)
+                .buttonStyle(.plain)
                 
                 latestActivitySection
                     .padding(.horizontal, 28)
@@ -187,7 +190,6 @@ struct HomeScreen: View {
         recentMood = container.moodStore.fetchRange(from: now - 86400000 * 7, to: now).last
         recentJournal = container.journalStore.fetchSummaries(limit: 1).first
         
-        // Adapt Quote and Sound
         let valence = recentMood?.valence ?? 0
         let category = MoodCategory(valence: valence)
         selectedQuote = WellnessContentProvider.quote(for: category)

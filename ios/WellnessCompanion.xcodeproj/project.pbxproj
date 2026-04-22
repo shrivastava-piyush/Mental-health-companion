@@ -296,7 +296,7 @@
 		791606C669AAD520A883BD98 /* phi3.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = phi3.cpp; sourceTree = "<group>"; };
 		79A1F582941C9AC5868EEDEE /* arctic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = arctic.cpp; sourceTree = "<group>"; };
 		7AAE139A44C299067378B89B /* stablelm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = stablelm.cpp; sourceTree = "<group>"; };
-		7AC53AEC645C9747C51EECC4 /* WellnessCompanion.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = WellnessCompanion.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7AC53AEC645C9747C51EECC4 /* WellnessCompanion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WellnessCompanion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C7EA50BF8AA99404A52D91B /* ReflectionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectionEngine.swift; sourceTree = "<group>"; };
 		7C8C162198E241497907970A /* mamba-base.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "mamba-base.cpp"; sourceTree = "<group>"; };
 		7CD3B03129EE07631267CD71 /* refact.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = refact.cpp; sourceTree = "<group>"; };
@@ -899,11 +899,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1500;
-				TargetAttributes = {
-					D3CF021761E1C4A434B4A18D = {
-						DevelopmentTeam = "";
-					};
-				};
 			};
 			buildConfigurationList = 388D1E87881E425A8BE39CE9 /* Build configuration list for PBXProject "WellnessCompanion" */;
 			developmentRegion = en;
@@ -1147,6 +1142,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = X98J4V8PX3;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/include",
 					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/ggml/include",
@@ -1162,8 +1158,21 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				OTHER_CFLAGS = "-DGGML_USE_CPU -DNDEBUG -O3 -DGGML_VERSION=\\\"1\\\" -DGGML_COMMIT=\\\"unknown\\\"";
-				OTHER_CPLUSPLUSFLAGS = "$(inherited) -DGGML_USE_CPU -DNDEBUG -O3 -DGGML_VERSION=\\\"1\\\" -DGGML_COMMIT=\\\"unknown\\\"";
+				OTHER_CFLAGS = (
+					"-DGGML_USE_CPU",
+					"-DNDEBUG",
+					"-O3",
+					"-DGGML_VERSION=\\\"1\\\"",
+					"-DGGML_COMMIT=\\\"unknown\\\"",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(inherited)",
+					"-DGGML_USE_CPU",
+					"-DNDEBUG",
+					"-O3",
+					"-DGGML_VERSION=\\\"1\\\"",
+					"-DGGML_COMMIT=\\\"unknown\\\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wellness.companion;
 				SDKROOT = iphoneos;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1178,6 +1187,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = X98J4V8PX3;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/include",
 					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/ggml/include",
@@ -1193,8 +1203,21 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				OTHER_CFLAGS = "-DGGML_USE_CPU -DNDEBUG -O3 -DGGML_VERSION=\\\"1\\\" -DGGML_COMMIT=\\\"unknown\\\"";
-				OTHER_CPLUSPLUSFLAGS = "$(inherited) -DGGML_USE_CPU -DNDEBUG -O3 -DGGML_VERSION=\\\"1\\\" -DGGML_COMMIT=\\\"unknown\\\"";
+				OTHER_CFLAGS = (
+					"-DGGML_USE_CPU",
+					"-DNDEBUG",
+					"-O3",
+					"-DGGML_VERSION=\\\"1\\\"",
+					"-DGGML_COMMIT=\\\"unknown\\\"",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(inherited)",
+					"-DGGML_USE_CPU",
+					"-DNDEBUG",
+					"-O3",
+					"-DGGML_VERSION=\\\"1\\\"",
+					"-DGGML_COMMIT=\\\"unknown\\\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.wellness.companion;
 				SDKROOT = iphoneos;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
