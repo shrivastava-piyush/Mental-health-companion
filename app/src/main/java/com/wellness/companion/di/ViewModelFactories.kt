@@ -30,18 +30,22 @@ object ViewModelFactories {
         initializer { JournalListViewModel(container.journalRepository) }
     }
 
-    fun journalEditor(container: AppContainer, entryId: Long): ViewModelProvider.Factory =
-        viewModelFactory {
-            initializer {
-                JournalEditorViewModel(
-                    container.journalRepository,
-                    container.coldOpenGenerator,
-                    container.reflectionEngine,
-                    container.database.moodDao(),
-                    entryId,
-                )
-            }
+    fun journalEditor(
+        container: AppContainer,
+        entryId: Long,
+        prefilledPrompt: String = "",
+    ): ViewModelProvider.Factory = viewModelFactory {
+        initializer {
+            JournalEditorViewModel(
+                container.journalRepository,
+                container.coldOpenGenerator,
+                container.reflectionEngine,
+                container.database.moodDao(),
+                entryId,
+                prefilledPrompt,
+            )
         }
+    }
 
     fun threadDetail(container: AppContainer, threadId: Long): ViewModelProvider.Factory =
         viewModelFactory {

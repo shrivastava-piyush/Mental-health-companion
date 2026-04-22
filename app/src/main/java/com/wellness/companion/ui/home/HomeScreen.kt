@@ -29,7 +29,7 @@ fun HomeScreen(
     viewModel: HomeViewModel,
     onOpenMood: () -> Unit,
     onOpenJournal: () -> Unit,
-    onOpenReflection: (Long?) -> Unit,
+    onOpenReflection: (Long?, String) -> Unit,
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
     val state by viewModel.state.collectAsState()
@@ -89,10 +89,10 @@ fun HomeScreen(
                 contentPadding = PaddingValues(bottom = 20.dp)
             ) {
                 state.aiSpark?.let { spark ->
-                    item { SparkCard(spark, isAi = true) { onOpenReflection(null) } }
+                    item { SparkCard(spark, isAi = true) { onOpenReflection(null, spark) } }
                 }
-                item { SparkCard("What brought you a sense of calm this morning?") { onOpenReflection(null) } }
-                item { SparkCard("Is there a small victory you can celebrate today?") { onOpenReflection(null) } }
+                item { SparkCard("What brought you a sense of calm this morning?") { onOpenReflection(null, "What brought you a sense of calm this morning?") } }
+                item { SparkCard("Is there a small victory you can celebrate today?") { onOpenReflection(null, "Is there a small victory you can celebrate today?") } }
             }
 
             Spacer(Modifier.height(20.dp))

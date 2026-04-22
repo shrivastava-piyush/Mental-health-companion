@@ -16,7 +16,8 @@ class JournalEditorViewModel(
     private val coldOpen: ColdOpenGenerator,
     private val reflection: ReflectionEngine?,
     private val moodDao: MoodDao,
-    private val entryId: Long
+    private val entryId: Long,
+    private val prefilledPrompt: String = "",
 ) : ViewModel() {
 
     data class UiState(
@@ -55,7 +56,11 @@ class JournalEditorViewModel(
                 }
             }
         } else {
-            _state.update { it.copy(loaded = true, createdAt = System.currentTimeMillis()) }
+            _state.update { it.copy(
+                loaded = true,
+                createdAt = System.currentTimeMillis(),
+                starterPrompt = prefilledPrompt,
+            ) }
         }
     }
 

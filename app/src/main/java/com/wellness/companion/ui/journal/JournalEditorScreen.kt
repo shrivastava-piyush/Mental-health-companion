@@ -26,10 +26,14 @@ import com.wellness.companion.ui.theme.WellnessPalette
 fun JournalEditorScreen(
     container: AppContainer,
     entryId: Long = 0L,
+    prefilledPrompt: String = "",
     onBack: () -> Unit,
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
-    val viewModel: JournalEditorViewModel = viewModel(factory = ViewModelFactories.journalEditor(container, entryId))
+    val viewModel: JournalEditorViewModel = viewModel(
+        key = "editor-$entryId-${prefilledPrompt.hashCode()}",
+        factory = ViewModelFactories.journalEditor(container, entryId, prefilledPrompt),
+    )
     val state by viewModel.state.collectAsState()
     
     var guidedMode by remember { mutableStateOf(false) }
