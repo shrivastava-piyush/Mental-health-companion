@@ -8,6 +8,7 @@ struct ContentView: View {
         Group {
             if isUnlocked {
                 AppRootView()
+                    .onAppear { container.atmosphereManager.start() }
             } else {
                 BiometricGateView(onUnlocked: { 
                     withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {

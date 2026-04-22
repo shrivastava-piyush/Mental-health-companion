@@ -63,6 +63,7 @@
 		4BB25F1B5207635D1CBDF9FD /* WellnessTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB77DE7FDD3D4AEDB3DB1DC5 /* WellnessTheme.swift */; };
 		4D49DF010096FA1A159DD8D5 /* llama-memory-recurrent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A63F6CFF406C1A54DD2114EF /* llama-memory-recurrent.cpp */; };
 		4D50B1851520C219B1052B2D /* llama-model.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D5410FFFCE8045AA5452528E /* llama-model.cpp */; };
+		4D5F7C9BA456BC92725FA344 /* AtmosphereManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84CE0C1CA613AEEEE6C44576 /* AtmosphereManager.swift */; };
 		4E0936FEA15A80332A6BC4B1 /* minimax-m2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 64BBCB34EAE41C0F6433810C /* minimax-m2.cpp */; };
 		4E1BBCB3E066BF7763E9D6F5 /* openelm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 42595684FE518F45762BA026 /* openelm.cpp */; };
 		4F605A9DA79A47AAB9B39A5C /* rwkv7-base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B61DF31A08A141F2B133FAFE /* rwkv7-base.cpp */; };
@@ -304,6 +305,7 @@
 		8420951A6EA1B6F98B587423 /* glm4.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = glm4.cpp; sourceTree = "<group>"; };
 		8431BFC0E246539DC0B32610 /* apertus.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = apertus.cpp; sourceTree = "<group>"; };
 		8468C730AB7EF643D941190E /* xverse.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = xverse.cpp; sourceTree = "<group>"; };
+		84CE0C1CA613AEEEE6C44576 /* AtmosphereManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtmosphereManager.swift; sourceTree = "<group>"; };
 		856894FAD3E018AC2787057F /* qwen3next.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = qwen3next.cpp; sourceTree = "<group>"; };
 		862A82677528AED26518B312 /* bailingmoe2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bailingmoe2.cpp; sourceTree = "<group>"; };
 		8A22DDF735E85927D7A82809 /* ggml-threading.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "ggml-threading.cpp"; sourceTree = "<group>"; };
@@ -470,6 +472,14 @@
 				5DFBD42971B6C4E54222A46E /* models */,
 			);
 			path = src;
+			sourceTree = "<group>";
+		};
+		299875F1087A2D26B679DFD8 /* Atmosphere */ = {
+			isa = PBXGroup;
+			children = (
+				84CE0C1CA613AEEEE6C44576 /* AtmosphereManager.swift */,
+			);
+			path = Atmosphere;
 			sourceTree = "<group>";
 		};
 		29B4E8DBD2C61938A66F7E50 /* Auth */ = {
@@ -785,6 +795,7 @@
 		C36E47A0611214874476D0D3 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				299875F1087A2D26B679DFD8 /* Atmosphere */,
 				C7AC14E89C4A1A0954EED69D /* LLM */,
 				5B5F21B247C51E3F62AB2F1D /* Narrative */,
 				D7D886B21454870A3E474732 /* NLP */,
@@ -928,6 +939,7 @@
 			files = (
 				82BF319E72B35DBABD7E0B03 /* AppContainer.swift in Sources */,
 				DA8FECB16182C1F62731F03B /* AppRootView.swift in Sources */,
+				4D5F7C9BA456BC92725FA344 /* AtmosphereManager.swift in Sources */,
 				FC0DF5D3635424E6F6701260 /* BiometricGateView.swift in Sources */,
 				DCDD13D7D150ECD2770015CB /* ColdOpenGenerator.swift in Sources */,
 				6F76922F5772487A0288FFE3 /* ContentView.swift in Sources */,

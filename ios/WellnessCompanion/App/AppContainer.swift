@@ -13,6 +13,7 @@ final class AppContainer: ObservableObject {
     lazy var mirrorGenerator = MirrorGenerator(moodStore: moodStore, journalStore: journalStore, narrativeStore: narrativeStore)
 
     let modelManager: ModelManager
+    let atmosphereManager = AtmosphereManager()
 
     var reflectionEngine: ReflectionEngine? {
         guard modelManager.isDownloaded else { return nil }
