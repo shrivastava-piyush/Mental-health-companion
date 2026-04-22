@@ -1,5 +1,13 @@
 import SwiftUI
 
+/// Preference key for tracking scroll offset in high-fidelity screens.
+struct ScrollOffsetKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = nextValue()
+    }
+}
+
 struct HomeScreen: View {
     @EnvironmentObject private var container: AppContainer
     @Binding var scrollOffset: CGFloat

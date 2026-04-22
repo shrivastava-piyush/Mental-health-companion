@@ -19,8 +19,8 @@ struct InsightsScreen: View {
                     }.padding(.top, 40)
                     
                     HStack(spacing: 20) {
-                        LiquidStatCard(label: "Logs", value: "\(totalMoods)", icon: "face.smiling", color: .liquidTeal)
-                        LiquidStatCard(label: "Notes", value: "\(totalJournals)", icon: "text.quote", color: .liquidRose)
+                        statCard(label: "Logs", value: "\(totalMoods)", icon: "face.smiling", color: .liquidTeal)
+                        statCard(label: "Notes", value: "\(totalJournals)", icon: "text.quote", color: .liquidRose)
                     }
                     
                     if !patternNarrative.isEmpty {
@@ -38,11 +38,25 @@ struct InsightsScreen: View {
                         MoodTrendChartView(buckets: trend).frame(height: 180).padding(24).background(.white.opacity(0.05)).clipShape(RoundedRectangle(cornerRadius: 40, style: .continuous))
                     }
                     
-                    ModelDownloadCardView(modelManager: container.modelManager)
+                    ModelDownloadCardView()
                     Spacer(minLength: 150)
                 }.padding(.horizontal, 28)
             }
         }.onAppear(perform: refresh)
+    }
+    
+    @ViewBuilder
+    private func statCard(label: String, value: String, icon: String, color: Color) -> some View {
+        VStack(alignment: .leading, spacing: 14) {
+            ZStack {
+                Circle().fill(color.opacity(0.2)).frame(width: 44, height: 44)
+                Image(systemName: icon).font(.headline).foregroundStyle(color)
+            }
+            VStack(alignment: .leading, spacing: 0) {
+                Text(value).font(.system(size: 32, weight: .black, design: .rounded)).foregroundStyle(.white)
+                Text(label).miniCaps().foregroundStyle(Color.white.opacity(0.4))
+            }
+        }.frame(maxWidth: .infinity, alignment: .leading).padding(24).background(.white.opacity(0.08)).clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
     }
     
     private func refresh() {
@@ -65,7 +79,7 @@ struct InsightsScreen: View {
 }
 
 struct ModelDownloadCardView: View {
-    @ObservedObject var modelManager: ModelManager
+    @EnvironmentObject private var container: AppContainer
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             HStack {
@@ -75,9 +89,9 @@ struct ModelDownloadCardView: View {
                 }
                 Spacer(); Image(systemName: "brain.head.profile").font(.title2).foregroundStyle(.cyan)
             }
-            switch modelManager.status {
+            switch container.modelManager.status {
             case .notDownloaded:
-                Button(action: { modelManager.download(url: "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf") }) {
+                Button(action: { container.modelManager.download(url: "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf") }) {
                     Text("Download Assistant").font(.subheadline.bold()).foregroundStyle(.white).frame(maxWidth: .infinity).frame(height: 54).background(Color.liquidIndigo, in: Capsule())
                 }
             case .downloading(let p):
@@ -92,12 +106,12 @@ struct ModelDownloadCardView: View {
             case .ready:
                 HStack {
                     Label("Engine Ready", systemImage: "checkmark.seal.fill").font(.subheadline.bold()).foregroundStyle(.cyan)
-                    Spacer(); Button("Remove") { modelManager.deleteModel() }.font(.caption.bold()).foregroundStyle(Color.white.opacity(0.4))
+                    Spacer(); Button("Remove") { container.modelManager.deleteModel() }.font(.caption.bold()).foregroundStyle(Color.white.opacity(0.4))
                 }
             case .error(let msg): 
                 VStack(alignment: .leading, spacing: 10) {
                     Text(msg).foregroundStyle(.red).font(.caption)
-                    Button("Retry") { modelManager.download(url: "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf") }
+                    Button("Retry") { container.modelManager.download(url: "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf") }
                 }
             }
         }.padding(28).background(.white.opacity(0.05)).clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
