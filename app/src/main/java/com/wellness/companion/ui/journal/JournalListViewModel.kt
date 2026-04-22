@@ -2,24 +2,34 @@ package com.wellness.companion.ui.journal
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.wellness.companion.data.db.JournalSummary
 import com.wellness.companion.data.db.entities.NarrativeThread
 import com.wellness.companion.data.repository.JournalRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 class JournalListViewModel(
-    repo: JournalRepository,
+    private val repo: JournalRepository,
 ) : ViewModel() {
 
-    val pager: Flow<PagingData<JournalSummary>> =
-        repo.pagedSummaries().cachedIn(viewModelScope)
+    data class UiState(
+        val entries: List<JournalSummary> = emptyList(),
+        val threads: List<NarrativeThread> = emptyList()
+    )
 
-    val threads: StateFlow<List<NarrativeThread>> =
-        repo.observeActiveThreads()
-            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptyList())
+    private val _state = MutableStateFlow(UiState())
+    val state: StateFlow<UiState> = _state.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            combine(
+                repo.observeSummaries(),
+                repo.observeActiveThreads()
+            ) { entries, threads ->
+                UiState(entries, threads)
+            }.collect { next ->
+                _state.value = next
+            }
+        }
+    }
 }

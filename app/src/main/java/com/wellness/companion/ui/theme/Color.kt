@@ -2,36 +2,24 @@ package com.wellness.companion.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-/**
- * Soft, organic pastel palette. The system picks Material-3 roles from these.
- * Values were picked to maintain WCAG AA contrast on both light and dark
- * surfaces (verified at contrast checker with on-surface pairs).
- */
 object WellnessPalette {
+    // Timely-inspired Vibrant Palette (Liquid Glass)
+    val LiquidDeep   = Color(0xFF0D0D12)
+    val LiquidIndigo = Color(0xFF312E81)
+    val LiquidTeal   = Color(0xFF0D9488)
+    val LiquidAmber  = Color(0xFFD97706)
+    val LiquidRose   = Color(0xFFE11D48)
 
-    // Primary — muted sage
-    val Sage50  = Color(0xFFEFF5EF)
-    val Sage100 = Color(0xFFD7E6D8)
-    val Sage300 = Color(0xFF9DBFA0)
-    val Sage500 = Color(0xFF6F9A74)
-    val Sage700 = Color(0xFF4C7451)
+    // Organic palette from README
+    val SagePastel     = Color(0xFFD7E6D8)
+    val RosePastel     = Color(0xFFFAE2E2)
+    val LavenderPastel = Color(0xFFE9E5F5)
 
-    // Secondary — rose blush
-    val Rose100 = Color(0xFFFAE2E2)
-    val Rose300 = Color(0xFFE8A9A9)
-    val Rose500 = Color(0xFFC97A7A)
+    val Sage500 = Color(0xFF6F9A74) // Wellness Accent
+    val Teal300 = Color(0xFF9DBFA0) // Wellness Secondary
 
-    // Tertiary — powder lavender
-    val Lavender100 = Color(0xFFE9E5F5)
-    val Lavender300 = Color(0xFFB7AEDB)
-    val Lavender500 = Color(0xFF8676B4)
-
-    // Neutrals
-    val Cream       = Color(0xFFFBF8F3)
-    val Ink         = Color(0xFF23272A)
-    val InkMuted    = Color(0xFF6A6F73)
-    val Surface     = Color(0xFFFFFFFF)
-    val SurfaceDim  = Color(0xFFF3EEE7)
-    val SurfaceDark = Color(0xFF1A1C1E)
-    val OnDark      = Color(0xFFE9EAEC)
+    // UI Colors
+    val TextPrimary   = Color.White
+    val TextSecondary = Color(0x99FFFFFF) // 60% White
+    val GlassSurface  = Color(0x1FFFFFFF) // 12% White
 }

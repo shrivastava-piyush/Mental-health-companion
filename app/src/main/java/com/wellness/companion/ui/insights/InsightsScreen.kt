@@ -1,36 +1,30 @@
 package com.wellness.companion.ui.insights
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.unit.dp
+import androidx.compose.animation.*
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.*
+import androidx.compose.ui.draw.*
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.*
+import androidx.compose.ui.unit.*
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.wellness.companion.data.llm.ModelManager
 import com.wellness.companion.di.AppContainer
 import com.wellness.companion.di.ViewModelFactories
-import com.wellness.companion.ui.components.MetricBars
-import com.wellness.companion.ui.components.MirrorCard
+import com.wellness.companion.ui.components.LiquidAura
 import com.wellness.companion.ui.components.ModelDownloadCard
 import com.wellness.companion.ui.components.MoodTrendChart
+import com.wellness.companion.ui.theme.WellnessPalette
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Composable
 fun InsightsScreen(container: AppContainer, contentPadding: PaddingValues) {
@@ -38,110 +32,116 @@ fun InsightsScreen(container: AppContainer, contentPadding: PaddingValues) {
     val state by vm.state.collectAsStateWithLifecycle()
     val modelStatus by container.modelManager.status.collectAsStateWithLifecycle()
 
-    Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
-    ) { inner ->
+    Box(Modifier.fillMaxSize()) {
+        LiquidAura()
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(inner)
+                .statusBarsPadding()
+                .padding(contentPadding)
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 20.dp)
-                .padding(
-                    top = contentPadding.calculateTopPadding() + 12.dp,
-                    bottom = contentPadding.calculateBottomPadding() + 24.dp,
-                ),
-            verticalArrangement = Arrangement.spacedBy(18.dp),
+                .padding(horizontal = 28.dp)
         ) {
-            Text("Insights", style = MaterialTheme.typography.headlineMedium)
-            Text(
-                "Gentle patterns, not judgements.",
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                style = MaterialTheme.typography.bodyMedium,
-            )
+            Spacer(Modifier.height(40.dp))
 
-            Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.fillMaxWidth()) {
-                StatCard("Mood logs",   state.totalMoods.toString(),    Modifier.weight(1f))
-                StatCard("Journal notes", state.totalJournals.toString(), Modifier.weight(1f))
+            // 1. Hero Header
+            Column(horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text("PULSE", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Black, letterSpacing = 2.sp, color = Color.White.copy(alpha = 0.4f))
+                Text("Patterns", style = MaterialTheme.typography.displayMedium, fontWeight = FontWeight.Bold, color = Color.White)
+                Text("Gentle observations of your journey", style = MaterialTheme.typography.bodyMedium, color = Color.White.copy(alpha = 0.5f))
             }
 
-            state.mirror?.let { mirror ->
-                MirrorCard(mirror)
+            Spacer(Modifier.height(40.dp))
+
+            // 2. High-Fidelity Stats
+            Row(horizontalArrangement = Arrangement.spacedBy(20.dp), modifier = Modifier.fillMaxWidth()) {
+                LiquidStatCard(label = "Logs", value = "${state.totalMoods}", icon = Icons.Default.Mood, color = WellnessPalette.LiquidTeal, modifier = Modifier.weight(1f))
+                LiquidStatCard(label = "Notes", value = "${state.totalJournals}", icon = Icons.Default.TextSnippet, color = WellnessPalette.LiquidRose, modifier = Modifier.weight(1f))
             }
 
+            Spacer(Modifier.height(40.dp))
+
+            // 3. AI Perspective
             if (state.patternNarrative.isNotBlank()) {
-                Card(
-                    shape = RoundedCornerShape(22.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                    ),
-                    modifier = Modifier.fillMaxWidth(),
+                SectionHeader("Perspective")
+                Spacer(Modifier.height(20.dp))
+                Surface(
+                    color = Color.White.copy(alpha = 0.08f),
+                    shape = RoundedCornerShape(40.dp),
+                    border = BorderStroke(1.dp, Color.White.copy(alpha = 0.05f)),
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    Column(Modifier.padding(20.dp)) {
+                    Column(Modifier.padding(32.dp), verticalArrangement = Arrangement.spacedBy(20.dp)) {
+                        Icon(Icons.Default.FormatQuote, null, Modifier.size(32.dp).rotate(180f), tint = Color.White.copy(alpha = 0.2f))
                         Text(
-                            "What your month is saying",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onSecondaryContainer,
-                        )
-                        Spacer(Modifier.height(8.dp))
-                        Text(
-                            state.patternNarrative,
+                            text = state.patternNarrative,
                             style = MaterialTheme.typography.bodyLarge.copy(
+                                fontFamily = FontFamily.Serif,
                                 fontStyle = FontStyle.Italic,
+                                lineHeight = 32.sp,
+                                fontSize = 20.sp
                             ),
-                            color = MaterialTheme.colorScheme.onSecondaryContainer,
+                            color = Color.White
                         )
                     }
                 }
+                Spacer(Modifier.height(40.dp))
             }
 
-            Card(
-                shape = RoundedCornerShape(22.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                modifier = Modifier.fillMaxWidth(),
+            // 4. Emotional Flow
+            SectionHeader("Emotional Flow")
+            Spacer(Modifier.height(24.dp))
+            Surface(
+                color = Color.White.copy(alpha = 0.05f),
+                shape = RoundedCornerShape(40.dp),
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Column(Modifier.padding(16.dp)) {
-                    Text("30-day valence", style = MaterialTheme.typography.titleMedium)
-                    Spacer(Modifier.height(8.dp))
-                    MoodTrendChart(buckets = state.trend)
+                Column(Modifier.padding(24.dp)) {
+                    MoodTrendChart(buckets = state.trend, modifier = Modifier.height(180.dp))
                 }
             }
 
-            Card(
-                shape = RoundedCornerShape(22.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                Column(Modifier.padding(16.dp)) {
-                    Text("Today's metrics", style = MaterialTheme.typography.titleMedium)
-                    Spacer(Modifier.height(12.dp))
-                    MetricBars(state.metrics)
-                }
-            }
+            Spacer(Modifier.height(40.dp))
 
+            // 5. Intelligence Status
             ModelDownloadCard(
                 status = modelStatus,
                 onDownload = { vm.downloadModel(container.modelManager) },
                 onDelete = { container.modelManager.deleteModel() },
             )
+
+            Spacer(Modifier.height(150.dp))
         }
     }
 }
 
 @Composable
-private fun StatCard(label: String, value: String, modifier: Modifier = Modifier) {
-    Card(
-        shape = RoundedCornerShape(22.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
-        modifier = modifier,
+private fun LiquidStatCard(label: String, value: String, icon: ImageVector, color: Color, modifier: Modifier = Modifier) {
+    Surface(
+        color = Color.White.copy(alpha = 0.08f),
+        shape = RoundedCornerShape(32.dp),
+        modifier = modifier
     ) {
-        Column(Modifier.padding(16.dp)) {
-            Text(value,
-                style = MaterialTheme.typography.headlineLarge,
-                color = MaterialTheme.colorScheme.onPrimaryContainer)
-            Text(label,
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onPrimaryContainer)
+        Column(Modifier.padding(24.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
+            Box(Modifier.size(44.dp).background(color.copy(alpha = 0.2f), CircleShape), contentAlignment = Alignment.Center) {
+                Icon(icon, null, tint = color)
+            }
+            Column {
+                Text(value, style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Black, color = Color.White)
+                Text(label.uppercase(), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Black, letterSpacing = 2.sp, color = Color.White.copy(alpha = 0.4f))
+            }
         }
     }
+}
+
+@Composable
+private fun SectionHeader(text: String) {
+    Text(
+        text = text.uppercase(),
+        style = MaterialTheme.typography.labelSmall,
+        fontWeight = FontWeight.Black,
+        letterSpacing = 2.sp,
+        color = Color.White.copy(alpha = 0.5f)
+    )
 }

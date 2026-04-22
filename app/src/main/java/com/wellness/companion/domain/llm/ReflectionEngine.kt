@@ -2,110 +2,64 @@ package com.wellness.companion.domain.llm
 
 import com.wellness.companion.domain.narrative.MirrorGenerator
 
-class ReflectionEngine(private val llm: LlmEngine) {
+class ReflectionEngine(private val engine: LlmEngine) {
 
-    data class Reflection(val questions: List<String>)
-    data class Reframe(val text: String)
-    data class PatternNarrative(val text: String)
+    val isReady: Boolean get() = engine.isReady
 
-    suspend fun reflect(title: String, body: String): Reflection? {
-        if (!llm.isReady || body.isBlank()) return null
-        val raw = llm.generate(
-            systemPrompt = LlmPrompts.SOCRATIC_REFLECTION,
-            userPrompt = LlmPrompts.socraticUserPrompt(title, body),
-            maxTokens = 200,
-            temperature = 0.8f,
-        )
-        val questions = raw
-            .split("\n")
-            .map { it.trim() }
-            .filter { it.isNotBlank() && it.endsWith("?") }
-            .take(3)
-        return if (questions.isNotEmpty()) Reflection(questions) else null
+    suspend fun reflect(title: String, body: String): List<String>? {
+        if (!isReady) return null
+        val prompt = "Title: $title\n\nContent: $body"
+        val response = engine.generate(LlmPrompts.SOCRATIC_REFLECTION, prompt, 150, 0.7f)
+        return response.split("\n")
+            .map { it.trim().trimStart('1', '2', '3', '.', '-', ' ') }
+            .filter { it.isNotBlank() }
     }
 
-    suspend fun reframe(title: String, body: String): Reframe? {
-        if (!llm.isReady || body.isBlank()) return null
-        val raw = llm.generate(
-            systemPrompt = LlmPrompts.REFRAME_LENS,
-            userPrompt = LlmPrompts.reframeUserPrompt(title, body),
-            maxTokens = 120,
-            temperature = 0.7f,
-        )
-        return if (raw.isNotBlank()) Reframe(raw.trim()) else null
+    suspend fun reframe(title: String, body: String): String? {
+        if (!isReady) return null
+        val prompt = "Title: $title\n\nContent: $body"
+        return engine.generate(LlmPrompts.REFRAME_LENS, prompt, 100, 0.8f).trim()
     }
 
-    suspend fun narrateMirror(mirror: MirrorGenerator.Mirror): PatternNarrative? {
-        if (!llm.isReady) return null
-        val raw = llm.generate(
-            systemPrompt = LlmPrompts.PATTERN_NARRATOR,
-            userPrompt = LlmPrompts.patternNarratorUserPrompt(
-                avgValence = mirror.avgValence,
-                topWords = mirror.topWords,
-                totalEntries = mirror.totalEntries,
-                totalMoods = mirror.totalMoods,
-                callback = mirror.callback,
-                highlightSnippet = mirror.highlightSnippet,
-            ),
-            maxTokens = 140,
-            temperature = 0.75f,
-        )
-        return if (raw.isNotBlank()) PatternNarrative(raw.trim()) else null
+    suspend fun narrateMirror(mirror: MirrorGenerator.Mirror): String? {
+        if (!isReady) return null
+        val data = buildString {
+            appendLine("Period: ${mirror.periodLabel}")
+            appendLine("Total Moods: ${mirror.totalMoods}")
+            appendLine("Total Entries: ${mirror.totalEntries}")
+            appendLine("Top Themes: ${mirror.topWords.joinToString { it.first }}")
+            if (mirror.highlightSnippet.isNotBlank()) {
+                appendLine("Key Reflection: ${mirror.highlightSnippet}")
+            }
+        }
+        return engine.generate(LlmPrompts.PATTERN_NARRATOR, data, 200, 0.7f).trim()
     }
 
     suspend fun contextualStarter(moodLabel: String?, timeOfDay: String): String? {
-        if (!llm.isReady) return null
-        val raw = llm.generate(
-            systemPrompt = LlmPrompts.CONTEXTUAL_STARTER,
-            userPrompt = LlmPrompts.contextualStarterUserPrompt(moodLabel, timeOfDay),
-            maxTokens = 40,
-            temperature = 0.9f,
-        )
-        return raw.trim().takeIf { it.isNotBlank() }
+        if (!isReady) return null
+        val prompt = "Mood: ${moodLabel ?: "Balanced"}, Time: $timeOfDay"
+        return engine.generate(LlmPrompts.CONTEXTUAL_STARTER, prompt, 50, 0.9f).trim().trim('"')
     }
 
     suspend fun goDeeper(bodySoFar: String): String? {
-        if (!llm.isReady || bodySoFar.isBlank()) return null
-        val raw = llm.generate(
-            systemPrompt = LlmPrompts.GO_DEEPER,
-            userPrompt = LlmPrompts.goDeeperUserPrompt(bodySoFar),
-            maxTokens = 50,
-            temperature = 0.8f,
-        )
-        val cleaned = raw.trim()
-        return if (cleaned.isNotBlank() && cleaned.endsWith("?")) cleaned else null
+        if (!isReady) return null
+        return engine.generate(LlmPrompts.GO_DEEPER, bodySoFar, 60, 0.8f).trim().trim('"')
     }
 
     suspend fun suggestTitle(body: String): String? {
-        if (!llm.isReady || body.isBlank()) return null
-        val raw = llm.generate(
-            systemPrompt = LlmPrompts.AUTO_TITLE,
-            userPrompt = LlmPrompts.autoTitleUserPrompt(body),
-            maxTokens = 20,
-            temperature = 0.7f,
-        )
-        return raw.trim().take(80).takeIf { it.isNotBlank() }
+        if (!isReady) return null
+        return engine.generate(LlmPrompts.AUTO_TITLE, body, 20, 0.6f).trim().trim('"')
     }
 
     suspend fun guidedQuestion(exchanges: List<Pair<String, String>>): String? {
-        if (!llm.isReady) return null
-        val raw = llm.generate(
-            systemPrompt = LlmPrompts.GUIDED_QUESTION,
-            userPrompt = LlmPrompts.guidedQuestionUserPrompt(exchanges, exchanges.isEmpty()),
-            maxTokens = 50,
-            temperature = 0.85f,
-        )
-        return raw.trim().takeIf { it.isNotBlank() }
+        if (!isReady) return null
+        val history = exchanges.joinToString("\n") { "Q: ${it.first}\nA: ${it.second}" }
+        return engine.generate(LlmPrompts.GUIDED_QUESTION, history, 60, 0.8f).trim().trim('"')
     }
 
     suspend fun compileGuided(exchanges: List<Pair<String, String>>): String? {
-        if (!llm.isReady || exchanges.isEmpty()) return null
-        val raw = llm.generate(
-            systemPrompt = LlmPrompts.GUIDED_COMPILE,
-            userPrompt = LlmPrompts.guidedCompileUserPrompt(exchanges),
-            maxTokens = 400,
-            temperature = 0.6f,
-        )
-        return raw.trim().takeIf { it.isNotBlank() }
+        if (!isReady) return null
+        val interview = exchanges.joinToString("\n") { "Q: ${it.first}\nA: ${it.second}" }
+        return engine.generate(LlmPrompts.GUIDED_COMPILE, interview, 512, 0.7f).trim()
     }
 }

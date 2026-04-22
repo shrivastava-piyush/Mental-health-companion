@@ -1,33 +1,21 @@
 package com.wellness.companion.ui
 
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationRail
-import androidx.compose.material3.NavigationRailItem
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.animation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.*
 import androidx.navigation.navArgument
 import com.wellness.companion.di.AppContainer
+import com.wellness.companion.di.ViewModelFactories
 import com.wellness.companion.ui.auth.BiometricGateScreen
+import com.wellness.companion.ui.home.HomeScreen
 import com.wellness.companion.ui.insights.InsightsScreen
 import com.wellness.companion.ui.journal.JournalEditorScreen
 import com.wellness.companion.ui.journal.JournalListScreen
@@ -37,14 +25,6 @@ import com.wellness.companion.ui.navigation.BottomTabs
 import com.wellness.companion.ui.navigation.WellnessDestination
 import com.wellness.companion.ui.theme.WellnessTheme
 
-/**
- * Top-level composable. Renders the biometric gate first, then the main shell.
- *
- * The shell picks between a bottom NavigationBar (phones) and a NavigationRail
- * (tablets / unfolded foldables) using a width breakpoint (600 dp). A manual
- * check is used instead of the window-size-class artifact to avoid pulling
- * another transitive dep for a one-shot computation.
- */
 @Composable
 fun WellnessAppRoot(container: AppContainer) {
     WellnessTheme {
@@ -67,47 +47,35 @@ fun WellnessAppRoot(container: AppContainer) {
 
 @Composable
 private fun MainShell(container: AppContainer) {
-    BoxWithConstraints(Modifier.fillMaxSize()) {
-        val useRail = maxWidth >= 600.dp
-        val nav = rememberNavController()
-        val entry by nav.currentBackStackEntryAsState()
-        val activeTab = entry?.destination?.route
+    val nav = rememberNavController()
+    val entry by nav.currentBackStackEntryAsState()
+    val activeTab = entry?.destination?.route
 
-        if (useRail) {
-            Row(Modifier.fillMaxSize()) {
-                NavigationRail(
-                    containerColor = MaterialTheme.colorScheme.background,
-                    modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars),
-                ) {
-                    BottomTabs.forEach { tab ->
-                        NavigationRailItem(
-                            selected = activeTab?.startsWith(tab.destination.route) == true,
-                            onClick = { switchTab(nav, tab.destination.route) },
-                            icon = { Icon(tab.icon, contentDescription = tab.label) },
-                            label = { Text(tab.label) },
+    Scaffold(
+        bottomBar = {
+            NavigationBar(
+                containerColor = Color.Transparent,
+                tonalElevation = 0.dp
+            ) {
+                BottomTabs.forEach { tab ->
+                    NavigationBarItem(
+                        selected = activeTab?.startsWith(tab.destination.route) == true,
+                        onClick = { switchTab(nav, tab.destination.route) },
+                        icon = { Icon(tab.icon, contentDescription = tab.label) },
+                        label = { Text(tab.label, style = MaterialTheme.typography.labelSmall) },
+                        colors = NavigationBarItemDefaults.colors(
+                            selectedIconColor = Color.White,
+                            selectedTextColor = Color.White,
+                            unselectedIconColor = Color.White.copy(alpha = 0.4f),
+                            unselectedTextColor = Color.White.copy(alpha = 0.4f),
+                            indicatorColor = Color.White.copy(alpha = 0.15f)
                         )
-                    }
+                    )
                 }
-                ShellNavHost(container, nav, contentPadding = PaddingValues(0.dp))
             }
-        } else {
-            Scaffold(
-                bottomBar = {
-                    NavigationBar(containerColor = MaterialTheme.colorScheme.surface) {
-                        BottomTabs.forEach { tab ->
-                            NavigationBarItem(
-                                selected = activeTab?.startsWith(tab.destination.route) == true,
-                                onClick = { switchTab(nav, tab.destination.route) },
-                                icon = { Icon(tab.icon, contentDescription = tab.label) },
-                                label = { Text(tab.label) },
-                            )
-                        }
-                    }
-                },
-            ) { inner ->
-                ShellNavHost(container, nav, inner)
-            }
-        }
+        },
+    ) { inner ->
+        ShellNavHost(container, nav, inner)
     }
 }
 
@@ -119,9 +87,20 @@ private fun ShellNavHost(
 ) {
     NavHost(
         navController = nav,
-        startDestination = WellnessDestination.Mood.route,
+        startDestination = WellnessDestination.Home.route,
         modifier = Modifier.fillMaxSize(),
+        enterTransition = { fadeIn() + scaleIn(initialScale = 0.95f) },
+        exitTransition = { fadeOut() + scaleOut(targetScale = 0.95f) }
     ) {
+        composable(WellnessDestination.Home.route) {
+            HomeScreen(
+                viewModel = viewModel(factory = ViewModelFactories.home(container)),
+                onOpenMood = { nav.navigate(WellnessDestination.Mood.route) },
+                onOpenJournal = { nav.navigate(WellnessDestination.Journal.route) },
+                onOpenReflection = { id -> nav.navigate(WellnessDestination.JournalEditor.build(id)) },
+                contentPadding = contentPadding
+            )
+        }
         composable(WellnessDestination.Mood.route) {
             MoodScreen(container, contentPadding)
         }
@@ -153,12 +132,8 @@ private fun ShellNavHost(
         composable(
             route = WellnessDestination.ThreadDetail.route,
             arguments = listOf(
-                navArgument(WellnessDestination.ThreadDetail.ARG_ID) {
-                    type = NavType.LongType
-                },
-                navArgument(WellnessDestination.ThreadDetail.ARG_LABEL) {
-                    type = NavType.StringType
-                },
+                navArgument(WellnessDestination.ThreadDetail.ARG_ID) { type = NavType.LongType },
+                navArgument(WellnessDestination.ThreadDetail.ARG_LABEL) { type = NavType.StringType },
             ),
         ) { entry ->
             val threadId = entry.arguments?.getLong(WellnessDestination.ThreadDetail.ARG_ID) ?: 0L

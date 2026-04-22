@@ -186,6 +186,8 @@ targets:
       - path: ../app/src/main/cpp/llama.cpp/ggml/src/ggml-cpu/arch/arm/cpu-feats.cpp
       - path: ../app/src/main/cpp/llama.cpp/ggml/src/ggml-cpu/arch/arm/repack.cpp
         name: ggml-repack-arm.cpp
+      - path: WellnessCompanion/UI/Components/FlowLayout.swift
+      - path: WellnessCompanion/UI/Components/LiquidAura.swift
       - path: WellnessCompanion/App/Assets.xcassets
     settings:
       base:

@@ -150,6 +150,7 @@
 		C9D4C48D4EF44AB32EAC49CC /* llama-sampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3DC24FFBD78FD29A24D34E57 /* llama-sampler.cpp */; };
 		CD4D73E34E9208A6CA9F8C29 /* ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50AAA0462727B7367898A75A /* ops.cpp */; };
 		CD6EB0C4CB2562304D8773B0 /* MoodScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BBCB10443B772577811C03 /* MoodScreen.swift */; };
+		D03D743962DB01629E6F3B40 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D4AAE23709C372C048B398C /* Assets.xcassets */; };
 		D04BE5FEBEE1E95676879BA9 /* llama-mmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 60C4EE9EE518F03D5E0D3E3C /* llama-mmap.cpp */; };
 		D16A670AD740EF519730DB20 /* codeshell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9E8D8E741846906E7444DCB8 /* codeshell.cpp */; };
 		D4EF0DF0A1C9675108C5C82D /* llama-memory-hybrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F00088675E6FBFA5CCAFD3D7 /* llama-memory-hybrid.cpp */; };
@@ -262,6 +263,7 @@
 		4B55CC1BD59770BE6B85E4DD /* unary-ops.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "unary-ops.cpp"; sourceTree = "<group>"; };
 		4CFB5CBD50D2A58B81CB96A6 /* dots1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = dots1.cpp; sourceTree = "<group>"; };
 		4D3BD6418D7A60C151D2F2FC /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
+		4D4AAE23709C372C048B398C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4FE2EBEE08DED85B0C6EA326 /* gptneox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gptneox.cpp; sourceTree = "<group>"; };
 		50AAA0462727B7367898A75A /* ops.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ops.cpp; sourceTree = "<group>"; };
 		51162C65466B81E959F4B24C /* openai-moe-iswa.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "openai-moe-iswa.cpp"; sourceTree = "<group>"; };
@@ -292,7 +294,7 @@
 		791606C669AAD520A883BD98 /* phi3.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = phi3.cpp; sourceTree = "<group>"; };
 		79A1F582941C9AC5868EEDEE /* arctic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = arctic.cpp; sourceTree = "<group>"; };
 		7AAE139A44C299067378B89B /* stablelm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = stablelm.cpp; sourceTree = "<group>"; };
-		7AC53AEC645C9747C51EECC4 /* WellnessCompanion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WellnessCompanion.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7AC53AEC645C9747C51EECC4 /* WellnessCompanion.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = WellnessCompanion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C7EA50BF8AA99404A52D91B /* ReflectionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectionEngine.swift; sourceTree = "<group>"; };
 		7C8C162198E241497907970A /* mamba-base.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "mamba-base.cpp"; sourceTree = "<group>"; };
 		7CD3B03129EE07631267CD71 /* refact.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = refact.cpp; sourceTree = "<group>"; };
@@ -689,6 +691,7 @@
 			isa = PBXGroup;
 			children = (
 				F72EB52FAE0DFEAC62E173F9 /* AppContainer.swift */,
+				4D4AAE23709C372C048B398C /* Assets.xcassets */,
 				6D9172768493EA8001E25158 /* BridgingHeader.h */,
 				DC17DA5564BE1B4F92BC7052 /* ContentView.swift */,
 				4759CF75BE6B4B4585CD9C92 /* Info.plist */,
@@ -861,6 +864,7 @@
 			buildConfigurationList = 5E3A0B053CB4C7FC84483A19 /* Build configuration list for PBXNativeTarget "WellnessCompanion" */;
 			buildPhases = (
 				E63D4DAD56B533584B452C4B /* Sources */,
+				89AFD3B289B7779C97BDC729 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -881,6 +885,11 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					D3CF021761E1C4A434B4A18D = {
+						DevelopmentTeam = "";
+					};
+				};
 			};
 			buildConfigurationList = 388D1E87881E425A8BE39CE9 /* Build configuration list for PBXProject "WellnessCompanion" */;
 			developmentRegion = en;
@@ -900,6 +909,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		89AFD3B289B7779C97BDC729 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D03D743962DB01629E6F3B40 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		E63D4DAD56B533584B452C4B /* Sources */ = {
@@ -1111,7 +1131,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = X98J4V8PX3;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/include",
 					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/ggml/include",
@@ -1127,21 +1146,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				OTHER_CFLAGS = (
-					"-DGGML_USE_CPU",
-					"-DNDEBUG",
-					"-O3",
-					"-DGGML_VERSION=\\\"1\\\"",
-					"-DGGML_COMMIT=\\\"unknown\\\"",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(inherited)",
-					"-DGGML_USE_CPU",
-					"-DNDEBUG",
-					"-O3",
-					"-DGGML_VERSION=\\\"1\\\"",
-					"-DGGML_COMMIT=\\\"unknown\\\"",
-				);
+				OTHER_CFLAGS = "-DGGML_USE_CPU -DNDEBUG -O3 -DGGML_VERSION=\\\"1\\\" -DGGML_COMMIT=\\\"unknown\\\"";
+				OTHER_CPLUSPLUSFLAGS = "$(inherited) -DGGML_USE_CPU -DNDEBUG -O3 -DGGML_VERSION=\\\"1\\\" -DGGML_COMMIT=\\\"unknown\\\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wellness.companion;
 				SDKROOT = iphoneos;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1156,7 +1162,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = X98J4V8PX3;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/include",
 					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/ggml/include",
@@ -1172,21 +1177,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				OTHER_CFLAGS = (
-					"-DGGML_USE_CPU",
-					"-DNDEBUG",
-					"-O3",
-					"-DGGML_VERSION=\\\"1\\\"",
-					"-DGGML_COMMIT=\\\"unknown\\\"",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(inherited)",
-					"-DGGML_USE_CPU",
-					"-DNDEBUG",
-					"-O3",
-					"-DGGML_VERSION=\\\"1\\\"",
-					"-DGGML_COMMIT=\\\"unknown\\\"",
-				);
+				OTHER_CFLAGS = "-DGGML_USE_CPU -DNDEBUG -O3 -DGGML_VERSION=\\\"1\\\" -DGGML_COMMIT=\\\"unknown\\\"";
+				OTHER_CPLUSPLUSFLAGS = "$(inherited) -DGGML_USE_CPU -DNDEBUG -O3 -DGGML_VERSION=\\\"1\\\" -DGGML_COMMIT=\\\"unknown\\\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wellness.companion;
 				SDKROOT = iphoneos;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;

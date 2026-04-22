@@ -1,236 +1,147 @@
 package com.wellness.companion.ui.mood
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.animation.*
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SwipeToDismissBox
-import androidx.compose.material3.SwipeToDismissBoxValue
-import androidx.compose.material3.Text
-import androidx.compose.material3.rememberSwipeToDismissBoxState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.*
+import androidx.compose.ui.draw.*
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.*
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.wellness.companion.data.db.entities.MoodEntry
 import com.wellness.companion.di.AppContainer
 import com.wellness.companion.di.ViewModelFactories
-import com.wellness.companion.ui.components.MoodTrendChart
+import com.wellness.companion.ui.components.LiquidAura
 import com.wellness.companion.ui.components.WellnessWheel
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import com.wellness.companion.ui.theme.WellnessPalette
 
-private val MoodLabels = listOf("grateful", "calm", "balanced", "anxious", "tired", "energised", "sad", "hopeful")
-
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun MoodScreen(container: AppContainer, contentPadding: PaddingValues) {
-    val vm: MoodViewModel = viewModel(factory = ViewModelFactories.mood(container))
-    val state by vm.state.collectAsStateWithLifecycle()
+fun MoodScreen(
+    container: AppContainer,
+    contentPadding: PaddingValues = PaddingValues(0.dp)
+) {
+    val viewModel: MoodViewModel = viewModel(factory = ViewModelFactories.mood(container))
+    val state by viewModel.state.collectAsState()
+    
+    val qualities = listOf("Peaceful", "Joyful", "Balanced", "Empowered", "Grateful", "Tired", "Worried", "Frustrated", "Overwhelmed", "Numb")
+    var selectedQualities by remember { mutableStateOf(setOf<String>()) }
 
-    Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
-        floatingActionButton = {
-            ExtendedFloatingActionButton(
-                onClick = { vm.send(MoodViewModel.Intent.SaveMood) },
-                icon = { Icon(Icons.Filled.Check, contentDescription = null) },
-                text = { Text("Save mood") },
-                containerColor = MaterialTheme.colorScheme.primary,
-            )
-        },
-    ) { inner ->
-        LazyColumn(
+    Box(Modifier.fillMaxSize()) {
+        LiquidAura()
+
+        Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(inner),
-            contentPadding = PaddingValues(
-                start = 20.dp,
-                end = 20.dp,
-                top = contentPadding.calculateTopPadding() + 8.dp,
-                bottom = contentPadding.calculateBottomPadding() + 96.dp,
-            ),
-            verticalArrangement = Arrangement.spacedBy(18.dp),
+                .statusBarsPadding()
+                .padding(contentPadding)
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 28.dp)
         ) {
-            item {
-                Text(
-                    "How are you, right now?",
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-                Text(
-                    "Drag the dot to capture valence and energy.",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
+            Spacer(Modifier.height(20.dp))
 
-            item {
-                WellnessWheel(
-                    valence = state.draft.valence,
-                    arousal = state.draft.arousal,
-                    onChange = { v, a ->
-                        vm.send(MoodViewModel.Intent.UpdateValence(v))
-                        vm.send(MoodViewModel.Intent.UpdateArousal(a))
-                    },
-                )
-            }
-
-            item { LabelRow(selected = state.draft.label, onSelect = { vm.send(MoodViewModel.Intent.UpdateLabel(it)) }) }
-
-            item {
-                OutlinedTextField(
-                    value = state.draft.note,
-                    onValueChange = { vm.send(MoodViewModel.Intent.UpdateNote(it)) },
-                    label = { Text("Add a note (optional)") },
-                    placeholder = { Text("What's happening?") },
-                    singleLine = false,
-                    modifier = Modifier.fillMaxWidth(),
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                )
-            }
-
-            item {
-                Text("Last 30 days", style = MaterialTheme.typography.titleMedium)
-                Spacer(Modifier.height(6.dp))
-                Card(
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-                    shape = RoundedCornerShape(22.dp),
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    MoodTrendChart(
-                        buckets = state.trend,
-                        modifier = Modifier.padding(12.dp),
-                    )
-                }
-            }
-
-            item {
-                Text("Recent entries", style = MaterialTheme.typography.titleMedium)
-            }
-
-            items(state.recent, key = { it.id }) { entry ->
-                val dismissState = rememberSwipeToDismissBoxState(
-                    confirmValueChange = { value ->
-                        if (value == SwipeToDismissBoxValue.EndToStart) {
-                            vm.send(MoodViewModel.Intent.DeleteMood(entry.id))
-                            true
-                        } else false
-                    }
-                )
-                SwipeToDismissBox(
-                    state = dismissState,
-                    enableDismissFromStartToEnd = false,
-                    backgroundContent = { DeleteBackground() },
-                ) {
-                    MoodRow(entry)
-                }
-            }
-
-            if (state.recent.isEmpty()) {
-                item {
-                    Text(
-                        "Your first log will appear here.",
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth().padding(24.dp),
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun LabelRow(selected: String, onSelect: (String) -> Unit) {
-    LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
-        items(MoodLabels) { label ->
-            FilterChip(
-                selected = selected == label,
-                onClick = { onSelect(label) },
-                label = { Text(label) },
-            )
-        }
-    }
-}
-
-@Composable
-private fun DeleteBackground() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .clip(RoundedCornerShape(18.dp))
-            .background(MaterialTheme.colorScheme.errorContainer),
-        contentAlignment = Alignment.CenterEnd,
-    ) {
-        Icon(
-            imageVector = Icons.Outlined.Delete,
-            contentDescription = "Delete entry",
-            tint = MaterialTheme.colorScheme.onErrorContainer,
-            modifier = Modifier.padding(end = 20.dp),
-        )
-    }
-}
-
-@Composable
-private fun MoodRow(entry: MoodEntry) {
-    Card(
-        shape = RoundedCornerShape(18.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        modifier = Modifier.fillMaxWidth(),
-    ) {
-        Row(
-            modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Column(Modifier.weight(1f)) {
-                Text(entry.label.replaceFirstChar { it.titlecase(Locale.getDefault()) },
-                    style = MaterialTheme.typography.titleMedium)
-                if (entry.note.isNotBlank()) {
-                    Text(
-                        entry.note,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
-            }
+            // 1. Immersive Header
             Text(
-                dateFormatter.format(Date(entry.createdAt)),
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                text = "How are you, right now?",
+                style = MaterialTheme.typography.headlineLarge,
+                fontWeight = FontWeight.Bold,
+                color = Color.White
             )
+            Text(
+                text = "A moment to breathe and observe.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color.White.copy(alpha = 0.5f)
+            )
+
+            Spacer(Modifier.height(40.dp))
+
+            // 2. The Liquid Wheel
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(40.dp))
+                    .background(Color.White.copy(alpha = 0.05f))
+                    .padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "MAP YOUR ENERGY",
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.Black,
+                    letterSpacing = 2.sp,
+                    color = Color.White.copy(alpha = 0.4f)
+                )
+                
+                WellnessWheel(
+                    valence = state.draft.valence / 100.0,
+                    arousal = state.draft.arousal / 100.0,
+                    onChange = { v, a ->
+                        viewModel.send(MoodViewModel.Intent.UpdateValence((v * 100).toInt()))
+                        viewModel.send(MoodViewModel.Intent.UpdateArousal((a * 100).toInt()))
+                    },
+                    modifier = Modifier.size(320.dp)
+                )
+            }
+
+            Spacer(Modifier.height(40.dp))
+
+            // 3. Qualities
+            Text(
+                text = "DESCRIBE THE TEXTURE",
+                style = MaterialTheme.typography.labelSmall,
+                fontWeight = FontWeight.Black,
+                letterSpacing = 2.sp,
+                color = Color.White.copy(alpha = 0.5f)
+            )
+            
+            Spacer(Modifier.height(20.dp))
+
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                qualities.forEach { quality ->
+                    val isSelected = selectedQualities.contains(quality)
+                    Surface(
+                        onClick = {
+                            selectedQualities = if (isSelected) selectedQualities - quality else selectedQualities + quality
+                            viewModel.send(MoodViewModel.Intent.UpdateLabel(selectedQualities.sorted().joinToString(", ")))
+                        },
+                        color = if (isSelected) WellnessPalette.Sage500 else Color.White.copy(alpha = 0.1f),
+                        shape = CircleShape,
+                        border = if (isSelected) null else BorderStroke(1.dp, Color.White.copy(alpha = 0.1f))
+                    ) {
+                        Text(
+                            text = quality,
+                            modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = if (isSelected) Color.White else Color.White.copy(alpha = 0.8f)
+                        )
+                    }
+                }
+            }
+
+            Spacer(Modifier.height(40.dp))
+
+            // 4. Save Button
+            Button(
+                onClick = { viewModel.send(MoodViewModel.Intent.SaveMood) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(64.dp),
+                shape = CircleShape,
+                colors = ButtonDefaults.buttonColors(containerColor = WellnessPalette.Sage500)
+            ) {
+                Text("Log Check-in", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+            }
+
+            Spacer(Modifier.height(120.dp))
         }
     }
 }
-
-private val dateFormatter = SimpleDateFormat("EEE, HH:mm", Locale.getDefault())

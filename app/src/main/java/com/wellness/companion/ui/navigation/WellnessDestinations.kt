@@ -1,18 +1,15 @@
 package com.wellness.companion.ui.navigation
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Bolt
-import androidx.compose.material.icons.outlined.EditNote
-import androidx.compose.material.icons.outlined.Insights
-import androidx.compose.material.icons.outlined.Mood
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class WellnessDestination(val route: String) {
+    data object Home     : WellnessDestination("home")
     data object Mood     : WellnessDestination("mood")
     data object Journal  : WellnessDestination("journal")
     data object Insights : WellnessDestination("insights")
 
-    /** In-journal editor; `new` if creating. */
     data object JournalEditor : WellnessDestination("journal/editor/{id}") {
         fun build(id: Long?): String = "journal/editor/${id ?: -1L}"
         const val ARG = "id"
@@ -35,11 +32,7 @@ data class BottomTab(
 )
 
 val BottomTabs: List<BottomTab> = listOf(
-    BottomTab(WellnessDestination.Mood,     "Mood",     Icons.Outlined.Mood),
-    BottomTab(WellnessDestination.Journal,  "Journal",  Icons.Outlined.EditNote),
-    BottomTab(WellnessDestination.Insights, "Insights", Icons.Outlined.Insights),
+    BottomTab(WellnessDestination.Home,     "Today",    Icons.Outlined.Home),
+    BottomTab(WellnessDestination.Journal,  "Library",  Icons.Outlined.AutoStories),
+    BottomTab(WellnessDestination.Insights, "Pulse",    Icons.Outlined.AutoGraph),
 )
-
-// Kept for future "Actions" tab; pre-wired so we can add without reshuffling.
-@Suppress("unused")
-private val FutureIcon = Icons.Outlined.Bolt

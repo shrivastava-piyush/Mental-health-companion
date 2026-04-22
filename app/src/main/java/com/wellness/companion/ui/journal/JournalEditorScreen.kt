@@ -1,422 +1,270 @@
 package com.wellness.companion.ui.journal
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.animation.*
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.*
+import androidx.compose.foundation.text.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.ArrowBack
-import androidx.compose.material.icons.outlined.AutoAwesome
-import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.Save
-import androidx.compose.material3.AssistChip
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.*
+import androidx.compose.ui.draw.*
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.platform.*
+import androidx.compose.ui.text.font.*
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.unit.*
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.wellness.companion.di.AppContainer
 import com.wellness.companion.di.ViewModelFactories
-import com.wellness.companion.domain.narrative.ColdOpenGenerator
-import com.wellness.companion.ui.components.ReflectionCard
-import com.wellness.companion.ui.components.ReframeCard
+import com.wellness.companion.ui.components.LiquidAura
+import com.wellness.companion.ui.theme.WellnessPalette
 
 @Composable
 fun JournalEditorScreen(
     container: AppContainer,
-    entryId: Long,
+    entryId: Long = 0L,
     onBack: () -> Unit,
-    contentPadding: PaddingValues,
+    contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
-    val vm: JournalEditorViewModel = viewModel(
-        key = "editor-$entryId",
-        factory = ViewModelFactories.journalEditor(container, entryId),
-    )
-    val state by vm.state.collectAsStateWithLifecycle()
+    val viewModel: JournalEditorViewModel = viewModel(factory = ViewModelFactories.journalEditor(container, entryId))
+    val state by viewModel.state.collectAsState()
+    
+    var guidedMode by remember { mutableStateOf(false) }
 
-    if (state.guidedMode) {
-        GuidedJournalScreen(vm, state, onBack, contentPadding)
-        return
-    }
+    Box(Modifier.fillMaxSize()) {
+        LiquidAura()
 
-    Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
-        topBar = {
-            TopAppBar(
-                title = { Text(if (state.id == 0L) "New entry" else "Edit entry") },
-                navigationIcon = {
-                    IconButton(onClick = { vm.save { onBack() } }) {
-                        Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Save and back")
-                    }
-                },
-                actions = {
-                    IconButton(onClick = { vm.save { /* stay */ } }) {
-                        Icon(Icons.Outlined.Save, contentDescription = "Save")
-                    }
-                    if (state.id > 0L) {
-                        IconButton(onClick = { vm.delete { onBack() } }) {
-                            Icon(Icons.Outlined.Delete, contentDescription = "Delete")
-                        }
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
-                ),
+        if (guidedMode) {
+            GuidedFlow(
+                viewModel = viewModel,
+                onComplete = { guidedMode = false },
+                onCancel = { guidedMode = false }
             )
-        },
-    ) { inner ->
+        } else {
+            EditorContent(
+                state = state,
+                viewModel = viewModel,
+                onBack = onBack,
+                onStartGuided = { guidedMode = true }
+            )
+        }
+    }
+}
+
+@Composable
+private fun EditorContent(
+    state: JournalEditorViewModel.UiState,
+    viewModel: JournalEditorViewModel,
+    onBack: () -> Unit,
+    onStartGuided: () -> Unit
+) {
+    Column(Modifier.fillMaxSize()) {
+        // Header
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .statusBarsPadding()
+                .padding(horizontal = 20.dp, vertical = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            TextButton(onClick = { viewModel.send(JournalEditorViewModel.Intent.Save); onBack() }) {
+                Text("Done", fontWeight = FontWeight.Bold, color = Color.White)
+            }
+            Text("REFLECTION", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Black, color = Color.White.copy(alpha = 0.4f), letterSpacing = 2.sp)
+            if (state.id > 0) {
+                IconButton(onClick = { viewModel.send(JournalEditorViewModel.Intent.Delete); onBack() }) {
+                    Icon(Icons.Default.Delete, null, tint = Color.White.copy(alpha = 0.4f))
+                }
+            } else {
+                Spacer(Modifier.width(48.dp))
+            }
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(inner)
-                .padding(horizontal = 20.dp)
                 .verticalScroll(rememberScrollState())
-                .padding(bottom = contentPadding.calculateBottomPadding() + 24.dp),
+                .padding(horizontal = 28.dp)
         ) {
-            AnimatedVisibility(
-                visible = state.coldOpen != null,
-                enter = fadeIn() + slideInVertically { -it / 3 },
-                exit = fadeOut(),
-            ) {
-                state.coldOpen?.let { co ->
-                    ColdOpenCard(
-                        coldOpen = co,
-                        onDismiss = { vm.dismissColdOpen() },
-                        modifier = Modifier.padding(bottom = 16.dp),
-                    )
-                }
+            if (state.id <= 0 && state.body.isEmpty()) {
+                GuidedNudge(onStartGuided)
+                Spacer(Modifier.height(32.dp))
             }
 
-            if (state.hasLlm && state.id == 0L && state.body.isEmpty()) {
-                AssistChip(
-                    onClick = { vm.startGuidedMode() },
-                    label = { Text("Guide me") },
-                    leadingIcon = { Icon(Icons.Outlined.AutoAwesome, contentDescription = null, modifier = Modifier.size(18.dp)) },
-                    modifier = Modifier.padding(bottom = 12.dp),
-                )
-            }
-
-            BasicTextField(
+            TextField(
                 value = state.title,
-                onValueChange = vm::onTitleChange,
-                textStyle = MaterialTheme.typography.headlineMedium.copy(
-                    color = MaterialTheme.colorScheme.onBackground,
+                onValueChange = { viewModel.send(JournalEditorViewModel.Intent.UpdateTitle(it)) },
+                placeholder = { Text("UNTITLED", color = Color.White.copy(alpha = 0.2f)) },
+                textStyle = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Black, fontFamily = FontFamily.SansSerif),
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = Color.White
                 ),
-                singleLine = true,
-                decorationBox = { innerField ->
-                    if (state.title.isEmpty()) {
-                        Text(
-                            "Title",
-                            style = MaterialTheme.typography.headlineMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                    }
-                    innerField()
-                },
-                modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp),
+                modifier = Modifier.fillMaxWidth()
             )
 
-            val placeholder = state.starterPrompt.ifBlank { "Write freely\u2026" }
+            Spacer(Modifier.height(20.dp))
+
             BasicTextField(
                 value = state.body,
-                onValueChange = vm::onBodyChange,
+                onValueChange = { viewModel.send(JournalEditorViewModel.Intent.UpdateBody(it)) },
                 textStyle = MaterialTheme.typography.bodyLarge.copy(
-                    color = MaterialTheme.colorScheme.onBackground,
+                    color = Color.White,
+                    fontFamily = FontFamily.Serif,
+                    lineHeight = 32.sp,
+                    fontSize = 20.sp
                 ),
-                decorationBox = { innerField ->
+                cursorBrush = SolidColor(Color.White),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 500.dp),
+                decorationBox = { innerTextField ->
                     if (state.body.isEmpty()) {
-                        Text(
-                            placeholder,
-                            style = MaterialTheme.typography.bodyLarge.copy(fontStyle = FontStyle.Italic),
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
+                        Text("Speak your truth…", color = Color.White.copy(alpha = 0.2f), style = MaterialTheme.typography.bodyLarge.copy(fontFamily = FontFamily.Serif, fontSize = 20.sp))
                     }
-                    innerField()
-                },
-                modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+                    innerTextField()
+                }
             )
 
-            if (state.hasLlm && state.body.split(Regex("\\s+")).size >= 15) {
-                Spacer(Modifier.height(8.dp))
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    if (state.goDeeperNudge.isBlank() && !state.nudging) {
-                        TextButton(onClick = { vm.requestGoDeeper() }) {
-                            Text("Go deeper")
-                        }
-                    }
-                    if (state.title.isBlank() && state.titleSuggestion.isBlank() && !state.suggestingTitle) {
-                        TextButton(onClick = { vm.requestTitleSuggestion() }) {
-                            Text("Suggest title")
-                        }
-                    }
-                    if (state.nudging || state.suggestingTitle) {
-                        CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp)
-                    }
-                }
-            }
-
-            AnimatedVisibility(
-                visible = state.goDeeperNudge.isNotBlank(),
-                enter = fadeIn() + slideInVertically { it / 3 },
-            ) {
-                Card(
-                    shape = RoundedCornerShape(18.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
-                    modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
-                ) {
-                    Row(Modifier.padding(16.dp), verticalAlignment = Alignment.Top) {
-                        Text(
-                            state.goDeeperNudge,
-                            style = MaterialTheme.typography.bodyLarge.copy(fontStyle = FontStyle.Italic),
-                            color = MaterialTheme.colorScheme.onSecondaryContainer,
-                            modifier = Modifier.weight(1f),
-                        )
-                        IconButton(onClick = { vm.dismissNudge() }) {
-                            Icon(Icons.Outlined.Close, contentDescription = "Dismiss",
-                                tint = MaterialTheme.colorScheme.onSecondaryContainer)
-                        }
-                    }
-                }
-            }
-
-            AnimatedVisibility(
-                visible = state.titleSuggestion.isNotBlank(),
-                enter = fadeIn() + slideInVertically { it / 3 },
-            ) {
-                Card(
-                    shape = RoundedCornerShape(18.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
-                    modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
-                ) {
-                    Column(Modifier.padding(16.dp)) {
-                        Text(
-                            "\u201C${state.titleSuggestion}\u201D",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer,
-                        )
-                        Spacer(Modifier.height(8.dp))
-                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                            TextButton(onClick = { vm.acceptTitleSuggestion() }) { Text("Use this") }
-                            TextButton(onClick = { vm.dismissTitleSuggestion() }) { Text("No thanks") }
-                        }
-                    }
-                }
-            }
-
-            if (state.hasLlm && state.savedAt != null && state.body.isNotBlank()) {
-                Spacer(Modifier.height(24.dp))
-                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    if (state.reflecting) {
-                        CircularProgressIndicator(modifier = Modifier.size(24.dp), strokeWidth = 2.dp)
-                    }
-
-                    ReflectionCard(
-                        questions = state.reflectionQuestions,
-                        visible = state.reflectionQuestions.isNotEmpty(),
-                    )
-
-                    if (state.reframeText.isBlank() && !state.reframing && state.reflectionQuestions.isNotEmpty()) {
-                        TextButton(onClick = { vm.requestReframe() }) {
-                            Text("See it from another angle")
-                        }
-                    }
-                    if (state.reframing) {
-                        CircularProgressIndicator(modifier = Modifier.size(24.dp), strokeWidth = 2.dp)
-                    }
-                    ReframeCard(
-                        text = state.reframeText,
-                        visible = state.reframeText.isNotBlank(),
-                    )
-                }
-            }
+            Spacer(Modifier.height(150.dp))
         }
     }
 }
 
 @Composable
-private fun GuidedJournalScreen(
-    vm: JournalEditorViewModel,
-    state: JournalEditorViewModel.UiState,
-    onBack: () -> Unit,
-    contentPadding: PaddingValues,
-) {
-    Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
-        topBar = {
-            TopAppBar(
-                title = { Text("Guided entry") },
-                navigationIcon = {
-                    IconButton(onClick = { vm.exitGuidedMode(); onBack() }) {
-                        Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Back")
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
-                ),
-            )
-        },
-    ) { inner ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(inner)
-                .padding(horizontal = 20.dp)
-                .verticalScroll(rememberScrollState())
-                .padding(
-                    top = 8.dp,
-                    bottom = contentPadding.calculateBottomPadding() + 24.dp,
-                ),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            Text(
-                "Answer what feels true. Short is fine.",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-
-            state.guidedExchanges.forEach { exchange ->
-                Card(
-                    shape = RoundedCornerShape(18.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    ),
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    Column(Modifier.padding(16.dp)) {
-                        Text(
-                            exchange.question,
-                            style = MaterialTheme.typography.bodyMedium.copy(fontStyle = FontStyle.Italic),
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                        Spacer(Modifier.height(6.dp))
-                        Text(
-                            exchange.answer,
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurface,
-                        )
-                    }
-                }
-            }
-
-            if (state.guidedGenerating) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    CircularProgressIndicator(modifier = Modifier.size(20.dp), strokeWidth = 2.dp)
-                    Spacer(Modifier.width(12.dp))
-                    Text(
-                        if (state.guidedComplete) "Weaving your entry\u2026" else "Thinking\u2026",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
-            }
-
-            if (!state.guidedComplete && !state.guidedGenerating && state.guidedCurrentQuestion.isNotBlank()) {
-                Text(
-                    state.guidedCurrentQuestion,
-                    style = MaterialTheme.typography.titleMedium.copy(fontStyle = FontStyle.Italic),
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-
-                OutlinedTextField(
-                    value = state.guidedAnswer,
-                    onValueChange = vm::onGuidedAnswerChange,
-                    placeholder = { Text("Your answer\u2026") },
-                    modifier = Modifier.fillMaxWidth(),
-                    minLines = 2,
-                )
-
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    Button(
-                        onClick = { vm.submitGuidedAnswer() },
-                        enabled = state.guidedAnswer.isNotBlank(),
-                    ) {
-                        Text("Next")
-                    }
-                    if (state.guidedExchanges.isNotEmpty()) {
-                        OutlinedButton(onClick = { vm.finishGuidedEarly() }) {
-                            Text("That's enough")
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun ColdOpenCard(
-    coldOpen: ColdOpenGenerator.ColdOpen,
-    onDismiss: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    Card(
-        shape = RoundedCornerShape(18.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-        ),
-        modifier = modifier.fillMaxWidth(),
+private fun GuidedNudge(onClick: () -> Unit) {
+    Surface(
+        onClick = onClick,
+        color = Color.White.copy(alpha = 0.08f),
+        shape = RoundedCornerShape(32.dp),
+        modifier = Modifier.fillMaxWidth()
     ) {
-        Column(Modifier.padding(16.dp)) {
-            IconButton(
-                onClick = onDismiss,
-                modifier = Modifier.padding(start = 0.dp),
-            ) {
-                Icon(
-                    Icons.Outlined.Close,
-                    contentDescription = "Dismiss",
-                    tint = MaterialTheme.colorScheme.onTertiaryContainer,
-                )
+        Row(Modifier.padding(20.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            Icon(Icons.Default.AutoAwesome, null, tint = Color.Cyan)
+            Column(Modifier.weight(1f)) {
+                Text("Deep Reflection", fontWeight = FontWeight.Bold, color = Color.White)
+                Text("Let AI guide your exploration", style = MaterialTheme.typography.labelMedium, color = Color.White.copy(alpha = 0.5f))
             }
-            Text(
-                coldOpen.reason,
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.onTertiaryContainer,
+            Icon(Icons.Default.ArrowCircleRight, null, tint = Color.White.copy(alpha = 0.2f))
+        }
+    }
+}
+
+@Composable
+private fun GuidedFlow(
+    viewModel: JournalEditorViewModel,
+    onComplete: () -> Unit,
+    onCancel: () -> Unit
+) {
+    val state by viewModel.state.collectAsState()
+    val scrollState = rememberScrollState()
+    
+    Column(Modifier.fillMaxSize()) {
+        Row(
+            Modifier.fillMaxWidth().statusBarsPadding().padding(28.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            TextButton(onClick = onCancel) { Text("Cancel", color = Color.White.copy(alpha = 0.6f)) }
+            Text("GUIDED", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Black, color = Color.White.copy(alpha = 0.4f), letterSpacing = 2.sp)
+            if (state.guidedExchanges.isNotEmpty()) {
+                TextButton(onClick = { viewModel.send(JournalEditorViewModel.Intent.FinishGuided); onComplete() }) {
+                    Text("Finish", fontWeight = FontWeight.Bold, color = Color.Cyan)
+                }
+            } else {
+                Spacer(Modifier.width(50.dp))
+            }
+        }
+
+        Column(Modifier.weight(1f).verticalScroll(scrollState).padding(horizontal = 28.dp), verticalArrangement = Arrangement.spacedBy(32.dp)) {
+            state.guidedExchanges.forEach { (q, a) ->
+                GuidedBubble(q, isUser = false)
+                GuidedBubble(a, isUser = true)
+            }
+            if (state.guidedCurrentQuestion.isNotBlank()) {
+                GuidedBubble(state.guidedCurrentQuestion, isUser = false)
+            }
+            if (state.isGenerating) {
+                CircularProgressIndicator(Modifier.size(24.dp).padding(4.dp), color = Color.White, strokeWidth = 2.dp)
+            }
+            Spacer(Modifier.height(40.dp))
+        }
+
+        if (state.guidedCurrentQuestion.isNotBlank() && !state.isGenerating) {
+            LiquidInputArea(
+                value = state.guidedAnswer,
+                onValueChange = { viewModel.send(JournalEditorViewModel.Intent.UpdateGuidedAnswer(it)) },
+                onSend = { viewModel.send(JournalEditorViewModel.Intent.SubmitGuidedAnswer) }
             )
-            Spacer(Modifier.height(6.dp))
-            Text(
-                "\u201C${coldOpen.snippet}\u201D",
-                style = MaterialTheme.typography.bodyMedium.copy(fontStyle = FontStyle.Italic),
-                color = MaterialTheme.colorScheme.onTertiaryContainer,
+        }
+    }
+    
+    LaunchedEffect(state.guidedExchanges.size, state.guidedCurrentQuestion) {
+        scrollState.animateScrollTo(scrollState.maxValue)
+    }
+}
+
+@Composable
+private fun GuidedBubble(text: String, isUser: Boolean) {
+    Row(Modifier.fillMaxWidth(), horizontalArrangement = if (isUser) Arrangement.End else Arrangement.Start) {
+        if (isUser) Spacer(Modifier.width(60.dp))
+        Text(
+            text = text,
+            modifier = Modifier
+                .clip(RoundedCornerShape(28.dp))
+                .background(if (isUser) WellnessPalette.Sage500.copy(alpha = 0.6f) else Color.Cyan.copy(alpha = 0.1f))
+                .padding(20.dp),
+            style = MaterialTheme.typography.bodyMedium.copy(
+                fontFamily = if (isUser) FontFamily.Default else FontFamily.Serif,
+                fontWeight = if (isUser) FontWeight.Bold else FontWeight.Medium
+            ),
+            color = Color.White
+        )
+        if (!isUser) Spacer(Modifier.width(60.dp))
+    }
+}
+
+@Composable
+private fun LiquidInputArea(
+    value: String,
+    onValueChange: (String) -> Unit,
+    onSend: () -> Unit
+) {
+    Surface(
+        color = Color.White.copy(alpha = 0.05f),
+        modifier = Modifier.fillMaxWidth().navigationBarsPadding()
+    ) {
+        Row(Modifier.padding(24.dp), verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            TextField(
+                value = value,
+                onValueChange = onValueChange,
+                modifier = Modifier.weight(1f),
+                placeholder = { Text("Type here…", color = Color.White.copy(alpha = 0.3f)) },
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.White.copy(alpha = 0.1f),
+                    unfocusedContainerColor = Color.White.copy(alpha = 0.1f),
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = Color.White
+                ),
+                shape = RoundedCornerShape(24.dp)
             )
-            Spacer(Modifier.height(4.dp))
-            Text(
-                "\u2014 ${coldOpen.title}",
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onTertiaryContainer.copy(alpha = 0.7f),
-            )
+            IconButton(
+                onClick = onSend,
+                enabled = value.isNotBlank(),
+                modifier = Modifier.size(54.dp).clip(CircleShape).background(if (value.isNotBlank()) Color.White else Color.White.copy(alpha = 0.2f))
+            ) {
+                Icon(Icons.Default.ArrowUpward, null, tint = WellnessPalette.LiquidDeep)
+            }
         }
     }
 }

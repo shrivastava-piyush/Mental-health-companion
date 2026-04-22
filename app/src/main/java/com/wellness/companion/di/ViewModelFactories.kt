@@ -3,6 +3,7 @@ package com.wellness.companion.di
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.wellness.companion.ui.home.HomeViewModel
 import com.wellness.companion.ui.insights.InsightsViewModel
 import com.wellness.companion.ui.journal.JournalEditorViewModel
 import com.wellness.companion.ui.journal.JournalListViewModel
@@ -10,6 +11,16 @@ import com.wellness.companion.ui.journal.ThreadDetailViewModel
 import com.wellness.companion.ui.mood.MoodViewModel
 
 object ViewModelFactories {
+
+    fun home(container: AppContainer): ViewModelProvider.Factory = viewModelFactory {
+        initializer { 
+            HomeViewModel(
+                container.moodRepository, 
+                container.journalRepository, 
+                container.reflectionEngine
+            ) 
+        }
+    }
 
     fun mood(container: AppContainer): ViewModelProvider.Factory = viewModelFactory {
         initializer { MoodViewModel(container.moodRepository, container.metricRepository) }

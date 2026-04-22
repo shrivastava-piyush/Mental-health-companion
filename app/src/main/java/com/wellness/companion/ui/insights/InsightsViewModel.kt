@@ -73,7 +73,7 @@ class InsightsViewModel(
 
             if (mirror != null && reflection != null) {
                 val narrative = reflection.narrateMirror(mirror)
-                _narrative.value = narrative?.text ?: ""
+                _narrative.value = narrative ?: ""
             }
         }
     }

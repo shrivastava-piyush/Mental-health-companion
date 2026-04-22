@@ -1,25 +1,20 @@
 package com.wellness.companion.ui.components
 
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Text
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.*
+import androidx.compose.ui.draw.*
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.*
 import com.wellness.companion.data.llm.ModelManager
+import com.wellness.companion.ui.theme.WellnessPalette
 
 @Composable
 fun ModelDownloadCard(
@@ -28,69 +23,67 @@ fun ModelDownloadCard(
     onDelete: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Card(
-        shape = RoundedCornerShape(22.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant,
-        ),
-        modifier = modifier.fillMaxWidth().animateContentSize(),
+    Surface(
+        color = Color.White.copy(alpha = 0.05f),
+        shape = RoundedCornerShape(32.dp),
+        modifier = modifier.fillMaxWidth().animateContentSize()
     ) {
-        Column(Modifier.padding(20.dp)) {
-            Text(
-                "Reflection engine",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-            Spacer(Modifier.height(4.dp))
-            Text(
-                "A small on-device model that asks you deeper questions about your entries. " +
-                    "Nothing leaves your phone.",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
-            )
-
-            Spacer(Modifier.height(12.dp))
+        Column(Modifier.padding(28.dp), verticalArrangement = Arrangement.spacedBy(20.dp)) {
+            Row(verticalAlignment = Alignment.Top) {
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    Text("REFLECTION ENGINE", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Black, letterSpacing = 2.sp, color = Color.White.copy(alpha = 0.4f))
+                    Text("Offline Intelligence", style = MaterialTheme.typography.headlineSmall, color = Color.White, fontWeight = FontWeight.Bold)
+                    Text("Private, on-device AI reflection helper", style = MaterialTheme.typography.bodySmall, color = Color.White.copy(alpha = 0.5f))
+                }
+                Icon(Icons.Default.Psychology, null, Modifier.size(32.dp), tint = Color.Cyan)
+            }
 
             when (status) {
                 is ModelManager.Status.NotDownloaded -> {
-                    Button(onClick = onDownload) {
-                        Text("Download (~600 MB)")
+                    Button(
+                        onClick = onDownload,
+                        modifier = Modifier.fillMaxWidth().height(54.dp),
+                        shape = CircleShape,
+                        colors = ButtonDefaults.buttonColors(containerColor = WellnessPalette.LiquidIndigo)
+                    ) {
+                        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                            Text("Download Assistant", fontWeight = FontWeight.Bold)
+                            Text("600 MB", style = MaterialTheme.typography.labelSmall, color = Color.White.copy(alpha = 0.6f))
+                        }
                     }
                 }
                 is ModelManager.Status.Downloading -> {
-                    LinearProgressIndicator(
-                        progress = { status.progress },
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                    Spacer(Modifier.height(4.dp))
-                    Text(
-                        "${(status.progress * 100).toInt()}%",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(20.dp)) {
+                        Box(contentAlignment = Alignment.Center) {
+                            CircularProgressIndicator(
+                                progress = { status.progress },
+                                color = Color.Cyan,
+                                trackColor = Color.White.copy(alpha = 0.1f),
+                                strokeWidth = 4.dp,
+                                modifier = Modifier.size(44.dp)
+                            )
+                            Text("${(status.progress * 100).toInt()}%", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Black, color = Color.White, fontSize = 8.sp)
+                        }
+                        Text("Loading Intelligence…", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, color = Color.White.copy(alpha = 0.6f))
+                    }
                 }
                 is ModelManager.Status.Ready -> {
-                    Row {
-                        Text(
-                            "Ready",
-                            style = MaterialTheme.typography.labelLarge,
-                            color = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.weight(1f).padding(top = 8.dp),
-                        )
-                        OutlinedButton(onClick = onDelete) {
-                            Text("Remove")
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.weight(1f)) {
+                            Icon(Icons.Default.CheckCircle, null, tint = Color.Cyan, modifier = Modifier.size(20.dp))
+                            Text("Engine Ready", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold, color = Color.Cyan)
+                        }
+                        TextButton(onClick = onDelete) {
+                            Text("Remove", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, color = Color.White.copy(alpha = 0.4f))
                         }
                     }
                 }
                 is ModelManager.Status.Error -> {
-                    Text(
-                        status.message,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.error,
-                    )
-                    Spacer(Modifier.height(8.dp))
-                    Button(onClick = onDownload) {
-                        Text("Retry")
+                    Column(horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Text(status.message, color = Color.Red, style = MaterialTheme.typography.labelSmall)
+                        Button(onClick = onDownload, colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(alpha = 0.1f))) {
+                            Text("Retry Download", fontWeight = FontWeight.Bold)
+                        }
                     }
                 }
             }

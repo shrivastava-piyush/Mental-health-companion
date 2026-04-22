@@ -1,216 +1,155 @@
 package com.wellness.companion.ui.journal
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.animation.*
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.shape.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.*
+import androidx.compose.ui.draw.*
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.ui.unit.*
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.itemKey
 import com.wellness.companion.data.db.JournalSummary
 import com.wellness.companion.data.db.entities.NarrativeThread
 import com.wellness.companion.di.AppContainer
 import com.wellness.companion.di.ViewModelFactories
+import com.wellness.companion.ui.components.LiquidAura
+import com.wellness.companion.ui.theme.WellnessPalette
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.util.*
 
 @Composable
 fun JournalListScreen(
     container: AppContainer,
     onOpen: (Long?) -> Unit,
     onOpenThread: (Long, String) -> Unit,
-    contentPadding: PaddingValues,
+    contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
-    val vm: JournalListViewModel = viewModel(factory = ViewModelFactories.journalList(container))
-    val items = vm.pager.collectAsLazyPagingItems()
-    val threads by vm.threads.collectAsStateWithLifecycle()
+    val viewModel: JournalListViewModel = viewModel(factory = ViewModelFactories.journalList(container))
+    val state by viewModel.state.collectAsState()
 
-    Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
-        floatingActionButton = {
-            ExtendedFloatingActionButton(
-                onClick = { onOpen(null) },
-                icon = { Icon(Icons.Filled.Add, contentDescription = null) },
-                text = { Text("New entry") },
-            )
-        },
-    ) { inner ->
+    Box(Modifier.fillMaxSize()) {
+        LiquidAura()
+
         LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(inner),
-            contentPadding = PaddingValues(
-                start = 20.dp, end = 20.dp,
-                top = contentPadding.calculateTopPadding() + 12.dp,
-                bottom = contentPadding.calculateBottomPadding() + 96.dp,
-            ),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .statusBarsPadding()
+                .padding(contentPadding),
+            contentPadding = PaddingValues(horizontal = 28.dp, vertical = 20.dp)
         ) {
             item {
-                Text(
-                    "Your journal",
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-                Text(
-                    "On-device only. Not backed up, not shared.",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
+                Column(horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text("REFLECTIONS", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Black, letterSpacing = 2.sp, color = Color.White.copy(alpha = 0.4f))
+                    Text("Library", style = MaterialTheme.typography.displayMedium, fontWeight = FontWeight.Bold, color = Color.White)
+                    Text("${state.entries.size} notes captured in sanctuary", style = MaterialTheme.typography.bodyMedium, color = Color.White.copy(alpha = 0.5f))
+                }
+                Spacer(Modifier.height(40.dp))
             }
 
-            // ── Narrative Threads (horizontal scrollable chips) ────────
-            if (threads.isNotEmpty()) {
+            if (state.threads.isNotEmpty()) {
                 item {
-                    Spacer(Modifier.height(4.dp))
-                    Text(
-                        "Your threads",
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onBackground,
-                    )
-                    Spacer(Modifier.height(8.dp))
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .horizontalScroll(rememberScrollState()),
-                        horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    ) {
-                        threads.forEach { thread ->
-                            ThreadChip(thread) { onOpenThread(thread.id, thread.label) }
+                    Text("THEMES", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Black, letterSpacing = 2.sp, color = Color.White.copy(alpha = 0.4f))
+                    Spacer(Modifier.height(20.dp))
+                    LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                        items(state.threads) { thread ->
+                            ThreadBubble(thread) { onOpenThread(thread.id, thread.label) }
                         }
                     }
+                    Spacer(Modifier.height(40.dp))
                 }
             }
 
-            if (items.itemCount == 0 && threads.isEmpty()) {
+            item {
+                Text("TIMELINE", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Black, letterSpacing = 2.sp, color = Color.White.copy(alpha = 0.4f))
+                Spacer(Modifier.height(24.dp))
+            }
+
+            if (state.entries.isEmpty()) {
                 item {
-                    Box(
-                        modifier = Modifier.fillMaxWidth().padding(vertical = 56.dp),
-                        contentAlignment = Alignment.Center,
+                    Column(
+                        Modifier.fillMaxWidth().padding(top = 40.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        Text(
-                            "No entries yet.\nWrite freely — it stays on this device.",
-                            textAlign = TextAlign.Center,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
+                        Icon(Icons.Default.AutoStories, null, Modifier.size(48.dp), tint = Color.White.copy(alpha = 0.1f))
+                        Text("Your story begins here.", style = MaterialTheme.typography.titleMedium, color = Color.White.copy(alpha = 0.3f), fontWeight = FontWeight.Medium)
                     }
                 }
-            }
-
-            if (items.itemCount > 0) {
-                item {
-                    Spacer(Modifier.height(4.dp))
-                    Text("All entries", style = MaterialTheme.typography.titleMedium)
+            } else {
+                items(state.entries) { summary ->
+                    LiquidEntryCard(summary) { onOpen(summary.id) }
+                    Spacer(Modifier.height(20.dp))
                 }
             }
 
-            items(
-                count = items.itemCount,
-                key = items.itemKey { it.id },
-            ) { i ->
-                val summary = items[i]
-                if (summary != null) JournalRow(summary) { onOpen(summary.id) }
+            item { Spacer(Modifier.height(150.dp)) }
+        }
+
+        // FAB
+        Box(Modifier.fillMaxSize().padding(28.dp), contentAlignment = Alignment.BottomEnd) {
+            FloatingActionButton(
+                onClick = { onOpen(null) },
+                containerColor = WellnessPalette.Sage500,
+                contentColor = Color.White,
+                shape = CircleShape,
+                modifier = Modifier.size(72.dp)
+            ) {
+                Icon(Icons.Default.Add, null, Modifier.size(32.dp))
             }
         }
     }
 }
 
 @Composable
-private fun ThreadChip(thread: NarrativeThread, onClick: () -> Unit) {
-    Card(
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = if (thread.status == "ongoing")
-                MaterialTheme.colorScheme.secondaryContainer
-            else
-                MaterialTheme.colorScheme.surfaceVariant,
-        ),
-        modifier = Modifier.clickable(onClick = onClick),
+private fun ThreadBubble(thread: NarrativeThread, onClick: () -> Unit) {
+    Surface(
+        onClick = onClick,
+        modifier = Modifier.size(width = 150.dp, height = 130.dp),
+        color = Color.White.copy(alpha = 0.08f),
+        shape = RoundedCornerShape(32.dp),
+        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.1f))
     ) {
-        Column(Modifier.padding(horizontal = 16.dp, vertical = 12.dp).width(140.dp)) {
-            Text(
-                thread.label,
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSecondaryContainer,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-            Spacer(Modifier.height(4.dp))
-            Text(
-                "${thread.entryCount} entries",
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f),
-            )
-            Text(
-                thread.status.replaceFirstChar { it.titlecase(Locale.getDefault()) },
-                style = MaterialTheme.typography.labelMedium,
-                color = if (thread.status == "ongoing")
-                    MaterialTheme.colorScheme.primary
-                else
-                    MaterialTheme.colorScheme.onSurfaceVariant,
-            )
+        Column(Modifier.padding(20.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
+            Icon(Icons.Default.AutoAwesome, null, Modifier.size(24.dp), tint = Color.Cyan)
+            Column {
+                Text(thread.label, style = MaterialTheme.typography.titleSmall, color = Color.White, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                Text("${thread.entryCount} entries", style = MaterialTheme.typography.labelSmall, color = Color.White.copy(alpha = 0.4f))
+            }
         }
     }
 }
 
 @Composable
-private fun JournalRow(summary: JournalSummary, onClick: () -> Unit) {
-    Card(
-        shape = RoundedCornerShape(18.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        modifier = Modifier.fillMaxWidth().clickable(onClick = onClick),
+private fun LiquidEntryCard(summary: JournalSummary, onClick: () -> Unit) {
+    Surface(
+        onClick = onClick,
+        modifier = Modifier.fillMaxWidth(),
+        color = Color.White.copy(alpha = 0.05f),
+        shape = RoundedCornerShape(32.dp),
+        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.05f))
     ) {
-        Column(Modifier.padding(16.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    summary.title,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(1f),
-                )
-                Text(
-                    dateFormatter.format(Date(summary.updatedAt)),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
+        Row(Modifier.padding(24.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(24.dp)) {
+            Column(horizontalAlignment = Alignment.Start) {
+                Text(formatDay(summary.createdAt), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Black, color = Color.White)
+                Text(formatMonth(summary.createdAt).uppercase(), style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Black, color = Color.White.copy(alpha = 0.4f))
             }
-            Text(
-                "${summary.wordCount} words",
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
+            Column(Modifier.weight(1f)) {
+                Text(summary.title, style = MaterialTheme.typography.titleMedium, color = Color.White, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text("${summary.wordCount} words • ${formatTime(summary.createdAt)}", style = MaterialTheme.typography.labelMedium, color = Color.White.copy(alpha = 0.4f))
+            }
+            Icon(Icons.Default.ChevronRight, null, tint = Color.White.copy(alpha = 0.2f))
         }
     }
 }
 
-private val dateFormatter = SimpleDateFormat("MMM d", Locale.getDefault())
+private fun formatDay(millis: Long): String = SimpleDateFormat("dd", Locale.getDefault()).format(Date(millis))
+private fun formatMonth(millis: Long): String = SimpleDateFormat("MMM", Locale.getDefault()).format(Date(millis))
+private fun formatTime(millis: Long): String = SimpleDateFormat("h:mm a", Locale.getDefault()).format(Date(millis))

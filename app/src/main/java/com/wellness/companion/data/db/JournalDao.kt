@@ -18,11 +18,6 @@ interface JournalDao {
     @Update
     suspend fun update(entry: JournalEntry)
 
-    /**
-     * Paging source deliberately projects only the columns the list renders,
-     * so the expensive `body` TEXT blob never crosses the JNI boundary until
-     * the user opens an entry.
-     */
     @Query(
         """
         SELECT id, createdAt, updatedAt, title, wordCount
@@ -31,6 +26,15 @@ interface JournalDao {
         """
     )
     fun pagingSummaries(): PagingSource<Int, JournalSummary>
+
+    @Query(
+        """
+        SELECT id, createdAt, updatedAt, title, wordCount
+        FROM journal_entries
+        ORDER BY createdAt DESC
+        """
+    )
+    fun observeSummaries(): Flow<List<JournalSummary>>
 
     @Query("SELECT * FROM journal_entries WHERE id = :id LIMIT 1")
     fun observeById(id: Long): Flow<JournalEntry?>

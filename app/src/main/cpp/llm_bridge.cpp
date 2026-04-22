@@ -1,8 +1,8 @@
 #include <jni.h>
 #include <string>
 #include <android/log.h>
+#include <vector>
 #include "llama.h"
-#include "common.h"
 
 #define TAG "LlmBridge"
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO, TAG, __VA_ARGS__)
@@ -14,6 +14,12 @@ static std::string jstring_to_string(JNIEnv *env, jstring jstr) {
     env->ReleaseStringUTFChars(jstr, raw);
     return result;
 }
+
+struct LlmHandle {
+    llama_model *model;
+    llama_context *ctx;
+    const llama_vocab *vocab;
+};
 
 extern "C" {
 
@@ -30,7 +36,7 @@ Java_com_wellness_companion_data_llm_LlamaBridge_loadModel(
     std::string model_path = jstring_to_string(env, path);
     LOGI("Loading model: %s", model_path.c_str());
 
-    llama_model *model = llama_load_model_from_file(model_path.c_str(), params);
+    llama_model *model = llama_model_load_from_file(model_path.c_str(), params);
     if (!model) {
         LOGE("Failed to load model");
         return 0;
@@ -40,19 +46,14 @@ Java_com_wellness_companion_data_llm_LlamaBridge_loadModel(
     ctx_params.n_ctx = context_size;
     ctx_params.n_threads = 4;
 
-    llama_context *ctx = llama_new_context_with_model(model, ctx_params);
+    llama_context *ctx = llama_init_from_model(model, ctx_params);
     if (!ctx) {
         LOGE("Failed to create context");
-        llama_free_model(model);
+        llama_model_free(model);
         return 0;
     }
 
-    // Pack model + context into a simple struct on the heap.
-    struct LlmHandle {
-        llama_model *model;
-        llama_context *ctx;
-    };
-    auto *handle = new LlmHandle{model, ctx};
+    auto *handle = new LlmHandle{model, ctx, llama_model_get_vocab(model)};
     LOGI("Model loaded successfully");
     return reinterpret_cast<jlong>(handle);
 }
@@ -62,13 +63,9 @@ Java_com_wellness_companion_data_llm_LlamaBridge_unloadModel(
     JNIEnv * /* env */, jobject /* this */, jlong handle_ptr
 ) {
     if (handle_ptr == 0) return;
-    struct LlmHandle {
-        llama_model *model;
-        llama_context *ctx;
-    };
     auto *handle = reinterpret_cast<LlmHandle *>(handle_ptr);
     llama_free(handle->ctx);
-    llama_free_model(handle->model);
+    llama_model_free(handle->model);
     delete handle;
     llama_backend_free();
     LOGI("Model unloaded");
@@ -84,111 +81,72 @@ Java_com_wellness_companion_data_llm_LlamaBridge_generate(
     jfloat temperature,
     jfloat top_p
 ) {
-    if (handle_ptr == 0) {
-        return env->NewStringUTF("");
-    }
-
-    struct LlmHandle {
-        llama_model *model;
-        llama_context *ctx;
-    };
+    if (handle_ptr == 0) return env->NewStringUTF("");
     auto *handle = reinterpret_cast<LlmHandle *>(handle_ptr);
+    auto *model = handle->model;
+    auto *ctx = handle->ctx;
+    auto *vocab = handle->vocab;
 
     std::string sys = jstring_to_string(env, system_prompt);
     std::string usr = jstring_to_string(env, user_prompt);
 
-    // Build chat-style prompt using ChatML format (works with most GGUF models).
-    std::string prompt =
-        "<|im_start|>system\n" + sys + "<|im_end|>\n"
-        "<|im_start|>user\n" + usr + "<|im_end|>\n"
-        "<|im_start|>assistant\n";
+    std::string prompt = "<|im_start|>system\n" + sys + "<|im_end|>\n<|im_start|>user\n" + usr + "<|im_end|>\n<|im_start|>assistant\n";
 
-    // Tokenize.
-    auto *model = handle->model;
-    auto *ctx = handle->ctx;
-    int n_ctx = llama_n_ctx(ctx);
-
-    std::vector<llama_token> tokens(n_ctx);
-    int n_tokens = llama_tokenize(
-        model, prompt.c_str(), prompt.size(),
-        tokens.data(), tokens.size(),
-        true, false
-    );
-    if (n_tokens < 0) {
-        LOGE("Tokenization failed");
-        return env->NewStringUTF("");
-    }
+    std::vector<llama_token> tokens(prompt.size() + 32);
+    int n_tokens = llama_tokenize(vocab, prompt.c_str(), prompt.size(), tokens.data(), tokens.size(), true, true);
+    if (n_tokens < 0) return env->NewStringUTF("");
     tokens.resize(n_tokens);
 
-    // Clear KV cache for fresh generation.
-    llama_kv_cache_clear(ctx);
+    llama_memory_clear(llama_get_memory(ctx), true);
 
-    // Evaluate prompt tokens.
     llama_batch batch = llama_batch_init(n_tokens, 0, 1);
     for (int i = 0; i < n_tokens; i++) {
-        llama_batch_add(batch, tokens[i], i, {0}, false);
+        batch.token[i] = tokens[i];
+        batch.pos[i] = i;
+        batch.n_seq_id[i] = 1;
+        batch.seq_id[i][0] = 0;
+        batch.logits[i] = (i == n_tokens - 1);
     }
-    batch.logits[batch.n_tokens - 1] = true;
+    batch.n_tokens = n_tokens;
 
     if (llama_decode(ctx, batch) != 0) {
-        LOGE("Decode failed");
         llama_batch_free(batch);
         return env->NewStringUTF("");
     }
 
-    // Sample tokens.
     std::string result;
-    int n_generated = 0;
+    auto *smpl = llama_sampler_chain_init(llama_sampler_chain_default_params());
+    llama_sampler_chain_add(smpl, llama_sampler_init_temp(temperature));
+    llama_sampler_chain_add(smpl, llama_sampler_init_top_p(top_p, 1));
+    llama_sampler_chain_add(smpl, llama_sampler_init_dist(1234));
 
-    while (n_generated < max_tokens) {
-        auto *logits = llama_get_logits_ith(ctx, batch.n_tokens - 1);
-        int n_vocab = llama_n_vocab(model);
-
-        std::vector<llama_token_data> candidates(n_vocab);
-        for (int i = 0; i < n_vocab; i++) {
-            candidates[i] = {i, logits[i], 0.0f};
-        }
-        llama_token_data_array candidates_arr = {candidates.data(), (size_t)n_vocab, false};
-
-        llama_sample_temp(ctx, &candidates_arr, temperature);
-        llama_sample_top_p(ctx, &candidates_arr, top_p, 1);
-        llama_token new_token = llama_sample_token(ctx, &candidates_arr);
-
-        if (llama_token_is_eog(model, new_token)) break;
+    for (int i = 0; i < max_tokens; i++) {
+        llama_token next = llama_sampler_sample(smpl, ctx, -1);
+        if (llama_vocab_is_eog(vocab, next)) break;
 
         char buf[256];
-        int len = llama_token_to_piece(model, new_token, buf, sizeof(buf), 0, false);
-        if (len > 0) {
-            result.append(buf, len);
-        }
+        int len = llama_token_to_piece(vocab, next, buf, sizeof(buf), 0, false);
+        if (len > 0) result.append(buf, len);
+        if (result.find("<|im_end|>") != std::string::npos) break;
 
-        // Check for ChatML end tag.
-        if (result.find("<|im_end|>") != std::string::npos) {
-            auto pos = result.find("<|im_end|>");
-            result = result.substr(0, pos);
-            break;
-        }
-
-        // Prepare next batch.
         llama_batch_free(batch);
         batch = llama_batch_init(1, 0, 1);
-        llama_batch_add(batch, new_token, n_tokens + n_generated, {0}, true);
+        batch.token[0] = next;
+        batch.pos[0] = n_tokens + i;
+        batch.n_seq_id[0] = 1;
+        batch.seq_id[0][0] = 0;
+        batch.logits[0] = true;
+        batch.n_tokens = 1;
 
-        if (llama_decode(ctx, batch) != 0) {
-            LOGE("Decode step failed");
-            break;
-        }
-
-        n_generated++;
+        if (llama_decode(ctx, batch) != 0) break;
     }
 
+    llama_sampler_free(smpl);
     llama_batch_free(batch);
 
-    // Trim whitespace.
-    while (!result.empty() && (result.back() == ' ' || result.back() == '\n')) {
-        result.pop_back();
-    }
-
+    size_t pos = result.find("<|im_end|>");
+    if (pos != std::string::npos) result = result.substr(0, pos);
+    
     return env->NewStringUTF(result.c_str());
 }
 
