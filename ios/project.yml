@@ -189,6 +189,7 @@ targets:
       - path: WellnessCompanion/Domain/Atmosphere/AtmosphereManager.swift
       - path: WellnessCompanion/App/WellnessContentProvider.swift
       - path: WellnessCompanion/UI/Components/AnimatedQuoteView.swift
+      - path: WellnessCompanion/UI/Components/MirrorAvatar.swift
       - path: WellnessCompanion/UI/Components/FlowLayout.swift
       - path: WellnessCompanion/UI/Components/LiquidAura.swift
       - path: WellnessCompanion/App/Assets.xcassets

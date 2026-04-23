@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00C822ED895AEADD4C923D1E /* MirrorAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A2EE8F65450B8AA6842577 /* MirrorAvatar.swift */; };
 		01CBB15056331E18EF06352D /* gptneox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FE2EBEE08DED85B0C6EA326 /* gptneox.cpp */; };
 		01CC419F3DD6E2033B2C0851 /* TextAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165B8322DE3E0ADD20AF3A41 /* TextAnalyzer.swift */; };
 		0217D47609055384B13651D0 /* stablelm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7AAE139A44C299067378B89B /* stablelm.cpp */; };
@@ -368,6 +369,7 @@
 		CEDD0FC46F07995A90C3527D /* cogvlm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cogvlm.cpp; sourceTree = "<group>"; };
 		CEFCE4887A7F93948B8F3362 /* deepseek2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = deepseek2.cpp; sourceTree = "<group>"; };
 		D318F6E8537C4028A5B8AA3C /* jamba.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = jamba.cpp; sourceTree = "<group>"; };
+		D3A2EE8F65450B8AA6842577 /* MirrorAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MirrorAvatar.swift; sourceTree = "<group>"; };
 		D3FC7F77E3DE5D1AAF8DC7CC /* arcee.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = arcee.cpp; sourceTree = "<group>"; };
 		D5410FFFCE8045AA5452528E /* llama-model.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-model.cpp"; sourceTree = "<group>"; };
 		D6D3FA8B2F7DE096BFF9FA85 /* llama-model-impl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "llama-model-impl.cpp"; path = llama.cpp; sourceTree = "<group>"; };
@@ -765,6 +767,7 @@
 				7DDA93EC9FA904C93D70B08A /* AnimatedQuoteView.swift */,
 				3DAB8A536D0F9E2218CDA189 /* FlowLayout.swift */,
 				D7C4CB6B5A5D0D1F0BBB8A3E /* LiquidAura.swift */,
+				D3A2EE8F65450B8AA6842577 /* MirrorAvatar.swift */,
 				160E296A2C559D9B667B40D6 /* MoodTrendChartView.swift */,
 			);
 			path = Components;
@@ -961,6 +964,7 @@
 				2DCF7E274B8FE90837BC6A1D /* LlamaEngine.swift in Sources */,
 				E7FBDD28F125294D2A52298C /* LlmPrompts.swift in Sources */,
 				04270E0E53EEF5FC1BFEF87A /* MetricStore.swift in Sources */,
+				00C822ED895AEADD4C923D1E /* MirrorAvatar.swift in Sources */,
 				2E0774CBC75EB454E9644364 /* MirrorGenerator.swift in Sources */,
 				909B95F21D5CDA614B337C9D /* ModelManager.swift in Sources */,
 				CD6EB0C4CB2562304D8773B0 /* MoodScreen.swift in Sources */,

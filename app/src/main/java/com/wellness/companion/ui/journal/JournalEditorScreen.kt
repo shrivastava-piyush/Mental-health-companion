@@ -21,6 +21,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.wellness.companion.di.AppContainer
 import com.wellness.companion.di.ViewModelFactories
 import com.wellness.companion.ui.components.LiquidAura
+import com.wellness.companion.ui.components.MirrorAvatar
 import com.wellness.companion.ui.theme.WellnessPalette
 
 @Composable
@@ -187,6 +188,11 @@ private fun GuidedFlow(
         }
 
         Column(Modifier.weight(1f).verticalScroll(scrollState).padding(horizontal = 28.dp), verticalArrangement = Arrangement.spacedBy(40.dp)) {
+            // THE MIRROR AVATAR (VIDEO CHARACTER)
+            Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                MirrorAvatar()
+            }
+            
             state.guidedExchanges.forEach { (q, a) ->
                 VStack(alignment = Alignment.Start, spacing = 20.dp) {
                     Text(q, fontStyle = FontStyle.Italic, fontWeight = FontWeight.Bold, color = Color.Cyan.copy(alpha = 0.8f))
@@ -258,4 +264,4 @@ private fun VStack(modifier: Modifier = Modifier, alignment: Alignment.Horizonta
     Column(modifier, horizontalAlignment = alignment, verticalArrangement = Arrangement.spacedBy(spacing), content = content)
 }
 
-private fun Modifier.id(id: String) = this // Simple helper for id
+private fun Modifier.id(id: String) = this 

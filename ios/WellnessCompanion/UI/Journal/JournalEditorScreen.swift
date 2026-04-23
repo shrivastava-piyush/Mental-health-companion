@@ -176,6 +176,11 @@ struct GuidedEntryView: View {
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(spacing: 40) {
+                        // The Mirror Persona (Animated Video Character)
+                        MirrorAvatar()
+                            .padding(.top, 20)
+                            .transition(.scale.combined(with: .opacity))
+
                         ForEach(Array(exchanges.enumerated()), id: \.offset) { _, pair in
                             VStack(alignment: .leading, spacing: 20) {
                                 Text(pair.0).font(.system(size: 18, weight: .bold, design: .serif)).foregroundStyle(.cyan.opacity(0.8))
