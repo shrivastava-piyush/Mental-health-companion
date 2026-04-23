@@ -10,26 +10,17 @@ struct ScrollOffsetKey: PreferenceKey {
 
 struct HomeScreen: View {
     @EnvironmentObject private var container: AppContainer
-    @Environment(\.openReflection) private var openReflection
+    @Environment(\.globalNav) private var globalNav
     @Binding var scrollOffset: CGFloat
     
     @State private var recentMood: MoodEntry?
     @State private var recentJournal: JournalSummary?
-    @State private var showMoodLog = false
     
     @State private var selectedQuote = ("Focus on the present moment.", "Breathe")
     @State private var currentCategory: MoodCategory = .neutral
     @State private var aiSpark: String? = nil
 
     var body: some View {
-        todayContent
-            .onAppear(perform: loadData)
-            .fullScreenCover(isPresented: $showMoodLog, onDismiss: loadData) {
-                MoodScreen()
-            }
-    }
-    
-    private var todayContent: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .center, spacing: 60) {
                 
@@ -62,10 +53,10 @@ struct HomeScreen: View {
                     }
                 }
                 
-                // 3. Redesigned Check-in (Subtle Glassy Card)
+                // 3. Redesigned Check-in (In-place Fragment Trigger)
                 Button {
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    showMoodLog = true
+                    UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+                    globalNav(.mood)
                 } label: {
                     HStack(spacing: 20) {
                         ZStack {
@@ -108,6 +99,7 @@ struct HomeScreen: View {
         .onPreferenceChange(ScrollOffsetKey.self) { value in
             scrollOffset = value
         }
+        .onAppear(perform: loadData)
     }
     
     @ViewBuilder
@@ -118,20 +110,25 @@ struct HomeScreen: View {
                 
                 VStack(spacing: 16) {
                     if let mood = recentMood {
-                        HStack(spacing: 16) {
-                            Text(moodEmoji(for: mood.valence)).font(.title2)
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(mood.label.isEmpty ? "Mood Logged" : mood.label).font(.subheadline.bold())
-                                Text(formatRelativeDate(mood.createdAt)).font(.caption).foregroundStyle(.white.opacity(0.4))
+                        Button {
+                            globalNav(.mood)
+                        } label: {
+                            HStack(spacing: 16) {
+                                Text(moodEmoji(for: mood.valence)).font(.title2)
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(mood.label.isEmpty ? "Mood Logged" : mood.label).font(.subheadline.bold())
+                                    Text(formatRelativeDate(mood.createdAt)).font(.caption).foregroundStyle(.white.opacity(0.4))
+                                }
+                                Spacer()
                             }
-                            Spacer()
+                            .padding(20).background(.white.opacity(0.05)).clipShape(RoundedRectangle(cornerRadius: 24))
                         }
-                        .padding(20).background(.white.opacity(0.05)).clipShape(RoundedRectangle(cornerRadius: 24))
+                        .buttonStyle(.plain)
                     }
                     
                     if let journal = recentJournal {
                         Button {
-                            openReflection(journal.id, nil)
+                            globalNav(.reflection(id: journal.id, prompt: nil))
                         } label: {
                             HStack(spacing: 16) {
                                 Image(systemName: "text.quote").foregroundStyle(.cyan)
@@ -152,7 +149,7 @@ struct HomeScreen: View {
     
     private func sparkPill(text: String, isAi: Bool = false) -> some View {
         Button { 
-            openReflection(nil, text)
+            globalNav(.reflection(id: nil, prompt: text))
         } label: {
             VStack(alignment: .leading, spacing: 10) {
                 if isAi {

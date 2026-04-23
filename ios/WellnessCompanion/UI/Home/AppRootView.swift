@@ -1,14 +1,20 @@
 import SwiftUI
 
-/// Environment key to trigger reflection from children in-place (Fragment pattern).
-private struct OpenReflectionKey: EnvironmentKey {
-    static let defaultValue: (Int64?, String?) -> Void = { _, _ in }
+/// Environment key to trigger reflection or mood from children in-place (Fragment pattern).
+private struct GlobalNavKey: EnvironmentKey {
+    static let defaultValue: (NavTarget) -> Void = { _ in }
+}
+
+enum NavTarget {
+    case home
+    case reflection(id: Int64?, prompt: String?)
+    case mood
 }
 
 extension EnvironmentValues {
-    var openReflection: (Int64?, String?) -> Void {
-        get { self[OpenReflectionKey.self] }
-        set { self[OpenReflectionKey.self] = newValue }
+    var globalNav: (NavTarget) -> Void {
+        get { self[GlobalNavKey.self] }
+        set { self[GlobalNavKey.self] = newValue }
     }
 }
 
@@ -18,8 +24,7 @@ struct AppRootView: View {
     @State private var scrollOffset: CGFloat = 0
     
     // Global Navigation State for "Fragments"
-    @State private var globalActiveReflectionId: Int64? = nil
-    @State private var globalActiveReflectionPrompt: String? = nil
+    @State private var activeFragment: NavTarget = .home
 
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -29,17 +34,26 @@ struct AppRootView: View {
             
             // 2. Content Stack (The "Fragments")
             ZStack {
-                if let id = globalActiveReflectionId {
-                    // Fragment: Reflection Editor (Replaces content in-place)
-                    JournalEditorScreen(entryId: id > 0 ? id : nil, initialBody: globalActiveReflectionPrompt) {
+                switch activeFragment {
+                case .reflection(let id, let prompt):
+                    JournalEditorScreen(entryId: id, initialBody: prompt) {
                         withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
-                            globalActiveReflectionId = nil
-                            globalActiveReflectionPrompt = nil
+                            activeFragment = .home
                         }
                     }
                     .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
                     .zIndex(1)
-                } else {
+                    
+                case .mood:
+                    MoodScreen {
+                        withAnimation(.spring(response: 0.6, dampingFraction: 0.8)) {
+                            activeFragment = .home
+                        }
+                    }
+                    .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
+                    .zIndex(1)
+                    
+                case .home:
                     // Main Tabs
                     Group {
                         switch selectedTab {
@@ -53,15 +67,14 @@ struct AppRootView: View {
                     .zIndex(0)
                 }
             }
-            .environment(\.openReflection, { id, prompt in
+            .environment(\.globalNav, { target in
                 withAnimation(.spring()) {
-                    globalActiveReflectionId = id ?? -1
-                    globalActiveReflectionPrompt = prompt
+                    activeFragment = target
                 }
             })
             
-            // 3. Floating Navigation (Only show if not in editor)
-            if globalActiveReflectionId == nil {
+            // 3. Floating Navigation (Only show if on main tabs)
+            if case .home = activeFragment {
                 pillNavigationBar
                     .padding(.bottom, 24)
                     .transition(.move(edge: .bottom).combined(with: .opacity))
