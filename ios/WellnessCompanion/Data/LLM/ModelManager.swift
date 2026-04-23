@@ -44,7 +44,11 @@ final class ModelManager: ObservableObject {
                     return
                 }
 
-                let (asyncBytes, response) = try await URLSession.shared.bytes(for: remoteURL)
+                var request = URLRequest(url: remoteURL)
+                request.timeoutInterval = 60
+
+                // FIX: Pass the 'request' instead of 'remoteURL' to ensure compatibility
+                let (asyncBytes, response) = try await URLSession.shared.bytes(for: request)
                 guard let httpResponse = response as? HTTPURLResponse,
                       (200...299).contains(httpResponse.statusCode) else {
                     await MainActor.run { self.status = .error("Server error: \((response as? HTTPURLResponse)?.statusCode ?? 0)") }
@@ -59,20 +63,17 @@ final class ModelManager: ObservableObject {
                 var downloaded: Int64 = 0
                 var lastUpdate = Date()
                 
-                // --- HIGH PERFORMANCE BUFFERING ---
                 var buffer = Data()
-                buffer.reserveCapacity(64 * 1024) // 64KB Buffer
+                buffer.reserveCapacity(64 * 1024) 
 
                 for try await byte in asyncBytes {
                     buffer.append(byte)
                     downloaded += 1
                     
-                    // Write to disk every 64KB or when finished
                     if buffer.count >= 65536 {
                         try handle.write(contentsOf: buffer)
                         buffer.removeAll(keepingCapacity: true)
                         
-                        // Update UI at 30fps max to prevent stutter
                         if Date().timeIntervalSince(lastUpdate) > 0.033 {
                             let progress = totalSize > 0 ? Float(downloaded) / Float(totalSize) : 0
                             await MainActor.run { self.status = .downloading(progress) }
@@ -81,7 +82,6 @@ final class ModelManager: ObservableObject {
                     }
                 }
                 
-                // Final flush
                 if !buffer.isEmpty {
                     try handle.write(contentsOf: buffer)
                 }
