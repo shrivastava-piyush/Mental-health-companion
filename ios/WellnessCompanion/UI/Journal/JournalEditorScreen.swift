@@ -110,8 +110,8 @@ struct JournalEditorScreen: View {
                     .foregroundStyle(.cyan)
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Deep Reflection").font(.headline).foregroundStyle(.white)
-                    Text("Let AI guide your exploration").font(.caption).foregroundStyle(.white.opacity(0.5))
+                    Text("Analytic Reflection").font(.headline).foregroundStyle(.white)
+                    Text("Expose hidden tensions").font(.caption).foregroundStyle(.white.opacity(0.5))
                 }
                 Spacer()
                 Image(systemName: "arrow.right.circle.fill")
@@ -157,16 +157,15 @@ struct GuidedEntryView: View {
     @State private var currentQuestion = ""
     @State private var answer = ""
     @State private var isGenerating = false
-    @State private var conversationContext = ""
     
     var body: some View {
         VStack(spacing: 0) {
             HStack {
                 Button("Cancel", action: onCancel).foregroundStyle(Color.white.opacity(0.6))
                 Spacer()
-                Text("GUIDED").miniCaps().foregroundStyle(Color.white.opacity(0.4))
+                Text("THE MIRROR").miniCaps().foregroundStyle(Color.white.opacity(0.4))
                 Spacer()
-                if exchanges.count >= 2 { // Require at least 2 exchanges to finish
+                if !exchanges.isEmpty {
                     Button("Finish") { finish() }.bold().foregroundStyle(Color.cyan)
                 } else {
                     Spacer().frame(width: 50)
@@ -176,14 +175,21 @@ struct GuidedEntryView: View {
             
             ScrollViewReader { proxy in
                 ScrollView {
-                    VStack(spacing: 32) {
+                    VStack(spacing: 40) {
                         ForEach(Array(exchanges.enumerated()), id: \.offset) { _, pair in
-                            liquidBubble(pair.0, isUser: false)
-                            liquidBubble(pair.1, isUser: true)
+                            VStack(alignment: .leading, spacing: 20) {
+                                Text(pair.0).font(.system(size: 18, weight: .bold, design: .serif)).foregroundStyle(.cyan.opacity(0.8))
+                                Text(pair.1).font(.system(size: 18, weight: .medium, design: .default)).foregroundStyle(.white)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
                         }
                         
                         if !currentQuestion.isEmpty {
-                            liquidBubble(currentQuestion, isUser: false).id("bottom")
+                            Text(currentQuestion)
+                                .font(.system(size: 24, weight: .black, design: .serif))
+                                .foregroundStyle(.white)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .id("bottom")
                         }
                         
                         if isGenerating {
@@ -198,22 +204,7 @@ struct GuidedEntryView: View {
             }
             
             if !currentQuestion.isEmpty && !isGenerating {
-                VStack(spacing: 0) {
-                    // Option to prompt for a deeper look if conversation is going well
-                    if exchanges.count >= 1 && exchanges.count < 6 {
-                         Button(action: next) {
-                             HStack {
-                                 Image(systemName: "plus.circle.fill")
-                                 Text("Think Deeper")
-                             }
-                             .font(.caption.bold())
-                             .foregroundStyle(.cyan.opacity(0.8))
-                             .padding(.vertical, 8)
-                         }
-                    }
-                    
-                    liquidInputArea
-                }
+                liquidInputArea
             }
         }
         .onAppear(perform: start)
@@ -221,7 +212,7 @@ struct GuidedEntryView: View {
     
     private var liquidInputArea: some View {
         HStack(spacing: 16) {
-            TextField("Type here…", text: $answer, axis: .vertical)
+            TextField("Be precise…", text: $answer, axis: .vertical)
                 .lineLimit(1...5)
                 .padding(18)
                 .background(.white.opacity(0.1))
@@ -239,29 +230,10 @@ struct GuidedEntryView: View {
         .background(.ultraThinMaterial)
     }
     
-    private func liquidBubble(_ text: String, isUser: Bool) -> some View {
-        HStack {
-            if isUser { Spacer(minLength: 60) }
-            Text(text)
-                .font(.system(.subheadline, design: isUser ? .default : .serif))
-                .padding(20)
-                .background(isUser ? .white.opacity(0.15) : .cyan.opacity(0.1))
-                .foregroundStyle(.white)
-                .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
-            if !isUser { Spacer(minLength: 60) }
-        }
-    }
-    
     private func start() {
         isGenerating = true
         Task {
-            // Build initial context from recent mood
-            let now = Int64(Date().timeIntervalSince1970 * 1000)
-            let mood = container.moodStore.fetchRange(from: now - 86400000, to: now).last
-            let context = "The user's last mood was: \(mood?.label ?? "unknown") with valence \(mood?.valence ?? 0)."
-            await MainActor.run { self.conversationContext = context }
-            
-            let q = await container.reflectionEngine?.guidedQuestion(exchanges: [], context: context) ?? "How are you feeling in this moment?"
+            let q = await container.reflectionEngine?.guidedQuestion(exchanges: []) ?? "What is the core tension you're feeling today?"
             await MainActor.run { withAnimation { currentQuestion = q; isGenerating = false } }
         }
     }
@@ -270,16 +242,10 @@ struct GuidedEntryView: View {
         let a = answer; answer = ""
         withAnimation { exchanges.append((currentQuestion, a)); currentQuestion = "" }
         
-        // Dynamic ending logic: after 6 turns we automatically wrap up, 
-        // or user can click finish after 2.
-        if exchanges.count >= 7 { 
-            finish() 
-        } else {
-            isGenerating = true
-            Task {
-                let q = await container.reflectionEngine?.guidedQuestion(exchanges: exchanges, context: conversationContext) ?? "Tell me more."
-                await MainActor.run { withAnimation { currentQuestion = q; isGenerating = false } }
-            }
+        isGenerating = true
+        Task {
+            let q = await container.reflectionEngine?.guidedQuestion(exchanges: exchanges) ?? "Why that specific word?"
+            await MainActor.run { withAnimation { currentQuestion = q; isGenerating = false } }
         }
     }
     
