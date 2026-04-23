@@ -4,49 +4,74 @@ struct JournalListScreen: View {
     @EnvironmentObject private var container: AppContainer
     @State private var entries: [JournalSummary] = []
     @State private var threads: [NarrativeThread] = []
-    @State private var showEditor = false
-    @State private var editingId: Int64? = nil
-    @State private var showThread: NarrativeThread? = nil
-
+    @State private var activeReflectionId: Int64? = nil
+    
     var body: some View {
         ZStack {
-            // Main Content
-            ScrollView(showsIndicators: false) {
+            if let id = activeReflectionId {
+                // Fragment: Replaces the Library screen content in-place
+                JournalEditorScreen(entryId: id) {
+                    withAnimation(.spring()) {
+                        activeReflectionId = nil
+                        refresh()
+                    }
+                }
+                .transition(.asymmetric(insertion: .move(edge: .trailing), removal: .move(edge: .leading)))
+                .zIndex(1)
+            } else {
+                libraryContent
+                    .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .trailing)))
+                    .zIndex(0)
+            }
+        }
+        .onAppear(perform: refresh)
+    }
+    
+    private var libraryContent: some View {
+        ZStack(alignment: .bottomTrailing) {
+            LiquidAura(scrollOffset: 0).ignoresSafeArea()
+            
+            ScrollView {
                 VStack(alignment: .leading, spacing: 50) {
-                    
-                    // 1. Hero Header
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("JOURNAL").miniCaps().foregroundStyle(Color.white.opacity(0.4))
-                        Text("Reflections")
-                            .font(.system(size: 44, weight: .black, design: .rounded))
-                            .foregroundStyle(.white)
-                        Text("\(entries.count) notes captured in sanctuary")
-                            .font(.subheadline.bold())
-                            .foregroundStyle(.white.opacity(0.5))
+                        Text("REFLECTIONS").miniCaps().foregroundStyle(Color.white.opacity(0.4))
+                        Text("Library").font(.system(size: 44, weight: .black, design: .rounded)).foregroundStyle(.white)
+                        Text("\(entries.count) notes captured in sanctuary").font(.subheadline.bold()).foregroundStyle(.white.opacity(0.5))
                     }
                     .padding(.top, 40)
                     
-                    // 2. Thematic Bubbles
                     if !threads.isEmpty {
-                        VStack(alignment: .leading, spacing: 20) {
+                        VStack(alignment: .leading, spacing: 24) {
                             Text("Themes").sectionHeader()
                             ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 16) {
+                                HStack(spacing: 20) {
                                     ForEach(threads) { thread in
-                                        ThreadBubble(thread: thread) { showThread = thread }
+                                        NavigationLink {
+                                            ThreadDetailScreen(thread: thread)
+                                        } label: {
+                                            VStack(alignment: .leading, spacing: 14) {
+                                                Image(systemName: "sparkles").font(.title2).foregroundStyle(.cyan)
+                                                VStack(alignment: .leading, spacing: 0) {
+                                                    Text(thread.label).font(.headline).foregroundStyle(.white)
+                                                    Text("\(thread.entryCount) entries").font(.caption).foregroundStyle(.white.opacity(0.4))
+                                                }
+                                            }
+                                            .padding(24)
+                                            .frame(width: 150, height: 130, alignment: .topLeading)
+                                            .background(.white.opacity(0.08))
+                                            .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                     
-                    // 3. Immersive Timeline
-                    VStack(alignment: .leading, spacing: 32) {
+                    VStack(alignment: .leading, spacing: 24) {
                         Text("Timeline").sectionHeader()
-                        
                         if entries.isEmpty {
-                            VStack(spacing: 20) {
-                                Image(systemName: "leaf")
+                            VStack(spacing: 16) {
+                                Image(systemName: "book.closed")
                                     .font(.system(size: 40))
                                     .foregroundStyle(.white.opacity(0.2))
                                 Text("Your story begins here.")
@@ -58,8 +83,9 @@ struct JournalListScreen: View {
                         } else {
                             ForEach(entries) { summary in
                                 Button {
-                                    editingId = summary.id
-                                    showEditor = true
+                                    withAnimation(.spring()) {
+                                        activeReflectionId = summary.id
+                                    }
                                 } label: {
                                     LiquidEntryRow(summary: summary)
                                 }
@@ -73,75 +99,24 @@ struct JournalListScreen: View {
                 .padding(.horizontal, 28)
             }
             
-            // 4. Glowing FAB
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
-                    Button {
-                        editingId = nil
-                        showEditor = true
-                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                    } label: {
-                        ZStack {
-                            Circle()
-                                .fill(.white.opacity(0.2))
-                                .frame(width: 80, height: 80)
-                                .blur(radius: 10)
-                            
-                            Circle()
-                                .fill(LinearGradient(colors: [.liquidRose, .liquidAmber], startPoint: .topLeading, endPoint: .bottomTrailing))
-                                .frame(width: 70, height: 70)
-                                .shadow(color: .liquidRose.opacity(0.4), radius: 15, y: 8)
-                            
-                            Image(systemName: "plus")
-                                .font(.title.bold())
-                                .foregroundStyle(.white)
-                        }
-                    }
-                    .padding(28)
+            // Floating Plus Button
+            Button {
+                withAnimation(.spring()) {
+                    activeReflectionId = -1 // Trigger new
                 }
+            } label: {
+                Circle()
+                    .fill(Color.wellnessAccent)
+                    .frame(width: 72, height: 72)
+                    .shadow(color: Color.wellnessAccent.opacity(0.3), radius: 20, y: 10)
+                    .overlay(Image(systemName: "plus").font(.system(size: 30, weight: .bold)).foregroundStyle(.white))
             }
-        }
-        .sheet(isPresented: $showEditor, onDismiss: refresh) {
-            JournalEditorScreen(entryId: editingId)
-        }
-        .sheet(item: $showThread) { thread in
-            ThreadDetailScreen(thread: thread)
-        }
-        .onAppear(perform: refresh)
-    }
-    
-    private func refresh() {
-        withAnimation(.spring()) {
-            entries = container.journalStore.fetchSummaries()
-            threads = container.narrativeStore.activeThreads()
+            .padding(28)
         }
     }
-}
 
-struct ThreadBubble: View {
-    let thread: NarrativeThread
-    let action: () -> Void
-    
-    var body: some View {
-        Button(action: action) {
-            VStack(alignment: .leading, spacing: 14) {
-                Image(systemName: "sparkles")
-                    .font(.title3)
-                    .foregroundStyle(.cyan)
-                
-                Text(thread.label)
-                    .font(.subheadline.bold())
-                    .foregroundStyle(.white)
-                    .lineLimit(2)
-                    .multilineTextAlignment(.leading)
-            }
-            .padding(20)
-            .frame(width: 150, height: 130, alignment: .topLeading)
-            .background(.white.opacity(0.08))
-            .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
-        }
-        .buttonStyle(.plain)
+    private func refresh() {
+        entries = container.journalStore.fetchSummaries()
+        threads = container.narrativeStore.fetchActiveThreads()
     }
 }

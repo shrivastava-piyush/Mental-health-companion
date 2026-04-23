@@ -2,13 +2,14 @@ import SwiftUI
 
 struct JournalEditorScreen: View {
     @EnvironmentObject private var container: AppContainer
-    @Environment(\.dismiss) private var dismiss
     let entryId: Int64?
     let initialBody: String?
+    let onDone: () -> Void
     
-    init(entryId: Int64?, initialBody: String? = nil) {
+    init(entryId: Int64?, initialBody: String? = nil, onDone: @escaping () -> Void) {
         self.entryId = entryId
         self.initialBody = initialBody
+        self.onDone = onDone
     }
 
     @State private var title = ""
@@ -21,8 +22,6 @@ struct JournalEditorScreen: View {
 
     var body: some View {
         ZStack {
-            LiquidAura(scrollOffset: 0).ignoresSafeArea()
-            
             if guidedMode {
                 GuidedEntryView(onComplete: { compiledBody, suggestedTitle in
                     self.body_ = compiledBody
@@ -45,8 +44,9 @@ struct JournalEditorScreen: View {
     
     private var editorContent: some View {
         VStack(spacing: 0) {
+            // 1. Sleek Header
             HStack {
-                Button { save(); dismiss() } label: {
+                Button { save(); onDone() } label: {
                     Text("Done").bold().foregroundStyle(.white)
                 }
                 Spacer()
@@ -55,7 +55,7 @@ struct JournalEditorScreen: View {
                 if savedId > 0 {
                     Button(role: .destructive) {
                         container.journalStore.delete(id: savedId)
-                        dismiss()
+                        onDone()
                     } label: {
                         Image(systemName: "trash").foregroundStyle(Color.white.opacity(0.4))
                     }
@@ -258,4 +258,3 @@ struct GuidedEntryView: View {
         }
     }
 }
-EOF

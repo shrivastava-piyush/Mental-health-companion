@@ -1,32 +1,31 @@
 import SwiftUI
 
-/// Preference key for tracking scroll offset in high-fidelity screens.
-struct ScrollOffsetKey: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = nextValue()
-    }
-}
-
 struct HomeScreen: View {
     @EnvironmentObject private var container: AppContainer
+    @Environment(\.openReflection) private var openReflection
     @Binding var scrollOffset: CGFloat
     
     @State private var recentMood: MoodEntry?
     @State private var recentJournal: JournalSummary?
     @State private var showMoodLog = false
-    @State private var showJournal = false
-    @State private var selectedSpark: String? = nil
     
     @State private var selectedQuote = ("Focus on the present moment.", "Breathe")
     @State private var currentCategory: MoodCategory = .neutral
     @State private var aiSpark: String? = nil
 
     var body: some View {
+        todayContent
+            .onAppear(perform: loadData)
+            .fullScreenCover(isPresented: $showMoodLog, onDismiss: loadData) {
+                MoodScreen()
+            }
+    }
+    
+    private var todayContent: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .center, spacing: 60) {
                 
-                // 1. Animated Quote Hero (Adaptive & Personalized)
+                // 1. Animated Quote Hero
                 AnimatedQuoteView(
                     quote: selectedQuote.0,
                     author: selectedQuote.1,
@@ -101,13 +100,6 @@ struct HomeScreen: View {
         .onPreferenceChange(ScrollOffsetKey.self) { value in
             scrollOffset = value
         }
-        .onAppear(perform: loadData)
-        .fullScreenCover(isPresented: $showMoodLog, onDismiss: loadData) {
-            MoodScreen()
-        }
-        .sheet(isPresented: $showJournal, onDismiss: loadData) {
-            JournalEditorScreen(entryId: nil, initialBody: selectedSpark)
-        }
     }
     
     @ViewBuilder
@@ -130,15 +122,20 @@ struct HomeScreen: View {
                     }
                     
                     if let journal = recentJournal {
-                        HStack(spacing: 16) {
-                            Image(systemName: "text.quote").foregroundStyle(.cyan)
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(journal.title).font(.subheadline.bold()).lineLimit(1)
-                                Text(formatRelativeDate(journal.createdAt)).font(.caption).foregroundStyle(.white.opacity(0.4))
+                        Button {
+                            openReflection(journal.id, nil)
+                        } label: {
+                            HStack(spacing: 16) {
+                                Image(systemName: "text.quote").foregroundStyle(.cyan)
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(journal.title).font(.subheadline.bold()).lineLimit(1)
+                                    Text(formatRelativeDate(journal.createdAt)).font(.caption).foregroundStyle(.white.opacity(0.4))
+                                }
+                                Spacer()
                             }
-                            Spacer()
+                            .padding(20).background(.white.opacity(0.05)).clipShape(RoundedRectangle(cornerRadius: 24))
                         }
-                        .padding(20).background(.white.opacity(0.05)).clipShape(RoundedRectangle(cornerRadius: 24))
+                        .buttonStyle(.plain)
                     }
                 }
             }
@@ -147,8 +144,7 @@ struct HomeScreen: View {
     
     private func sparkPill(text: String, isAi: Bool = false) -> some View {
         Button { 
-            selectedSpark = text
-            showJournal = true 
+            openReflection(nil, text)
         } label: {
             VStack(alignment: .leading, spacing: 10) {
                 if isAi {
