@@ -33,7 +33,6 @@ final class ModelManager: ObservableObject {
     func download(url: String) {
         if case .downloading = status { return }
         
-        // Immediate UI feedback
         status = .downloading(0.001) 
 
         Task.detached(priority: .userInitiated) { [self] in
@@ -45,11 +44,7 @@ final class ModelManager: ObservableObject {
                     return
                 }
 
-                var request = URLRequest(url: remoteURL)
-                request.timeoutInterval = 60
-
-                // Use background session logic or simple bytes for better control
-                let (asyncBytes, response) = try await URLSession.shared.bytes(for: request)
+                let (asyncBytes, response) = try await URLSession.shared.bytes(for: remoteURL)
                 guard let httpResponse = response as? HTTPURLResponse,
                       (200...299).contains(httpResponse.statusCode) else {
                     await MainActor.run { self.status = .error("Server error: \((response as? HTTPURLResponse)?.statusCode ?? 0)") }
@@ -63,20 +58,35 @@ final class ModelManager: ObservableObject {
                 let handle = try FileHandle(forWritingTo: tempFile)
                 var downloaded: Int64 = 0
                 var lastUpdate = Date()
+                
+                // --- HIGH PERFORMANCE BUFFERING ---
+                var buffer = Data()
+                buffer.reserveCapacity(64 * 1024) // 64KB Buffer
 
                 for try await byte in asyncBytes {
-                    let data = Data([byte])
-                    handle.write(data)
+                    buffer.append(byte)
                     downloaded += 1
                     
-                    // Throttle updates to 30fps to keep UI smooth but not overloaded
-                    if Date().timeIntervalSince(lastUpdate) > 0.033 {
-                        let progress = totalSize > 0 ? Float(downloaded) / Float(totalSize) : 0
-                        await MainActor.run { self.status = .downloading(progress) }
-                        lastUpdate = Date()
+                    // Write to disk every 64KB or when finished
+                    if buffer.count >= 65536 {
+                        try handle.write(contentsOf: buffer)
+                        buffer.removeAll(keepingCapacity: true)
+                        
+                        // Update UI at 30fps max to prevent stutter
+                        if Date().timeIntervalSince(lastUpdate) > 0.033 {
+                            let progress = totalSize > 0 ? Float(downloaded) / Float(totalSize) : 0
+                            await MainActor.run { self.status = .downloading(progress) }
+                            lastUpdate = Date()
+                        }
                     }
                 }
-                handle.closeFile()
+                
+                // Final flush
+                if !buffer.isEmpty {
+                    try handle.write(contentsOf: buffer)
+                }
+                
+                try handle.close()
 
                 try? FileManager.default.removeItem(at: modelFile)
                 try FileManager.default.moveItem(at: tempFile, to: modelFile)
