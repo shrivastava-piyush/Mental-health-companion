@@ -44,6 +44,9 @@ interface JournalDao {
 
     @Query("DELETE FROM journal_entries WHERE id = :id")
     suspend fun deleteById(id: Long)
+
+    @Query("SELECT * FROM journal_entries ORDER BY createdAt DESC LIMIT :limit")
+    suspend fun fetchRecentEntries(limit: Int): List<JournalEntry>
 }
 
 data class JournalSummary(

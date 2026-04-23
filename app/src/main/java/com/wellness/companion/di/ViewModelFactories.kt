@@ -30,7 +30,7 @@ object ViewModelFactories {
         initializer { JournalListViewModel(container.journalRepository) }
     }
 
-    fun journalEditor(container: AppContainer, entryId: Long): ViewModelProvider.Factory =
+    fun journalEditor(container: AppContainer, entryId: Long, prefilledPrompt: String = ""): ViewModelProvider.Factory =
         viewModelFactory {
             initializer {
                 JournalEditorViewModel(
@@ -39,6 +39,7 @@ object ViewModelFactories {
                     container.reflectionEngine,
                     container.database.moodDao(),
                     entryId,
+                    prefilledPrompt
                 )
             }
         }

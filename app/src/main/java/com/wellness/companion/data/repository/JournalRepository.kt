@@ -48,6 +48,8 @@ class JournalRepository(
 
     suspend fun delete(id: Long) = dao.deleteById(id)
 
+    suspend fun fetchRecentEntries(limit: Int): List<JournalEntry> = dao.fetchRecentEntries(limit)
+
     // ── Narrative queries exposed to UI ────────────────────────────────
 
     fun observeActiveThreads(): Flow<List<NarrativeThread>> =

@@ -8,6 +8,7 @@ import com.wellness.companion.data.repository.JournalRepository
 import com.wellness.companion.data.repository.MetricRepository
 import com.wellness.companion.data.repository.MoodRepository
 import com.wellness.companion.domain.llm.ReflectionEngine
+import com.wellness.companion.ui.atmosphere.AtmosphereManager
 import com.wellness.companion.domain.narrative.ColdOpenGenerator
 import com.wellness.companion.domain.narrative.MirrorGenerator
 import com.wellness.companion.domain.narrative.ThreadDetector
@@ -34,6 +35,7 @@ class AppContainer(context: Context) {
     }
 
     val modelManager: ModelManager by lazy { ModelManager(appContext) }
+    val atmosphereManager: AtmosphereManager by lazy { AtmosphereManager(appContext) }
 
     val llamaEngine: LlamaEngine by lazy { LlamaEngine(modelManager.modelPath()) }
 

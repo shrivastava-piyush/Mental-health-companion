@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.*
 import androidx.compose.ui.text.font.*
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.*
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.wellness.companion.di.AppContainer
 import com.wellness.companion.di.ViewModelFactories
@@ -26,11 +27,12 @@ import com.wellness.companion.ui.theme.WellnessPalette
 fun JournalEditorScreen(
     container: AppContainer,
     entryId: Long = 0L,
+    prefilledPrompt: String = "",
     onBack: () -> Unit,
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
-    val viewModel: JournalEditorViewModel = viewModel(factory = ViewModelFactories.journalEditor(container, entryId))
-    val state by viewModel.state.collectAsState()
+    val viewModel: JournalEditorViewModel = viewModel(factory = ViewModelFactories.journalEditor(container, entryId, prefilledPrompt))
+    val state by viewModel.state.collectAsStateWithLifecycle()
     
     var guidedMode by remember { mutableStateOf(false) }
 
@@ -150,8 +152,8 @@ private fun GuidedNudge(onClick: () -> Unit) {
         Row(Modifier.padding(20.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             Icon(Icons.Default.AutoAwesome, null, tint = Color.Cyan)
             Column(Modifier.weight(1f)) {
-                Text("Deep Reflection", fontWeight = FontWeight.Bold, color = Color.White)
-                Text("Let AI guide your exploration", style = MaterialTheme.typography.labelMedium, color = Color.White.copy(alpha = 0.5f))
+                Text("Analytic Reflection", fontWeight = FontWeight.Bold, color = Color.White)
+                Text("Expose hidden tensions", style = MaterialTheme.typography.labelMedium, color = Color.White.copy(alpha = 0.5f))
             }
             Icon(Icons.Default.ArrowCircleRight, null, tint = Color.White.copy(alpha = 0.2f))
         }
@@ -164,7 +166,7 @@ private fun GuidedFlow(
     onComplete: () -> Unit,
     onCancel: () -> Unit
 ) {
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
     val scrollState = rememberScrollState()
     
     Column(Modifier.fillMaxSize()) {
@@ -174,7 +176,7 @@ private fun GuidedFlow(
             verticalAlignment = Alignment.CenterVertically
         ) {
             TextButton(onClick = onCancel) { Text("Cancel", color = Color.White.copy(alpha = 0.6f)) }
-            Text("GUIDED", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Black, color = Color.White.copy(alpha = 0.4f), letterSpacing = 2.sp)
+            Text("THE MIRROR", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Black, color = Color.White.copy(alpha = 0.4f), letterSpacing = 2.sp)
             if (state.guidedExchanges.isNotEmpty()) {
                 TextButton(onClick = { viewModel.send(JournalEditorViewModel.Intent.FinishGuided); onComplete() }) {
                     Text("Finish", fontWeight = FontWeight.Bold, color = Color.Cyan)
@@ -184,13 +186,15 @@ private fun GuidedFlow(
             }
         }
 
-        Column(Modifier.weight(1f).verticalScroll(scrollState).padding(horizontal = 28.dp), verticalArrangement = Arrangement.spacedBy(32.dp)) {
+        Column(Modifier.weight(1f).verticalScroll(scrollState).padding(horizontal = 28.dp), verticalArrangement = Arrangement.spacedBy(40.dp)) {
             state.guidedExchanges.forEach { (q, a) ->
-                GuidedBubble(q, isUser = false)
-                GuidedBubble(a, isUser = true)
+                VStack(alignment = Alignment.Start, spacing = 20.dp) {
+                    Text(q, fontStyle = FontStyle.Italic, fontWeight = FontWeight.Bold, color = Color.Cyan.copy(alpha = 0.8f))
+                    Text(a, style = MaterialTheme.typography.bodyLarge, color = Color.White)
+                }
             }
             if (state.guidedCurrentQuestion.isNotBlank()) {
-                GuidedBubble(state.guidedCurrentQuestion, isUser = false)
+                Text(state.guidedCurrentQuestion, style = MaterialTheme.typography.headlineSmall, fontFamily = FontFamily.Serif, fontWeight = FontWeight.Black, color = Color.White, modifier = Modifier.id("bottom"))
             }
             if (state.isGenerating) {
                 CircularProgressIndicator(Modifier.size(24.dp).padding(4.dp), color = Color.White, strokeWidth = 2.dp)
@@ -213,26 +217,6 @@ private fun GuidedFlow(
 }
 
 @Composable
-private fun GuidedBubble(text: String, isUser: Boolean) {
-    Row(Modifier.fillMaxWidth(), horizontalArrangement = if (isUser) Arrangement.End else Arrangement.Start) {
-        if (isUser) Spacer(Modifier.width(60.dp))
-        Text(
-            text = text,
-            modifier = Modifier
-                .clip(RoundedCornerShape(28.dp))
-                .background(if (isUser) WellnessPalette.Sage500.copy(alpha = 0.6f) else Color.Cyan.copy(alpha = 0.1f))
-                .padding(20.dp),
-            style = MaterialTheme.typography.bodyMedium.copy(
-                fontFamily = if (isUser) FontFamily.Default else FontFamily.Serif,
-                fontWeight = if (isUser) FontWeight.Bold else FontWeight.Medium
-            ),
-            color = Color.White
-        )
-        if (!isUser) Spacer(Modifier.width(60.dp))
-    }
-}
-
-@Composable
 private fun LiquidInputArea(
     value: String,
     onValueChange: (String) -> Unit,
@@ -247,7 +231,7 @@ private fun LiquidInputArea(
                 value = value,
                 onValueChange = onValueChange,
                 modifier = Modifier.weight(1f),
-                placeholder = { Text("Type here…", color = Color.White.copy(alpha = 0.3f)) },
+                placeholder = { Text("Be precise…", color = Color.White.copy(alpha = 0.3f)) },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.White.copy(alpha = 0.1f),
                     unfocusedContainerColor = Color.White.copy(alpha = 0.1f),
@@ -268,3 +252,10 @@ private fun LiquidInputArea(
         }
     }
 }
+
+@Composable
+private fun VStack(modifier: Modifier = Modifier, alignment: Alignment.Horizontal = Alignment.CenterHorizontally, spacing: Dp = 0.dp, content: @Composable ColumnScope.() -> Unit) {
+    Column(modifier, horizontalAlignment = alignment, verticalArrangement = Arrangement.spacedBy(spacing), content = content)
+}
+
+private fun Modifier.id(id: String) = this // Simple helper for id

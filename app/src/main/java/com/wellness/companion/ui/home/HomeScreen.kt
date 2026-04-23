@@ -1,6 +1,7 @@
 package com.wellness.companion.ui.home
 
 import androidx.compose.animation.*
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
@@ -13,12 +14,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.draw.*
 import androidx.compose.ui.graphics.*
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.*
 import androidx.compose.ui.platform.*
 import androidx.compose.ui.text.font.*
 import androidx.compose.ui.text.style.*
 import androidx.compose.ui.unit.*
+import com.wellness.companion.ui.MoodCategory
+import com.wellness.companion.ui.WellnessContentProvider
 import com.wellness.companion.ui.components.LiquidAura
 import com.wellness.companion.ui.theme.WellnessPalette
 import java.text.SimpleDateFormat
@@ -29,7 +31,7 @@ fun HomeScreen(
     viewModel: HomeViewModel,
     onOpenMood: () -> Unit,
     onOpenJournal: () -> Unit,
-    onOpenReflection: (Long?) -> Unit,
+    onOpenReflection: (Long?, String) -> Unit,
     contentPadding: PaddingValues = PaddingValues(0.dp)
 ) {
     val state by viewModel.state.collectAsState()
@@ -45,57 +47,37 @@ fun HomeScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 28.dp)
         ) {
-            Spacer(Modifier.height(40.dp))
+            Spacer(Modifier.height(60.dp))
 
-            // 1. Hero Quote
-            QuoteHero(state.quote.first, state.quote.second)
-
-            Spacer(Modifier.height(50.dp))
-
-            // 2. Greeting & Actions
-            Text(
-                text = state.greeting,
-                style = MaterialTheme.typography.displayMedium,
-                fontWeight = FontWeight.Bold,
-                color = Color.White
+            // 1. Animated Adaptive Quote
+            AnimatedQuoteHero(
+                quote = state.quote.first,
+                author = state.quote.second,
+                category = MoodCategory.fromValence(state.recentMood?.valence ?: 0)
             )
 
-            Spacer(Modifier.height(24.dp))
+            Spacer(Modifier.height(60.dp))
 
-            Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
-                HomeActionCard(
-                    title = "Check-in",
-                    icon = Icons.Outlined.Mood,
-                    color = WellnessPalette.Sage500,
-                    modifier = Modifier.weight(1f),
-                    onClick = onOpenMood
-                )
-                HomeActionCard(
-                    title = "Reflect",
-                    icon = Icons.Outlined.EditNote,
-                    color = WellnessPalette.Teal300,
-                    modifier = Modifier.weight(1f),
-                    onClick = onOpenJournal
-                )
-            }
-
-            Spacer(Modifier.height(40.dp))
-
-            // 3. Reflection Sparks
-            SectionHeader("Reflection Sparks")
+            // 2. Reflection Sparks
+            SectionHeader("Sparks")
             Spacer(Modifier.height(16.dp))
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 contentPadding = PaddingValues(bottom = 20.dp)
             ) {
                 state.aiSpark?.let { spark ->
-                    item { SparkCard(spark, isAi = true) { onOpenReflection(null) } }
+                    item { SparkCard(spark, isAi = true) { onOpenReflection(null, spark) } }
                 }
-                item { SparkCard("What brought you a sense of calm this morning?") { onOpenReflection(null) } }
-                item { SparkCard("Is there a small victory you can celebrate today?") { onOpenReflection(null) } }
+                item { SparkCard("What does peace look like for you right now?") { onOpenReflection(null, "") } }
+                item { SparkCard("Describe a color that matches your energy.") { onOpenReflection(null, "") } }
             }
 
-            Spacer(Modifier.height(20.dp))
+            Spacer(Modifier.height(24.dp))
+
+            // 3. Redesigned Non-Blocking Check-in
+            SanctuaryCheckInCard(onClick = onOpenMood)
+
+            Spacer(Modifier.height(40.dp))
 
             // 4. Recent Activity
             if (state.recentMood != null || state.recentJournal != null) {
@@ -126,74 +108,107 @@ fun HomeScreen(
 }
 
 @Composable
-private fun QuoteHero(text: String, author: String) {
+private fun AnimatedQuoteHero(quote: String, author: String, category: MoodCategory) {
+    val words = remember(quote) { quote.split(" ") }
+    var revealProgress by remember { mutableStateOf(0f) }
+    
+    LaunchedEffect(quote) {
+        revealProgress = 0f
+        animate(0f, 1f, animationSpec = tween(2500, easing = LinearOutSlowInEasing)) { value, _ ->
+            revealProgress = value
+        }
+    }
+
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(40.dp))
-            .background(Color.White.copy(alpha = 0.08f))
-            .border(1.dp, Color.White.copy(alpha = 0.1f), RoundedCornerShape(40.dp))
-            .padding(vertical = 40.dp, horizontal = 24.dp),
+        modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(24.dp)
+        verticalArrangement = Arrangement.spacedBy(32.dp)
     ) {
         Icon(
             Icons.Default.AutoAwesome,
             contentDescription = null,
-            tint = WellnessPalette.Sage500.copy(alpha = 0.6f),
+            tint = Color.White.copy(alpha = 0.4f),
             modifier = Modifier.size(30.dp)
         )
 
-        Text(
-            text = text,
-            style = MaterialTheme.typography.headlineMedium.copy(
-                fontFamily = FontFamily.Serif,
-                fontWeight = FontWeight.Medium,
-                fontStyle = FontStyle.Italic,
-                lineHeight = 36.sp
-            ),
-            textAlign = TextAlign.Center,
-            color = Color.White
-        )
+        @OptIn(ExperimentalLayoutApi::class)
+        FlowRow(
+            horizontalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            words.forEachIndexed { index, word ->
+                val wordStep = 1f / words.size
+                val wordStart = index * wordStep
+                val wordOpacity = ((revealProgress - wordStart) / wordStep).coerceIn(0f, 1f)
+                val blur = (1f - wordOpacity) * 10f
+                val scale = 0.95f + (wordOpacity * 0.05f)
+
+                Text(
+                    text = " ",
+                    style = MaterialTheme.typography.headlineMedium.copy(
+                        fontFamily = FontFamily.Serif,
+                        fontWeight = FontWeight.Medium,
+                        fontStyle = FontStyle.Italic,
+                        lineHeight = 36.sp
+                    ),
+                    color = Color.White,
+                    modifier = Modifier
+                        .graphicsLayer(
+                            alpha = wordOpacity,
+                            scaleX = scale,
+                            scaleY = scale,
+                            renderEffect = if (blur > 0.1f) BlurEffect(blur, blur) else null
+                        )
+                )
+            }
+        }
 
         Text(
             text = author.uppercase(),
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Black,
             letterSpacing = 2.sp,
-            color = Color.White.copy(alpha = 0.5f)
+            color = Color.White.copy(alpha = 0.4f),
+            modifier = Modifier.alpha(if (revealProgress > 0.8f) 1f else 0f)
         )
     }
 }
 
 @Composable
-private fun HomeActionCard(
-    title: String,
-    icon: ImageVector,
-    color: Color,
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit
-) {
+private fun SanctuaryCheckInCard(onClick: () -> Unit) {
     Surface(
         onClick = onClick,
-        modifier = modifier.height(140.dp),
         color = Color.White.copy(alpha = 0.08f),
         shape = RoundedCornerShape(32.dp),
-        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.1f))
+        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.1f)),
+        modifier = Modifier.fillMaxWidth()
     ) {
-        Column(
-            modifier = Modifier.padding(24.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+        Row(
+            Modifier.padding(24.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             Box(
                 modifier = Modifier
-                    .size(48.dp)
-                    .background(color, CircleShape),
+                    .size(54.dp)
+                    .background(Color.White.copy(alpha = 0.1f), CircleShape),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(icon, null, tint = Color.White)
+                Icon(
+                    Icons.Default.Spa, 
+                    null, 
+                    tint = WellnessPalette.Sage500,
+                    modifier = Modifier.size(28.dp)
+                )
             }
-            Text(title, style = MaterialTheme.typography.titleMedium, color = Color.White)
+            
+            Column(Modifier.weight(1f)) {
+                Text("Sanctuary Check-in", fontWeight = FontWeight.Bold, color = Color.White)
+                Text("Observe your inner state", style = MaterialTheme.typography.labelMedium, color = Color.White.copy(alpha = 0.5f))
+            }
+            
+            Icon(Icons.Default.ChevronRight, null, tint = Color.White.copy(alpha = 0.3f))
         }
     }
 }
@@ -275,3 +290,5 @@ private fun formatRelativeDate(millis: Long): String {
     val formatter = SimpleDateFormat("MMM d, h:mm a", Locale.getDefault())
     return formatter.format(date)
 }
+
+private fun Color.Companion.opacity(alpha: Float): Color = Color.White.copy(alpha = alpha)

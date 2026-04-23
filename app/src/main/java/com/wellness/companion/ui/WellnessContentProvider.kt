@@ -17,25 +17,25 @@ object WellnessContentProvider {
 
     fun getQuote(category: MoodCategory): Quote {
         val positive = listOf(
-            Quote("Happiness is not something readymade. It comes from your own actions.", "Dalai Lama"),
-            Quote("The most important thing is to enjoy your life—to be happy—it's all that matters.", "Audrey Hepburn"),
-            Quote("Let your joy be in your journey, not in some distant goal.", "Tim Cook"),
-            Quote("The sun shines not on us but in us.", "John Muir"),
-            Quote("Radiate boundless love towards the entire world.", "Buddha")
+            Quote("Radiate boundless love.", "Buddha"),
+            Quote("The sun shines within.", "John Muir"),
+            Quote("Joy is the journey.", "Tim Cook"),
+            Quote("Be the light.", "Unknown"),
+            Quote("Choose happiness now.", "Dalai Lama")
         )
         val neutral = listOf(
-            Quote("Focus on the present moment. Breathe.", "Zen Proverb"),
-            Quote("Knowing yourself is the beginning of all wisdom.", "Aristotle"),
-            Quote("Be still. The world will uncover itself to you.", "Franz Kafka"),
-            Quote("Nature does not hurry, yet everything is accomplished.", "Lao Tzu"),
-            Quote("The present moment is filled with joy and happiness. If you are attentive, you will see it.", "Thich Nhat Hanh")
+            Quote("Breathe. You are here.", "Zen"),
+            Quote("Be still. Know thyself.", "Aristotle"),
+            Quote("Nature does not hurry.", "Lao Tzu"),
+            Quote("Focus on this breath.", "Unknown"),
+            Quote("The present is enough.", "Thich Nhat Hanh")
         )
         val negative = listOf(
-            Quote("This too shall pass. Be gentle with yourself.", "Persian Proverb"),
-            Quote("The wound is the place where the Light enters you.", "Rumi"),
-            Quote("Out of difficulties grow miracles.", "Jean de la Bruyère"),
-            Quote("You are loved just as you are.", "Ram Dass"),
-            Quote("Softly, navigate the storm. Your heart is an anchor.", "Unknown")
+            Quote("This too shall pass.", "Persian"),
+            Quote("The wound is the light.", "Rumi"),
+            Quote("Softly navigate the storm.", "Unknown"),
+            Quote("You are enough.", "Ram Dass"),
+            Quote("Peace is an anchor.", "Unknown")
         )
 
         return when (category) {
@@ -44,4 +44,8 @@ object WellnessContentProvider {
             MoodCategory.NEGATIVE -> negative.random()
         }
     }
+
+    const val LIBRARY_HERO = "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80"
+    const val INSIGHTS_HERO = "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80"
+    const val ATTRIBUTION = "Photography by Unsplash (Public Domain / CC0)"
 }
