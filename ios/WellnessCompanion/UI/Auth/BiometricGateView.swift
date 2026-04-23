@@ -54,7 +54,7 @@ struct BiometricGateView: View {
                         }
                         .font(.headline)
                         .foregroundStyle(.white)
-                        .frame(maxWidth: .infinity)
+                        .frame(maxWidth: CGFloat.infinity)
                         .frame(height: 64)
                         .background(Color.wellnessAccent, in: Capsule())
                         .shadow(color: Color.wellnessAccent.opacity(0.3), radius: 20, y: 10)

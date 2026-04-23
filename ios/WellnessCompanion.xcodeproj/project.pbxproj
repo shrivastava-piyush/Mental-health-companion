@@ -58,6 +58,7 @@
 		3EC8CD396D3569A0E11E1395 /* dots1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4CFB5CBD50D2A58B81CB96A6 /* dots1.cpp */; };
 		432A3650B56299AAE853F924 /* binary-ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F98BC6BFDBFB17F0C30CAF5 /* binary-ops.cpp */; };
 		440D2FA3FAEE0EC6AFADFD05 /* gemma3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0ED273F588577A73E971526F /* gemma3.cpp */; };
+		453022F4E614C19783A2A683 /* AnimatedQuoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DDA93EC9FA904C93D70B08A /* AnimatedQuoteView.swift */; };
 		459C9F288A5416AC07C43D4C /* ggml-quants.c in Sources */ = {isa = PBXBuildFile; fileRef = DD708483329AB6BB28A4986E /* ggml-quants.c */; };
 		4922246008A3329A3A29A78B /* gemma2-iswa.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 067C1140D392BD03AF867F84 /* gemma2-iswa.cpp */; };
 		4BB25F1B5207635D1CBDF9FD /* WellnessTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB77DE7FDD3D4AEDB3DB1DC5 /* WellnessTheme.swift */; };
@@ -296,10 +297,11 @@
 		791606C669AAD520A883BD98 /* phi3.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = phi3.cpp; sourceTree = "<group>"; };
 		79A1F582941C9AC5868EEDEE /* arctic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = arctic.cpp; sourceTree = "<group>"; };
 		7AAE139A44C299067378B89B /* stablelm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = stablelm.cpp; sourceTree = "<group>"; };
-		7AC53AEC645C9747C51EECC4 /* WellnessCompanion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WellnessCompanion.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7AC53AEC645C9747C51EECC4 /* WellnessCompanion.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = WellnessCompanion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C7EA50BF8AA99404A52D91B /* ReflectionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectionEngine.swift; sourceTree = "<group>"; };
 		7C8C162198E241497907970A /* mamba-base.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "mamba-base.cpp"; sourceTree = "<group>"; };
 		7CD3B03129EE07631267CD71 /* refact.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = refact.cpp; sourceTree = "<group>"; };
+		7DDA93EC9FA904C93D70B08A /* AnimatedQuoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedQuoteView.swift; sourceTree = "<group>"; };
 		811AC9FFA34C3E59BA3106F9 /* gemma3n-iswa.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "gemma3n-iswa.cpp"; sourceTree = "<group>"; };
 		82D64CF312ABEF022BD2423D /* ggml-alloc.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "ggml-alloc.c"; sourceTree = "<group>"; };
 		83161B4DF907565AB0F34114 /* step35-iswa.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "step35-iswa.cpp"; sourceTree = "<group>"; };
@@ -760,6 +762,7 @@
 		B48D6FF26EE2A6FAF9B8D8D3 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				7DDA93EC9FA904C93D70B08A /* AnimatedQuoteView.swift */,
 				3DAB8A536D0F9E2218CDA189 /* FlowLayout.swift */,
 				D7C4CB6B5A5D0D1F0BBB8A3E /* LiquidAura.swift */,
 				160E296A2C559D9B667B40D6 /* MoodTrendChartView.swift */,
@@ -899,6 +902,11 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					D3CF021761E1C4A434B4A18D = {
+						DevelopmentTeam = "";
+					};
+				};
 			};
 			buildConfigurationList = 388D1E87881E425A8BE39CE9 /* Build configuration list for PBXProject "WellnessCompanion" */;
 			developmentRegion = en;
@@ -935,6 +943,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				453022F4E614C19783A2A683 /* AnimatedQuoteView.swift in Sources */,
 				82BF319E72B35DBABD7E0B03 /* AppContainer.swift in Sources */,
 				DA8FECB16182C1F62731F03B /* AppRootView.swift in Sources */,
 				4D5F7C9BA456BC92725FA344 /* AtmosphereManager.swift in Sources */,
@@ -1142,7 +1151,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = X98J4V8PX3;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/include",
 					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/ggml/include",
@@ -1158,21 +1166,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				OTHER_CFLAGS = (
-					"-DGGML_USE_CPU",
-					"-DNDEBUG",
-					"-O3",
-					"-DGGML_VERSION=\\\"1\\\"",
-					"-DGGML_COMMIT=\\\"unknown\\\"",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(inherited)",
-					"-DGGML_USE_CPU",
-					"-DNDEBUG",
-					"-O3",
-					"-DGGML_VERSION=\\\"1\\\"",
-					"-DGGML_COMMIT=\\\"unknown\\\"",
-				);
+				OTHER_CFLAGS = "-DGGML_USE_CPU -DNDEBUG -O3 -DGGML_VERSION=\\\"1\\\" -DGGML_COMMIT=\\\"unknown\\\"";
+				OTHER_CPLUSPLUSFLAGS = "$(inherited) -DGGML_USE_CPU -DNDEBUG -O3 -DGGML_VERSION=\\\"1\\\" -DGGML_COMMIT=\\\"unknown\\\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wellness.companion;
 				SDKROOT = iphoneos;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1187,7 +1182,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = X98J4V8PX3;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/include",
 					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/ggml/include",
@@ -1203,21 +1197,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				OTHER_CFLAGS = (
-					"-DGGML_USE_CPU",
-					"-DNDEBUG",
-					"-O3",
-					"-DGGML_VERSION=\\\"1\\\"",
-					"-DGGML_COMMIT=\\\"unknown\\\"",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(inherited)",
-					"-DGGML_USE_CPU",
-					"-DNDEBUG",
-					"-O3",
-					"-DGGML_VERSION=\\\"1\\\"",
-					"-DGGML_COMMIT=\\\"unknown\\\"",
-				);
+				OTHER_CFLAGS = "-DGGML_USE_CPU -DNDEBUG -O3 -DGGML_VERSION=\\\"1\\\" -DGGML_COMMIT=\\\"unknown\\\"";
+				OTHER_CPLUSPLUSFLAGS = "$(inherited) -DGGML_USE_CPU -DNDEBUG -O3 -DGGML_VERSION=\\\"1\\\" -DGGML_COMMIT=\\\"unknown\\\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.wellness.companion;
 				SDKROOT = iphoneos;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;

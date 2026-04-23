@@ -53,7 +53,7 @@ struct JournalListScreen: View {
                                     .font(.system(size: 20, weight: .medium, design: .serif))
                                     .foregroundStyle(.white.opacity(0.4))
                             }
-                            .frame(maxWidth: .infinity)
+                            .frame(maxWidth: CGFloat.infinity)
                             .padding(.top, 60)
                         } else {
                             ForEach(entries) { summary in

@@ -56,7 +56,7 @@ struct InsightsScreen: View {
                 Text(value).font(.system(size: 32, weight: .black, design: .rounded)).foregroundStyle(.white)
                 Text(label).miniCaps().foregroundStyle(Color.white.opacity(0.4))
             }
-        }.frame(maxWidth: .infinity, alignment: .leading).padding(24).background(.white.opacity(0.08)).clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+        }.frame(maxWidth: CGFloat.infinity, alignment: .leading).padding(24).background(.white.opacity(0.08)).clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
     }
     
     private func refresh() {
@@ -92,7 +92,7 @@ struct ModelDownloadCardView: View {
             switch container.modelManager.status {
             case .notDownloaded:
                 Button(action: { container.modelManager.download(url: "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf") }) {
-                    Text("Download Assistant").font(.subheadline.bold()).foregroundStyle(.white).frame(maxWidth: .infinity).frame(height: 54).background(Color.liquidIndigo, in: Capsule())
+                    Text("Download Assistant").font(.subheadline.bold()).foregroundStyle(.white).frame(maxWidth: CGFloat.infinity).frame(height: 54).background(Color.liquidIndigo, in: Capsule())
                 }
             case .downloading(let p):
                 HStack(spacing: 20) {

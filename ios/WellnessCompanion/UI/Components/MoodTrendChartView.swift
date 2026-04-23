@@ -18,7 +18,7 @@ struct MoodTrendChartView: View {
                         .foregroundStyle(Color.wellnessSecondaryText.opacity(0.4))
                     Spacer()
                 }
-                .frame(maxWidth: .infinity)
+                .frame(maxWidth: CGFloat.infinity)
             } else {
                 let stepX = w / CGFloat(count - 1)
                 let points = buckets.enumerated().map { i, b in
