@@ -117,6 +117,6 @@ struct JournalListScreen: View {
 
     private func refresh() {
         entries = container.journalStore.fetchSummaries()
-        threads = container.narrativeStore.fetchActiveThreads()
+        threads = container.narrativeStore.activeThreads()
     }
 }
