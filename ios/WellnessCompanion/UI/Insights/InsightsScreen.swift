@@ -38,7 +38,9 @@ struct InsightsScreen: View {
                         MoodTrendChartView(buckets: trend).frame(height: 180).padding(24).background(.white.opacity(0.05)).clipShape(RoundedRectangle(cornerRadius: 40, style: .continuous))
                     }
                     
-                    ModelDownloadCardView()
+                    // High-Fidelity Download Card
+                    ModelDownloadCardView(manager: container.modelManager)
+                    
                     Spacer(minLength: 150)
                 }.padding(.horizontal, 28)
             }
@@ -62,9 +64,9 @@ struct InsightsScreen: View {
     private func refresh() {
         let now = Int64(Date().timeIntervalSince1970 * 1000)
         let thirtyDaysAgo = now - 30 * 86_400_000
-        totalMoods = container.moodStore.count; totalJournals = container.journalStore.count
+        totalMoods = container.moodStore.fetchRange(from: thirtyDaysAgo, to: now).count
+        totalJournals = container.journalStore.fetchSummaries().count
         trend = container.moodStore.dailyAggregate(from: thirtyDaysAgo, to: now)
-        metrics = container.metricStore.latestPerType()
         Task {
             let df = DateFormatter(); df.dateFormat = "MMM d"
             let label = "\(df.string(from: Date(timeIntervalSince1970: Double(thirtyDaysAgo) / 1000))) — \(df.string(from: Date()))"
@@ -79,41 +81,81 @@ struct InsightsScreen: View {
 }
 
 struct ModelDownloadCardView: View {
-    @EnvironmentObject private var container: AppContainer
+    @ObservedObject var manager: ModelManager
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("REFLECTION ENGINE").miniCaps().foregroundStyle(Color.white.opacity(0.4))
+                    Text("THE MIRROR").miniCaps().foregroundStyle(Color.white.opacity(0.4))
                     Text("Offline Intelligence").font(.headline).foregroundStyle(.white)
                 }
                 Spacer(); Image(systemName: "brain.head.profile").font(.title2).foregroundStyle(.cyan)
             }
-            switch container.modelManager.status {
-            case .notDownloaded:
-                Button(action: { container.modelManager.download(url: "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf") }) {
-                    Text("Download Assistant").font(.subheadline.bold()).foregroundStyle(.white).frame(maxWidth: CGFloat.infinity).frame(height: 54).background(Color.liquidIndigo, in: Capsule())
-                }
-            case .downloading(let p):
-                HStack(spacing: 20) {
-                    ZStack {
-                        Circle().stroke(Color.white.opacity(0.1), lineWidth: 4)
-                        Circle().trim(from: 0, to: CGFloat(p)).stroke(.cyan, style: StrokeStyle(lineWidth: 4, lineCap: .round)).rotationEffect(.degrees(-90))
-                        Text("\(Int(p*100))%").font(.system(size: 8, weight: .black)).foregroundStyle(.white)
-                    }.frame(width: 44, height: 44)
-                    Text("Loading Intelligence…").font(.subheadline.bold()).foregroundStyle(Color.white.opacity(0.6))
-                }
-            case .ready:
-                HStack {
-                    Label("Engine Ready", systemImage: "checkmark.seal.fill").font(.subheadline.bold()).foregroundStyle(.cyan)
-                    Spacer(); Button("Remove") { container.modelManager.deleteModel() }.font(.caption.bold()).foregroundStyle(Color.white.opacity(0.4))
-                }
-            case .error(let msg): 
-                VStack(alignment: .leading, spacing: 10) {
-                    Text(msg).foregroundStyle(.red).font(.caption)
-                    Button("Retry") { container.modelManager.download(url: "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf") }
+            
+            Group {
+                switch manager.status {
+                case .notDownloaded:
+                    Button {
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                        manager.download(url: "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf")
+                    } label: {
+                        Text("Download Assistant")
+                            .font(.subheadline.bold())
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: CGFloat.infinity)
+                            .frame(height: 54)
+                            .background(Color.liquidIndigo, in: Capsule())
+                            .overlay(Capsule().stroke(.white.opacity(0.1), lineWidth: 1))
+                    }
+                    .buttonStyle(.plain)
+                    
+                case .downloading(let progress):
+                    VStack(spacing: 12) {
+                        HStack {
+                            Text("Synchronizing…").font(.caption.bold()).foregroundStyle(.cyan)
+                            Spacer()
+                            Text("\(Int(progress * 100))%").font(.system(size: 10, weight: .black, design: .monospaced)).foregroundStyle(.white)
+                        }
+                        
+                        // High-Fidelity Progress Bar
+                        GeometryReader { proxy in
+                            ZStack(alignment: .leading) {
+                                Capsule().fill(.white.opacity(0.1))
+                                Capsule()
+                                    .fill(LinearGradient(colors: [.cyan, .liquidTeal], startPoint: .leading, endPoint: .trailing))
+                                    .frame(width: proxy.size.width * CGFloat(progress))
+                                    .shadow(color: .cyan.opacity(0.3), radius: 5)
+                            }
+                        }
+                        .frame(height: 8)
+                        
+                        Text("Initializing adversarial logic").font(.system(size: 8)).foregroundStyle(.white.opacity(0.3)).miniCaps()
+                    }
+                    .padding(.vertical, 10)
+                    
+                case .ready:
+                    HStack {
+                        Label("Mirror Ready", systemImage: "checkmark.seal.fill").font(.subheadline.bold()).foregroundStyle(.cyan)
+                        Spacer()
+                        Button("Delete") { manager.deleteModel() }.font(.caption.bold()).foregroundStyle(Color.white.opacity(0.4))
+                    }
+                    
+                case .error(let msg):
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Handshake Failed").font(.subheadline.bold()).foregroundStyle(.red)
+                        Text(msg).font(.caption).foregroundStyle(.white.opacity(0.4))
+                        Button("Retry Connection") {
+                             manager.download(url: "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf")
+                        }.font(.subheadline.bold()).foregroundStyle(.white)
+                    }
                 }
             }
-        }.padding(28).background(.white.opacity(0.05)).clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+            .animation(.spring(response: 0.4, dampingFraction: 0.8), value: manager.status)
+        }
+        .padding(28)
+        .background(.white.opacity(0.05))
+        .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 32, style: .continuous).stroke(.white.opacity(0.1), lineWidth: 1))
     }
 }
