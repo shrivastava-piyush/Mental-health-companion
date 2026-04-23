@@ -1,50 +1,41 @@
-# Wellness Companion (iOS)
+# Wellness Companion (iOS & Android)
 
-A premium, private, and offline-first "Wellness and Mental Health Companion" for iOS,
-built with **Swift + SwiftUI** and engineered to match the standards of high-end
-wellness applications like Calm and Headspace.
+A premium, private, and offline-first "Wellness and Mental Health Sanctuary," engineered to match the standards of high-end wellness applications like Calm and Timely. Now featuring **Deep Synthesis** intelligence.
 
-## Screenshots
+## Screenshots (Adversarial Overhaul)
 
 <p align="center">
-  <img src="docs/screenshots/biometric_gate.svg" width="220" alt="Sanctuary Gate" />
+  <img src="../docs/screenshots/biometric_gate.svg" width="220" alt="Sanctuary Gate" />
   &nbsp;&nbsp;
-  <img src="docs/screenshots/mood_screen.svg" width="220" alt="Liquid Mood Wheel" />
+  <img src="../docs/screenshots/mood_screen.svg" width="220" alt="The Check-in" />
 </p>
 <p align="center">
-  <img src="docs/screenshots/journal_screen.svg" width="220" alt="Reflections Timeline" />
+  <img src="../docs/screenshots/journal_screen.svg" width="220" alt="Synthesis Library" />
   &nbsp;&nbsp;
-  <img src="docs/screenshots/insights_screen.svg" width="220" alt="Pulse Dashboard" />
+  <img src="../docs/screenshots/insights_screen.svg" width="220" alt="Pulse Patterns" />
 </p>
 <p align="center">
   <sub>
-    Sanctuary Gate &nbsp;·&nbsp; Liquid Mood Wheel &nbsp;·&nbsp; Reflections Timeline &nbsp;·&nbsp; Pulse Dashboard
+    Sanctuary Gate &nbsp;·&nbsp; Adversarial Check-in &nbsp;·&nbsp; Synthesis Library &nbsp;·&nbsp; Pulse Patterns
   </sub>
 </p>
 
 ## Features
 
-- **Liquid Mood Wheel** — high-fidelity, circular interaction model that captures valence and energy with a single, tactile gesture.
-- **Atmospheric Motion** — cinema-grade background with drifting, animated gradients for a serene and immersive experience.
-- **Reflection Sparks** — AI-powered prompts that adapt to your recent mood and time of day to trigger deeper journaling.
-- **Focus-First Journaling** — a minimalist typewriter-style editor that prioritizes content and emotional flow.
-- **Biometric Sanctuary Gate** — local FaceID/TouchID unlock to ensure absolute privacy for your personal reflections.
-- **Liquid Glass Aesthetic** — a borderless, immersive interface leveraging heavy glassmorphism and dynamic dark themes.
+- **Deep Synthesis Engine** — automatically analyzes patterns across your last 3 reflections to find "Hidden Threads" and "Unspoken Tensions."
+- **The Mirror (Adversarial AI)** — a sharp, intellectually challenging reflection guide that removes "therapeutic filler" to help you face the hard truth.
+- **Mirror Avatar** — a high-fidelity animated AI persona (video-based) that provides a living presence during your sanctuary sessions.
+- **Liquid Breathing Background** — a cinema-grade background with a synchronized 8-second breathing rhythm (expansion/opacity) for deep immersion.
+- **Adaptive Atmosphere** — a generative ambient soundscape that shifts timbre and frequency based on your current emotional valence.
+- **Ink-in-Water Reveal** — sequential word animations and high-impact Zen quotes that adapt to your mood.
 
 ## Architecture
 
-- **Clean Architecture**: Decoupled Domain, Data, and UI layers for high maintainability.
-- **Offline Intelligence**: Integration with `llama.cpp` for completely private on-device AI reflections.
-- **Local Persistence**: High-performance SQLite backing for 100k+ local records.
-- **Fluent UX**: Pure SwiftUI implementation using `Canvas` for world-class rendering performance.
+- **Fragment-Based UI**: Swaps views in-place for a cohesive, dialog-free organic flow across iOS and Android.
+- **Offline Intelligence**: Private, on-device AI powered by `llama.cpp` (2026 API) with 64KB chunked buffering for rapid model synchronization.
+- **Production Media**: Performance-optimized headers utilizing curated atmospheric imagery (Unsplash CC0).
 
-## Prerequisites
-
-- **macOS** (latest recommended)
-- **Xcode** 15.0+
-- **XcodeGen** (for project generation)
-
-## Building & Running
+## Building & Running (iOS)
 
 1. **Install XcodeGen**
    ```bash
@@ -52,9 +43,16 @@ wellness applications like Calm and Headspace.
    ```
 
 2. **Generate and Build**
-   Navigate to the `ios/` directory:
    ```bash
    xcodegen generate
    xcodebuild build -project WellnessCompanion.xcodeproj -scheme WellnessCompanion -destination 'platform=iOS Simulator,name=iPhone 17'
    ```
 
+## Building & Running (Android)
+
+```bash
+./gradlew assembleDebug
+```
+
+---
+<sub>*Photography by Unsplash (Public Domain / CC0). Animated loops by Mixkit.*</sub>

@@ -1,44 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="360" height="720" viewBox="0 0 360 720">
-  <defs>
-    <filter id="blur" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="30"/>
-    </filter>
-  </defs>
-
-  <rect width="360" height="720" fill="#0D0D12"/>
-  <circle cx="250" cy="100" r="150" fill="#312E81" opacity="0.4" filter="url(#blur)"/>
-
-  <text x="28" y="80" font-family="sans-serif" font-weight="900" font-size="28" fill="white">Energy</text>
-  <text x="28" y="105" font-family="sans-serif" font-size="14" fill="white" opacity="0.5">How are you, right now?</text>
-
-  <!-- Liquid Wheel -->
-  <g transform="translate(180,300)">
-    <circle r="140" fill="white" opacity="0.05"/>
-    <!-- Segments -->
-    <path d="M0,0 L0,-140 A140,140 0 0,1 140,0 Z" fill="#D7E6D8" opacity="0.3"/>
-    <path d="M0,0 L140,0 A140,140 0 0,1 0,140 Z" fill="#E9E5F5" opacity="0.3"/>
-    <path d="M0,0 L0,140 A140,140 0 0,1 -140,0 Z" fill="#FAE2E2" opacity="0.3"/>
-    <path d="M0,0 L-140,0 A140,140 0 0,1 0,-140 Z" fill="#B7AEDB" opacity="0.3"/>
-    
-    <!-- Axis Labels -->
-    <text y="-150" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="900" fill="white" opacity="0.3">ENERGISED</text>
-    <text y="160" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="900" fill="white" opacity="0.3">CALM</text>
-    <text x="-155" y="4" text-anchor="end" font-family="sans-serif" font-size="9" font-weight="900" fill="white" opacity="0.3">LOW</text>
-    <text x="155" y="4" text-anchor="start" font-family="sans-serif" font-size="9" font-weight="900" fill="white" opacity="0.3">HIGH</text>
-
-    <!-- The Orb -->
-    <circle cx="40" cy="-60" r="22" fill="white" filter="url(#blur)" opacity="0.2"/>
-    <circle cx="40" cy="-60" r="16" fill="#6F9A74" stroke="white" stroke-width="3"/>
-  </g>
-
-  <!-- Tags -->
-  <text x="28" y="500" font-family="sans-serif" font-size="10" font-weight="900" fill="white" opacity="0.4" letter-spacing="1">QUALITIES</text>
-  <rect x="28" y="520" width="80" height="36" rx="18" fill="#6F9A74"/>
-  <text x="68" y="542" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="white">Peaceful</text>
-  <rect x="120" y="520" width="70" height="36" rx="18" fill="white" opacity="0.1"/>
-  <text x="155" y="542" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="white">Tired</text>
-
-  <!-- Save -->
-  <rect x="28" y="620" width="304" height="60" rx="30" fill="#6F9A74"/>
-  <text x="180" y="656" text-anchor="middle" font-family="sans-serif" font-size="16" font-weight="bold" fill="white">Log Check-in</text>
+<svg width="220" height="476" viewBox="0 0 220 476" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="220" height="476" rx="30" fill="#0D0D12"/>
+  <circle cx="110" cy="100" r="120" fill="#E11D48" opacity="0.1" filter="blur(40px)"/>
+  <text x="110" y="80" font-family="serif" font-size="24" font-weight="900" fill="white" text-anchor="middle">Locate your center.</text>
+  <text x="110" y="105" font-family="sans-serif" font-size="10" font-weight="bold" fill="#0D9488" text-anchor="middle" opacity="0.6">AVOID THE EASY ANSWER</text>
+  <rect x="30" y="180" width="160" height="4" rx="2" fill="white" opacity="0.2"/>
+  <circle cx="110" cy="182" r="10" fill="white"/>
+  <text x="110" y="210" font-family="sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">Clear / Calm</text>
+  <rect x="40" y="280" width="140" height="40" rx="10" fill="white" opacity="0.1"/>
+  <text x="110" y="305" font-family="serif" font-size="14" fill="white" text-anchor="middle">One word for this tension...</text>
 </svg>
