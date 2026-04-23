@@ -77,22 +77,26 @@ final class ReflectionEngine {
         return trimmed.isEmpty ? nil : String(trimmed.prefix(80))
     }
 
-    func guidedQuestion(exchanges: [(String, String)]) async -> String? {
+    func guidedQuestion(exchanges: [(String, String)], context: String = "") async -> String? {
         guard engine.isReady else { return nil }
-        let user: String
-        if exchanges.isEmpty {
-            user = "This is the start of a guided journaling session. Ask the opening question."
-        } else {
-            var prompt = "Previous exchanges:\n"
-            for (q, a) in exchanges {
-                prompt += "Q: \(q)\nA: \(a)\n\n"
-            }
-            prompt += "Generate the next question."
-            user = prompt
+        var user = ""
+        if !context.isEmpty {
+            user += "Broader Context for this session:\n\(context)\n\n"
         }
+        
+        if exchanges.isEmpty {
+            user += "This is the start of a guided journaling session. Ask the opening question based on the context provided."
+        } else {
+            user += "Previous exchanges:\n"
+            for (q, a) in exchanges {
+                user += "Q: \(q)\nA: \(a)\n\n"
+            }
+            user += "Using the persona, acknowledge the user's last answer and ask the next creative, deep-dive follow-up question."
+        }
+        
         let raw = await engine.generate(
             system: LlmPrompts.guidedQuestion, user: user,
-            maxTokens: 50, temperature: 0.85
+            maxTokens: 100, temperature: 0.8
         )
         let trimmed = raw.trimmingCharacters(in: .whitespacesAndNewlines)
         return trimmed.isEmpty ? nil : trimmed
@@ -106,7 +110,7 @@ final class ReflectionEngine {
         }
         let raw = await engine.generate(
             system: LlmPrompts.guidedCompile, user: user,
-            maxTokens: 400, temperature: 0.6
+            maxTokens: 512, temperature: 0.65
         )
         let trimmed = raw.trimmingCharacters(in: .whitespacesAndNewlines)
         return trimmed.isEmpty ? nil : trimmed

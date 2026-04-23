@@ -21,7 +21,6 @@ struct JournalEditorScreen: View {
 
     var body: some View {
         ZStack {
-            // Immersive Editor Background
             LiquidAura(scrollOffset: 0).ignoresSafeArea()
             
             if guidedMode {
@@ -46,7 +45,6 @@ struct JournalEditorScreen: View {
     
     private var editorContent: some View {
         VStack(spacing: 0) {
-            // 1. Sleek Header
             HStack {
                 Button { save(); dismiss() } label: {
                     Text("Done").bold().foregroundStyle(.white)
@@ -70,12 +68,10 @@ struct JournalEditorScreen: View {
             
             ScrollView {
                 VStack(alignment: .leading, spacing: 32) {
-                    
                     if entryId == nil && body_.isEmpty {
                         guidedNudge
                     }
                     
-                    // 2. Typewriter Editor
                     VStack(alignment: .leading, spacing: 20) {
                         TextField("UNTITLED", text: $title)
                             .font(.system(size: 28, weight: .black, design: .rounded))
@@ -152,7 +148,6 @@ struct JournalEditorScreen: View {
     }
 }
 
-// GuidedEntryView updated for Liquid Glass
 struct GuidedEntryView: View {
     @EnvironmentObject private var container: AppContainer
     let onComplete: (String, String?) -> Void
@@ -162,6 +157,7 @@ struct GuidedEntryView: View {
     @State private var currentQuestion = ""
     @State private var answer = ""
     @State private var isGenerating = false
+    @State private var conversationContext = ""
     
     var body: some View {
         VStack(spacing: 0) {
@@ -170,7 +166,7 @@ struct GuidedEntryView: View {
                 Spacer()
                 Text("GUIDED").miniCaps().foregroundStyle(Color.white.opacity(0.4))
                 Spacer()
-                if !exchanges.isEmpty {
+                if exchanges.count >= 2 { // Require at least 2 exchanges to finish
                     Button("Finish") { finish() }.bold().foregroundStyle(Color.cyan)
                 } else {
                     Spacer().frame(width: 50)
@@ -201,8 +197,23 @@ struct GuidedEntryView: View {
                 }
             }
             
-            if !currentQuestion.isEmpty {
-                liquidInputArea
+            if !currentQuestion.isEmpty && !isGenerating {
+                VStack(spacing: 0) {
+                    // Option to prompt for a deeper look if conversation is going well
+                    if exchanges.count >= 1 && exchanges.count < 6 {
+                         Button(action: next) {
+                             HStack {
+                                 Image(systemName: "plus.circle.fill")
+                                 Text("Think Deeper")
+                             }
+                             .font(.caption.bold())
+                             .foregroundStyle(.cyan.opacity(0.8))
+                             .padding(.vertical, 8)
+                         }
+                    }
+                    
+                    liquidInputArea
+                }
             }
         }
         .onAppear(perform: start)
@@ -244,7 +255,13 @@ struct GuidedEntryView: View {
     private func start() {
         isGenerating = true
         Task {
-            let q = await container.reflectionEngine?.guidedQuestion(exchanges: []) ?? "How are you feeling in this moment?"
+            // Build initial context from recent mood
+            let now = Int64(Date().timeIntervalSince1970 * 1000)
+            let mood = container.moodStore.fetchRange(from: now - 86400000, to: now).last
+            let context = "The user's last mood was: \(mood?.label ?? "unknown") with valence \(mood?.valence ?? 0)."
+            await MainActor.run { self.conversationContext = context }
+            
+            let q = await container.reflectionEngine?.guidedQuestion(exchanges: [], context: context) ?? "How are you feeling in this moment?"
             await MainActor.run { withAnimation { currentQuestion = q; isGenerating = false } }
         }
     }
@@ -252,11 +269,15 @@ struct GuidedEntryView: View {
     private func next() {
         let a = answer; answer = ""
         withAnimation { exchanges.append((currentQuestion, a)); currentQuestion = "" }
-        if exchanges.count >= 4 { finish() }
-        else {
+        
+        // Dynamic ending logic: after 6 turns we automatically wrap up, 
+        // or user can click finish after 2.
+        if exchanges.count >= 7 { 
+            finish() 
+        } else {
             isGenerating = true
             Task {
-                let q = await container.reflectionEngine?.guidedQuestion(exchanges: exchanges) ?? "Tell me more."
+                let q = await container.reflectionEngine?.guidedQuestion(exchanges: exchanges, context: conversationContext) ?? "Tell me more."
                 await MainActor.run { withAnimation { currentQuestion = q; isGenerating = false } }
             }
         }
@@ -271,3 +292,4 @@ struct GuidedEntryView: View {
         }
     }
 }
+EOF
