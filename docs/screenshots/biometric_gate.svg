@@ -1,14 +1,13 @@
 <svg width="220" height="476" viewBox="0 0 220 476" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect width="220" height="476" rx="30" fill="#0D0D12"/>
-  <circle cx="110" cy="150" r="100" fill="url(#grad1)" opacity="0.3"/>
-  <circle cx="50" cy="300" r="80" fill="#312E81" opacity="0.2"/>
-  <rect x="20" y="380" width="180" height="50" rx="25" fill="#6F9A74"/>
-  <text x="110" y="410" font-family="sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">UNLOCK SANCTUARY</text>
-  <path d="M110 200 L110 240 M100 210 L120 210" stroke="white" stroke-width="4" stroke-linecap="round"/>
-  <defs>
-    <radialGradient id="grad1" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(110 150) rotate(90) scale(100)">
-      <stop stop-color="#0D9488"/>
-      <stop offset="1" stop-color="#0D0D12" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
+  <rect width="220" height="476" rx="32" fill="#0D0D12"/>
+  <circle cx="110" cy="180" r="100" fill="#312E81" opacity="0.3" filter="blur(40px)"/>
+  <circle cx="180" cy="350" r="60" fill="#0D9488" opacity="0.1" filter="blur(30px)"/>
+  
+  <text x="110" y="80" font-family="sans-serif" font-size="8" font-weight="900" fill="white" opacity="0.4" text-anchor="middle" letter-spacing="2">PRIVATE SANCTUARY</text>
+  
+  <path d="M110 160 C 130 160, 150 180, 150 210 C 150 240, 110 260, 110 260 C 110 260, 70 240, 70 210 C 70 180, 90 160, 110 160" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+  <circle cx="110" cy="210" r="15" fill="white" opacity="0.1"/>
+  
+  <rect x="30" y="380" width="160" height="54" rx="27" fill="#312E81"/>
+  <text x="110" y="412" font-family="sans-serif" font-size="11" font-weight="bold" fill="white" text-anchor="middle">UNLOCK WITH FACEID</text>
 </svg>
