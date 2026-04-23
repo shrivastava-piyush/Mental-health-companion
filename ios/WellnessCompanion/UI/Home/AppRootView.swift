@@ -18,6 +18,17 @@ extension EnvironmentValues {
     }
 }
 
+// Re-expose openReflection for backward compatibility with components
+extension EnvironmentValues {
+    var openReflection: (Int64?, String?) -> Void {
+        get { 
+            let nav = self.globalNav
+            return { id, prompt in nav(.reflection(id: id, prompt: prompt)) }
+        }
+        set { } // Read-only derived from globalNav
+    }
+}
+
 struct AppRootView: View {
     @EnvironmentObject private var container: AppContainer
     @State private var selectedTab: Int = 0

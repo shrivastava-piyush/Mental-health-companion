@@ -13,25 +13,25 @@ enum MoodCategory {
 struct WellnessContentProvider {
     static func quote(for category: MoodCategory) -> (String, String) {
         let positive = [
-            ("Happiness is not something readymade. It comes from your own actions.", "Dalai Lama"),
-            ("The most important thing is to enjoy your life—to be happy—it's all that matters.", "Audrey Hepburn"),
-            ("Let your joy be in your journey, not in some distant goal.", "Tim Cook"),
-            ("The sun shines not on us but in us.", "John Muir"),
-            ("Radiate boundless love towards the entire world.", "Buddha")
+            ("Radiate boundless love.", "Buddha"),
+            ("The sun shines within.", "John Muir"),
+            ("Joy is the journey.", "Tim Cook"),
+            ("Be the light.", "Unknown"),
+            ("Choose happiness now.", "Dalai Lama")
         ]
         let neutral = [
-            ("Focus on the present moment. Breathe.", "Zen Proverb"),
-            ("Knowing yourself is the beginning of all wisdom.", "Aristotle"),
-            ("Be still. The world will uncover itself to you.", "Franz Kafka"),
-            ("Nature does not hurry, yet everything is accomplished.", "Lao Tzu"),
-            ("The present moment is filled with joy and happiness. If you are attentive, you will see it.", "Thich Nhat Hanh")
+            ("Breathe. You are here.", "Zen"),
+            ("Be still. Know thyself.", "Aristotle"),
+            ("Nature does not hurry.", "Lao Tzu"),
+            ("Focus on this breath.", "Unknown"),
+            ("The present is enough.", "Thich Nhat Hanh")
         ]
         let negative = [
-            ("This too shall pass. Be gentle with yourself.", "Persian Proverb"),
-            ("The wound is the place where the Light enters you.", "Rumi"),
-            ("Out of difficulties grow miracles.", "Jean de la Bruyère"),
-            ("You are loved just as you are.", "Ram Dass"),
-            ("Softly, navigate the storm. Your heart is an anchor.", "Unknown")
+            ("This too shall pass.", "Persian"),
+            ("The wound is the light.", "Rumi"),
+            ("Softly navigate the storm.", "Unknown"),
+            ("You are enough.", "Ram Dass"),
+            ("Peace is an anchor.", "Unknown")
         ]
         
         switch category {
@@ -40,4 +40,9 @@ struct WellnessContentProvider {
         case .negative: return negative.randomElement()!
         }
     }
+    
+    // Curated high-fidelity atmospheric images
+    static let libraryHero = "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" // Ocean
+    static let insightsHero = "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80" // Mountains
+    static let attribution = "Photography by Unsplash (Public Domain / CC0)"
 }

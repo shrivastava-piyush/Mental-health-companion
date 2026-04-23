@@ -11,7 +11,6 @@ final class ReflectionEngine {
 
     func reflect(title: String, body: String) async -> [String]? {
         guard engine.isReady, !body.isEmpty else { return nil }
-        // High temp for "sharp" lateral thinking
         let raw = await engine.generate(
             system: LlmPrompts.socraticReflection,
             user: "Entry: \(String(body.prefix(1000)))",
@@ -28,7 +27,6 @@ final class ReflectionEngine {
         if exchanges.isEmpty {
             user += "Ask the first sharp opening question."
         } else {
-            // Only provide the last 3 exchanges to keep the AI focused and sharp
             let recent = exchanges.suffix(3)
             for (q, a) in recent { user += "Q: \(q)\nA: \(a)\n" }
             user += "\nAsk the next short, analytic question."
@@ -38,7 +36,7 @@ final class ReflectionEngine {
             system: LlmPrompts.guidedQuestion, user: user,
             maxTokens: 60, temperature: 0.8
         )
-        return raw.trimmingCharacters(in: .whitespacesAndNewlines)
+        return raw.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
 
     func compileGuided(exchanges: [(String, String)]) async -> String? {
@@ -50,7 +48,7 @@ final class ReflectionEngine {
             system: LlmPrompts.guidedCompile, user: user,
             maxTokens: 500, temperature: 0.7
         )
-        return raw.trimmingCharacters(in: .whitespacesAndNewlines)
+        return raw.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
 
     func narrateMirror(_ mirror: Mirror) async -> String? {
@@ -58,9 +56,9 @@ final class ReflectionEngine {
         let raw = await engine.generate(
             system: LlmPrompts.patternNarrator, 
             user: "Data: Valence \(mirror.avgValence), Keywords: \(mirror.topWords.map { $0.0 }.joined(separator: ", "))",
-            maxTokens: 120, temperature: 0.5 // Lower temp for data consistency
+            maxTokens: 120, temperature: 0.5
         )
-        return raw.trimmingCharacters(in: .whitespacesAndNewlines)
+        return raw.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
 
     func contextualStarter(moodLabel: String?, timeOfDay: String) async -> String? {
@@ -68,9 +66,9 @@ final class ReflectionEngine {
         let raw = await engine.generate(
             system: LlmPrompts.contextualStarter, 
             user: "Mood: \(moodLabel ?? "Neutral"), Time: \(timeOfDay)",
-            maxTokens: 50, temperature: 1.0 // Max creativity
+            maxTokens: 50, temperature: 1.0
         )
-        return raw.trimmingCharacters(in: .whitespacesAndNewlines).trimmingCharacters(in: CharacterSet(charactersIn: "\""))
+        return raw.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).trimmingCharacters(in: CharacterSet(charactersIn: "\""))
     }
     
     func suggestTitle(body: String) async -> String? {
@@ -80,6 +78,19 @@ final class ReflectionEngine {
             user: "Text: \(String(body.prefix(500)))",
             maxTokens: 20, temperature: 0.6
         )
-        return raw.trimmingCharacters(in: .whitespacesAndNewlines).trimmingCharacters(in: CharacterSet(charactersIn: "\"."))
+        return raw.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).trimmingCharacters(in: CharacterSet(charactersIn: "\"."))
+    }
+
+    /// Intelligence: Synthesizes patterns across the last 3 journal entries.
+    func synthesizeInsight(entries: [JournalEntry]) async -> String? {
+        guard engine.isReady, entries.count >= 2 else { return nil }
+        
+        let combinedText = entries.map { "\($0.title): \($0.body)" }.joined(separator: "\n---\n")
+        let raw = await engine.generate(
+            system: "Persona: The Analytic Observer. Task: Find the 'hidden thread' connecting these 3 notes. What is the user not saying directly? Constraint: Under 40 words. Be sharp.",
+            user: "Last 3 notes:\n\(combinedText)",
+            maxTokens: 100, temperature: 0.75
+        )
+        return raw.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
 }
