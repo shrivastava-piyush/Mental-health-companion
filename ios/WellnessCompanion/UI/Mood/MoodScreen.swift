@@ -103,17 +103,19 @@ struct MoodScreen: View {
     }
     
     private func save() {
+        let now = Int64(Date().timeIntervalSince1970 * 1000)
         let entry = MoodEntry(
             id: 0,
-            createdAt: Int64(Date().timeIntervalSince1970 * 1000),
+            createdAt: now,
             valence: Int(valence),
-            label: label.trimmingCharacters(in: .whitespaces)
+            arousal: Int(energy),
+            label: label.trimmingCharacters(in: .whitespaces),
+            note: ""
         )
-        _ = container.moodStore.save(entry)
+        _ = container.moodStore.insert(entry)
         
-        // Log energy as a metric
-        let m = MetricSnapshot(id: 0, createdAt: entry.createdAt, type: "energy", value: energy, unit: "%")
-        container.metricStore.save(m)
+        // Correct MetricStore usage: insert(type:value:)
+        container.metricStore.insert(type: .meditationMinutes, value: energy) 
         
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
         onDone()
