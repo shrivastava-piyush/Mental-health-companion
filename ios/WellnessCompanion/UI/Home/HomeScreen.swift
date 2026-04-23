@@ -1,13 +1,5 @@
 import SwiftUI
 
-/// Preference key for tracking scroll offset in high-fidelity screens.
-struct ScrollOffsetKey: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = nextValue()
-    }
-}
-
 struct HomeScreen: View {
     @EnvironmentObject private var container: AppContainer
     @Binding var scrollOffset: CGFloat
@@ -19,36 +11,23 @@ struct HomeScreen: View {
     @State private var selectedSpark: String? = nil
     
     @State private var selectedQuote = ("Focus on the present moment.", "Breathe")
+    @State private var currentCategory: MoodCategory = .neutral
     @State private var aiSpark: String? = nil
 
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .center, spacing: 60) {
                 
-                // 1. Hero Quote
-                VStack(spacing: 32) {
-                    Image(systemName: "sparkles")
-                        .font(.system(size: 30))
-                        .foregroundStyle(.white.opacity(0.4))
-                    
-                    Text(selectedQuote.0)
-                        .font(.system(size: 36, weight: .bold, design: .serif))
-                        .italic()
-                        .multilineTextAlignment(.center)
-                        .lineSpacing(10)
-                        .foregroundStyle(.white)
-                        .padding(.horizontal, 20)
-                        .shadow(color: .black.opacity(0.2), radius: 10)
-                    
-                    Text(selectedQuote.1.uppercased())
-                        .font(.system(size: 12, weight: .black, design: .rounded))
-                        .tracking(3.0)
-                        .foregroundStyle(.white.opacity(0.5))
-                }
+                // 1. Animated Quote Hero (Adaptive & Personalized)
+                AnimatedQuoteView(
+                    quote: selectedQuote.0,
+                    author: selectedQuote.1,
+                    category: currentCategory
+                )
                 .frame(maxWidth: .infinity)
                 .padding(.top, 100)
                 
-                // 2. Floating Reflection Sparks (Now higher up)
+                // 2. Floating Reflection Sparks
                 VStack(alignment: .leading, spacing: 24) {
                     HStack {
                         Text("Sparks").sectionHeader().foregroundStyle(.white.opacity(0.5))
@@ -68,7 +47,7 @@ struct HomeScreen: View {
                     }
                 }
                 
-                // 3. Redesigned Check-in (Below the fold/Sparks)
+                // 3. Redesigned Check-in (Subtle Glassy Card)
                 Button {
                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                     showMoodLog = true
@@ -191,8 +170,8 @@ struct HomeScreen: View {
         recentJournal = container.journalStore.fetchSummaries(limit: 1).first
         
         let valence = recentMood?.valence ?? 0
-        let category = MoodCategory(valence: valence)
-        selectedQuote = WellnessContentProvider.quote(for: category)
+        currentCategory = MoodCategory(valence: valence)
+        selectedQuote = WellnessContentProvider.quote(for: currentCategory)
         container.atmosphereManager.adaptTo(valence: valence)
 
         if let engine = container.reflectionEngine {
