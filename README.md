@@ -5,14 +5,14 @@ A premium, private, and offline-first "Wellness and Mental Health Sanctuary," en
 ## Screenshots (Adversarial Overhaul)
 
 <p align="center">
-  <img src="../docs/screenshots/biometric_gate.svg" width="220" alt="Sanctuary Gate" />
+  <img src="docs/screenshots/biometric_gate.svg" width="220" alt="Sanctuary Gate" />
   &nbsp;&nbsp;
-  <img src="../docs/screenshots/mood_screen.svg" width="220" alt="The Check-in" />
+  <img src="docs/screenshots/mood_screen.svg" width="220" alt="The Check-in" />
 </p>
 <p align="center">
-  <img src="../docs/screenshots/journal_screen.svg" width="220" alt="Synthesis Library" />
+  <img src="docs/screenshots/journal_screen.svg" width="220" alt="Synthesis Library" />
   &nbsp;&nbsp;
-  <img src="../docs/screenshots/insights_screen.svg" width="220" alt="Pulse Patterns" />
+  <img src="docs/screenshots/insights_screen.svg" width="220" alt="Pulse Patterns" />
 </p>
 <p align="center">
   <sub>
