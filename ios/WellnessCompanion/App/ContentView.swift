@@ -15,7 +15,7 @@ struct ContentView: View {
                     
                     Text("SYNCHRONIZING...")
                         .font(.system(size: 10, weight: .black, design: .rounded))
-                        .kerning(3.0) // Corrected from letterSpacing
+                        .kerning(3.0)
                         .foregroundStyle(Color.white.opacity(0.3))
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -23,6 +23,7 @@ struct ContentView: View {
                 .ignoresSafeArea()
             } else if isUnlocked {
                 AppRootView()
+                    .environmentObject(container.backgroundManager) // Injecting here
                     .onAppear { container.atmosphereManager.start() }
             } else {
                 BiometricGateView(onUnlocked: { 

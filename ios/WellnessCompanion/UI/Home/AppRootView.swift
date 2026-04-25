@@ -30,7 +30,7 @@ extension EnvironmentValues {
 
 struct AppRootView: View {
     @EnvironmentObject private var container: AppContainer
-    @StateObject private var bgManager = BackgroundManager()
+    @EnvironmentObject private var bgManager: BackgroundManager
     @State private var selectedTab: Int = 0
     @State private var scrollOffset: CGFloat = 0
     
@@ -39,13 +39,11 @@ struct AppRootView: View {
 
     var body: some View {
         ZStack(alignment: .bottom) {
-            // 1. The Dynamic Living Background (Injected with Personal Memories)
+            // 1. The Dynamic Living Background
             LiquidAura(scrollOffset: scrollOffset)
-                .environmentObject(bgManager)
                 .ignoresSafeArea()
             
             // 2. Content Stack (The "Fragments")
-            // Boundary Protection: Strict 28pt padding enforced.
             ZStack {
                 switch activeFragment {
                 case .reflection(let id, let prompt):
@@ -67,6 +65,7 @@ struct AppRootView: View {
                     .zIndex(1)
                     
                 case .home:
+                    // Main Tabs
                     Group {
                         switch selectedTab {
                         case 0: HomeScreen(scrollOffset: $scrollOffset)
@@ -84,9 +83,8 @@ struct AppRootView: View {
                     activeFragment = target
                 }
             })
-            .environmentObject(bgManager) // Global Availability
             
-            // 3. Floating Navigation
+            // 3. Floating Navigation (Only show if on main tabs)
             if case .home = activeFragment {
                 pillNavigationBar
                     .padding(.bottom, 24)
