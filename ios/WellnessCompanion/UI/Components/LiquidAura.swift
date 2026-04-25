@@ -2,24 +2,37 @@ import SwiftUI
 import PhotosUI
 
 /// Manages the personalized background image selected by the user.
+/// Optimized for asynchronous loading to prevent startup hangs.
 final class BackgroundManager: ObservableObject {
     @Published var selectedImage: UIImage? = nil
     
     init() {
-        loadStoredImage()
-    }
-    
-    func loadStoredImage() {
-        let url = getSavedImageURL()
-        if let data = try? Data(contentsOf: url) {
-            selectedImage = UIImage(data: data)
+        // Asynchronous load to ensure main thread remains responsive on startup
+        Task {
+            await loadStoredImage()
         }
     }
     
+    @MainActor
+    func loadStoredImage() async {
+        let url = getSavedImageURL()
+        
+        // Load in background thread
+        let image = await Task.detached(priority: .userInitiated) { () -> UIImage? in
+            guard let data = try? Data(contentsOf: url) else { return nil }
+            return UIImage(data: data)
+        }.value
+        
+        self.selectedImage = image
+    }
+    
+    @MainActor
     func saveImage(_ image: UIImage) {
         self.selectedImage = image
-        if let data = image.jpegData(compressionQuality: 0.8) {
-            try? data.write(to: getSavedImageURL())
+        Task.detached(priority: .background) { [url = getSavedImageURL()] in
+            if let data = image.jpegData(compressionQuality: 0.8) {
+                try? data.write(to: url)
+            }
         }
     }
     
@@ -54,8 +67,8 @@ struct LiquidAura: View {
                         .aspectRatio(contentMode: .fill)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .blur(radius: 50)
-                        .opacity(0.15 + (breath * 0.05)) // Faded breathing intensity
-                        .scaleEffect(1.1 + (breath * 0.05)) // Subtle zoom pulse
+                        .opacity(0.15 + (breath * 0.05)) 
+                        .scaleEffect(1.1 + (breath * 0.05))
                         .ignoresSafeArea()
                 }
                 
