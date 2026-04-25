@@ -46,6 +46,7 @@
 		2E3840B4D47AD7EE5684FCBA /* qwen2vl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AC65FA34D0EFA47D6B08C800 /* qwen2vl.cpp */; };
 		3076AB629047256332927F17 /* wavtokenizer-dec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9F8932DD5BCD833D95EBE24D /* wavtokenizer-dec.cpp */; };
 		30AF4559B7F379173DB3B475 /* llama-quant.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 34B57D5E932A55F841A71642 /* llama-quant.cpp */; };
+		31E8F8161DB69F7DEC62ACBD /* AppContainerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C11E09CDFF5E6609B072222 /* AppContainerTests.swift */; };
 		3288D2EAAC90FB8AAB06C2DD /* gpt2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AE20C9208011483DAD11730 /* gpt2.cpp */; };
 		333146D2EB8103DB62925FF6 /* jais2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8A2514AC40ADA7EC73E93C38 /* jais2.cpp */; };
 		33AE7CF03950CC7105EC007D /* cohere2-iswa.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 76050F729E5E8EF31DC6446E /* cohere2-iswa.cpp */; };
@@ -74,6 +75,7 @@
 		57ADD54AD06009EF8E3FCB39 /* exaone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA1D7A658E3521632A981337 /* exaone.cpp */; };
 		5950B1A0939734BFBD3A9784 /* phi2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 49EF43C2CEFDF3E492DA09EE /* phi2.cpp */; };
 		5954C914CC213D60ED320775 /* llama4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E44B8B46AB6EC1F35EC7C393 /* llama4.cpp */; };
+		5A8D7C87A5603A41E58FF713 /* LlamaEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C912F862DAF17D76B5D9891 /* LlamaEngineTests.swift */; };
 		5BCE17DC2642C8369C15305D /* deepseek.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 10CEEF715BF596DDA7612F1F /* deepseek.cpp */; };
 		5F8437C8C38A2C684633E890 /* gguf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2FBB97846C461DB9ECAA332 /* gguf.cpp */; };
 		5FB7E64C270BAC542AE2BB7B /* chatglm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EABC228048161D701ED16B2 /* chatglm.cpp */; };
@@ -109,7 +111,6 @@
 		800E30E956974696575B5DAC /* rwkv6.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A831B79DEC8852A96E048C6E /* rwkv6.cpp */; };
 		82BF319E72B35DBABD7E0B03 /* AppContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72EB52FAE0DFEAC62E173F9 /* AppContainer.swift */; };
 		8554A7D209CAE17B5B4D9BA2 /* cogvlm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEDD0FC46F07995A90C3527D /* cogvlm.cpp */; };
-		8AEFBEDB5E1E2E4D540BBC0D /* hbm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0BF71B8A4AD8486DF55A61E2 /* hbm.cpp */; };
 		8E6FBEFA5F2CEC79C75D9FE1 /* baichuan.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA882A50C79882BAE164169E /* baichuan.cpp */; };
 		8F79E63B9FDD81F64F133C98 /* qwen3next.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 856894FAD3E018AC2787057F /* qwen3next.cpp */; };
 		8FED88F6C4BCB79414B8BC8C /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3BD6418D7A60C151D2F2FC /* HomeScreen.swift */; };
@@ -130,6 +131,7 @@
 		A4C37A70B3D3542F4C92D451 /* qwen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DA7A73826E0F03A8ADD9702F /* qwen.cpp */; };
 		A852343A8507D66349B0F74F /* mamba.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 709FFEF903118D1177F500C2 /* mamba.cpp */; };
 		A91D917CFFB39E47D5D7ED8E /* plm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96F38A6FA49B3209CFC3B097 /* plm.cpp */; };
+		AA30052487DDCE0898182AC1 /* llama.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 75A29D08BD9D773861015A25 /* llama.cpp */; };
 		AA7D9AD8C5552CA979B91135 /* bert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F8BBD31B96EA90B9C0555BAC /* bert.cpp */; };
 		AA966CF0D17DA6FB2648237E /* jamba.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D318F6E8537C4028A5B8AA3C /* jamba.cpp */; };
 		AC3C104C74B8C0C7CDCFC658 /* qwen3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6CB49BF0B7B05414E2815F7C /* qwen3.cpp */; };
@@ -185,7 +187,6 @@
 		EA3F16C8EE2028518D4E0F4C /* hunyuan-moe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 223629CF4DD6A3F220F0D761 /* hunyuan-moe.cpp */; };
 		EA5A4153226691F4463E064F /* llama-impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A7665F57531325AE22EEC0AD /* llama-impl.cpp */; };
 		EB1ADC2E345738106B882877 /* starcoder2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1E215ABFF721D2FD4D8C489E /* starcoder2.cpp */; };
-		ED53256AA97E7A5EB2854A8B /* llama-model-impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6D3FA8B2F7DE096BFF9FA85 /* llama-model-impl.cpp */; };
 		EEC6A47C902DAF7175ED5A65 /* smallthinker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AD8F6A0837D835426A91CC0 /* smallthinker.cpp */; };
 		EFEDFD37F79F9BE1BD4740DD /* seed-oss.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 243FE5CC4B511ED4D91C5637 /* seed-oss.cpp */; };
 		F02665BEAC8018FAFA41F5EF /* llama-io.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ECB5B9720D8BE632DB8EE39B /* llama-io.cpp */; };
@@ -207,13 +208,22 @@
 		FEFF9C20412BE2020CC54637 /* llama-memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 38837F98A769598CCFCD27D7 /* llama-memory.cpp */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		F7E2032A01B5339EF09300AE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DCBF558367218A8977D112C6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D3CF021761E1C4A434B4A18D;
+			remoteInfo = WellnessCompanion;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		0527C4B6C5AFDCECFB874C9C /* ModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelManager.swift; sourceTree = "<group>"; };
 		067C1140D392BD03AF867F84 /* gemma2-iswa.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "gemma2-iswa.cpp"; sourceTree = "<group>"; };
 		069D28D8A5DB874B68AEB282 /* JournalStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalStore.swift; sourceTree = "<group>"; };
 		088EC1AA67D90E8DDF7ACF58 /* ggml-backend-meta.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "ggml-backend-meta.cpp"; sourceTree = "<group>"; };
 		0A620AB54823BA4B68A25E5F /* bitnet.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bitnet.cpp; sourceTree = "<group>"; };
-		0BF71B8A4AD8486DF55A61E2 /* hbm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = hbm.cpp; sourceTree = "<group>"; };
 		0D140C0182499344BF07DF6C /* llama-model-saver.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-model-saver.cpp"; sourceTree = "<group>"; };
 		0D8F1108405A8F15A0F11502 /* eurobert.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = eurobert.cpp; sourceTree = "<group>"; };
 		0EABC228048161D701ED16B2 /* chatglm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = chatglm.cpp; sourceTree = "<group>"; };
@@ -275,6 +285,7 @@
 		599C85041E6B00F557449D36 /* orion.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = orion.cpp; sourceTree = "<group>"; };
 		5BC7EA92F34F0AA415D8A958 /* llama-context.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-context.cpp"; sourceTree = "<group>"; };
 		5BFBECCEB4C46EE61900B759 /* olmo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = olmo.cpp; sourceTree = "<group>"; };
+		5C11E09CDFF5E6609B072222 /* AppContainerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContainerTests.swift; sourceTree = "<group>"; };
 		5FB1568FD37A6E566D59A635 /* llada-moe.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llada-moe.cpp"; sourceTree = "<group>"; };
 		5FBA22757EA60D996CC3E0F5 /* llama.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = llama.cpp; sourceTree = "<group>"; };
 		60C4EE9EE518F03D5E0D3E3C /* llama-mmap.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-mmap.cpp"; sourceTree = "<group>"; };
@@ -293,6 +304,7 @@
 		704190AA591B6362414C73FE /* WellnessDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WellnessDatabase.swift; sourceTree = "<group>"; };
 		709FFEF903118D1177F500C2 /* mamba.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = mamba.cpp; sourceTree = "<group>"; };
 		739589FDDC8242B6D428C3DF /* plamo3.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = plamo3.cpp; sourceTree = "<group>"; };
+		75A29D08BD9D773861015A25 /* llama.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = llama.cpp; sourceTree = "<group>"; };
 		76050F729E5E8EF31DC6446E /* cohere2-iswa.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "cohere2-iswa.cpp"; sourceTree = "<group>"; };
 		783D68342EADA3734C2065E7 /* bailingmoe.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bailingmoe.cpp; sourceTree = "<group>"; };
 		791606C669AAD520A883BD98 /* phi3.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = phi3.cpp; sourceTree = "<group>"; };
@@ -301,6 +313,7 @@
 		7AC53AEC645C9747C51EECC4 /* WellnessCompanion.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = WellnessCompanion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C7EA50BF8AA99404A52D91B /* ReflectionEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReflectionEngine.swift; sourceTree = "<group>"; };
 		7C8C162198E241497907970A /* mamba-base.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "mamba-base.cpp"; sourceTree = "<group>"; };
+		7C912F862DAF17D76B5D9891 /* LlamaEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LlamaEngineTests.swift; sourceTree = "<group>"; };
 		7CD3B03129EE07631267CD71 /* refact.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = refact.cpp; sourceTree = "<group>"; };
 		7DDA93EC9FA904C93D70B08A /* AnimatedQuoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedQuoteView.swift; sourceTree = "<group>"; };
 		811AC9FFA34C3E59BA3106F9 /* gemma3n-iswa.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "gemma3n-iswa.cpp"; sourceTree = "<group>"; };
@@ -350,6 +363,7 @@
 		B36153CC913A8680F9856722 /* minicpm3.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = minicpm3.cpp; sourceTree = "<group>"; };
 		B61DF31A08A141F2B133FAFE /* rwkv7-base.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "rwkv7-base.cpp"; sourceTree = "<group>"; };
 		B63DD00E760C3D7557B9F3D7 /* granite-hybrid.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "granite-hybrid.cpp"; sourceTree = "<group>"; };
+		BA7E0BB8338EB689E38D2D92 /* WellnessCompanionTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = WellnessCompanionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BBCF6C6FAD516C4E69ABC6FA /* internlm2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = internlm2.cpp; sourceTree = "<group>"; };
 		BD8BD179DC6B8755AE3C9F56 /* kimi-linear.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "kimi-linear.cpp"; sourceTree = "<group>"; };
 		BE974C070D7845DB1E14625A /* arwkv7.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = arwkv7.cpp; sourceTree = "<group>"; };
@@ -372,7 +386,6 @@
 		D3A2EE8F65450B8AA6842577 /* MirrorAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MirrorAvatar.swift; sourceTree = "<group>"; };
 		D3FC7F77E3DE5D1AAF8DC7CC /* arcee.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = arcee.cpp; sourceTree = "<group>"; };
 		D5410FFFCE8045AA5452528E /* llama-model.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-model.cpp"; sourceTree = "<group>"; };
-		D6D3FA8B2F7DE096BFF9FA85 /* llama-model-impl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = "llama-model-impl.cpp"; path = llama.cpp; sourceTree = "<group>"; };
 		D7C4CB6B5A5D0D1F0BBB8A3E /* LiquidAura.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidAura.swift; sourceTree = "<group>"; };
 		D7DBB1CEBCDE7272C4A65629 /* qwen35.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = qwen35.cpp; sourceTree = "<group>"; };
 		D7F5B8D4FB3B73B282289562 /* llama-model-loader.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-model-loader.cpp"; sourceTree = "<group>"; };
@@ -398,6 +411,7 @@
 		ECB5B9720D8BE632DB8EE39B /* llama-io.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-io.cpp"; sourceTree = "<group>"; };
 		EEAD50433AE0622B872D0600 /* qwen3vl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = qwen3vl.cpp; sourceTree = "<group>"; };
 		F00088675E6FBFA5CCAFD3D7 /* llama-memory-hybrid.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-memory-hybrid.cpp"; sourceTree = "<group>"; };
+		F0A83D34814DD09956A82945 /* models.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = models.h; sourceTree = "<group>"; };
 		F0F206DAF388710EE1442DAB /* llama-memory-hybrid-iswa.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "llama-memory-hybrid-iswa.cpp"; sourceTree = "<group>"; };
 		F617DFC130C6051124DC70E9 /* falcon.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = falcon.cpp; sourceTree = "<group>"; };
 		F72EB52FAE0DFEAC62E173F9 /* AppContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppContainer.swift; sourceTree = "<group>"; };
@@ -417,6 +431,7 @@
 			children = (
 				41B28485B4AD66EEC8950743 /* Mental-health-companion */,
 				2D69BA90A59F387CD002DE9A /* WellnessCompanion */,
+				498A7A38842ED04B1F14C9A9 /* WellnessCompanionTests */,
 				7D764933346B5D77ED56A48A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -524,6 +539,15 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
+		498A7A38842ED04B1F14C9A9 /* WellnessCompanionTests */ = {
+			isa = PBXGroup;
+			children = (
+				5C11E09CDFF5E6609B072222 /* AppContainerTests.swift */,
+				7C912F862DAF17D76B5D9891 /* LlamaEngineTests.swift */,
+			);
+			path = WellnessCompanionTests;
+			sourceTree = "<group>";
+		};
 		4BB1B799AB919C278C9C02FB /* Theme */ = {
 			isa = PBXGroup;
 			children = (
@@ -538,7 +562,6 @@
 				9F98BC6BFDBFB17F0C30CAF5 /* binary-ops.cpp */,
 				AE8F7394387816BE2B8655EB /* ggml-cpu.c */,
 				B315D63F6E38A9ECCA0FC4C9 /* ggml-cpu.cpp */,
-				0BF71B8A4AD8486DF55A61E2 /* hbm.cpp */,
 				50AAA0462727B7367898A75A /* ops.cpp */,
 				3E6277B812E20CBCC3D4AB69 /* quants.c */,
 				D922ABB891C3280FE85CCD27 /* repack.cpp */,
@@ -619,7 +642,7 @@
 				3FBB7F08836CBA4BA2D6CF42 /* lfm2.cpp */,
 				5FB1568FD37A6E566D59A635 /* llada-moe.cpp */,
 				33F00936106CA34A841B9766 /* llada.cpp */,
-				D6D3FA8B2F7DE096BFF9FA85 /* llama-model-impl.cpp */,
+				75A29D08BD9D773861015A25 /* llama.cpp */,
 				E44B8B46AB6EC1F35EC7C393 /* llama4.cpp */,
 				FC736BD9157756824A4DB310 /* maincoder.cpp */,
 				7C8C162198E241497907970A /* mamba-base.cpp */,
@@ -628,6 +651,7 @@
 				B36153CC913A8680F9856722 /* minicpm3.cpp */,
 				64BBCB34EAE41C0F6433810C /* minimax-m2.cpp */,
 				F8C91C3F8648DBB30A968B7F /* mistral3.cpp */,
+				F0A83D34814DD09956A82945 /* models.h */,
 				EA8E8B3C7348165C459256D5 /* modern-bert.cpp */,
 				674E7E3F915D2B4067D33054 /* mpt.cpp */,
 				12E1E6A5E30BAC79438A398C /* nemotron-h.cpp */,
@@ -729,6 +753,7 @@
 			isa = PBXGroup;
 			children = (
 				7AC53AEC645C9747C51EECC4 /* WellnessCompanion.app */,
+				BA7E0BB8338EB689E38D2D92 /* WellnessCompanionTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -879,6 +904,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		328F787FB606D58F53209FED /* WellnessCompanionTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FF94D307DED58B687B05BBF3 /* Build configuration list for PBXNativeTarget "WellnessCompanionTests" */;
+			buildPhases = (
+				43DDE9EECDF026DC3C3274B4 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4ED4CA9CEB229450140717FC /* PBXTargetDependency */,
+			);
+			name = WellnessCompanionTests;
+			packageProductDependencies = (
+			);
+			productName = WellnessCompanionTests;
+			productReference = BA7E0BB8338EB689E38D2D92 /* WellnessCompanionTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		D3CF021761E1C4A434B4A18D /* WellnessCompanion */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5E3A0B053CB4C7FC84483A19 /* Build configuration list for PBXNativeTarget "WellnessCompanion" */;
@@ -906,6 +949,9 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
+					328F787FB606D58F53209FED = {
+						DevelopmentTeam = "";
+					};
 					D3CF021761E1C4A434B4A18D = {
 						DevelopmentTeam = "";
 					};
@@ -926,6 +972,7 @@
 			projectRoot = "";
 			targets = (
 				D3CF021761E1C4A434B4A18D /* WellnessCompanion */,
+				328F787FB606D58F53209FED /* WellnessCompanionTests */,
 			);
 		};
 /* End PBXProject section */
@@ -942,6 +989,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		43DDE9EECDF026DC3C3274B4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				31E8F8161DB69F7DEC62ACBD /* AppContainerTests.swift in Sources */,
+				5A8D7C87A5603A41E58FF713 /* LlamaEngineTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E63D4DAD56B533584B452C4B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1040,7 +1096,6 @@
 				9D91FF27D42EB8C37A8E96CB /* granite.cpp in Sources */,
 				2576FF6277F1B09016F62357 /* grok.cpp in Sources */,
 				71CDD3C5F295633FE5FFDB8E /* grovemoe.cpp in Sources */,
-				8AEFBEDB5E1E2E4D540BBC0D /* hbm.cpp in Sources */,
 				79DDA142E0A317A01E253984 /* hunyuan-dense.cpp in Sources */,
 				EA3F16C8EE2028518D4E0F4C /* hunyuan-moe.cpp in Sources */,
 				97DAB0B5B0C356F7FBA9665E /* internlm2.cpp in Sources */,
@@ -1076,7 +1131,7 @@
 				C9D4C48D4EF44AB32EAC49CC /* llama-sampler.cpp in Sources */,
 				F6B4A4510BA53D0AC4B56062 /* llama-vocab.cpp in Sources */,
 				283CC522F0AE9E2854901CB2 /* llama.cpp in Sources */,
-				ED53256AA97E7A5EB2854A8B /* llama-model-impl.cpp in Sources */,
+				AA30052487DDCE0898182AC1 /* llama.cpp in Sources */,
 				5954C914CC213D60ED320775 /* llama4.cpp in Sources */,
 				B6FC7A0C3433BC7FCB773051 /* maincoder.cpp in Sources */,
 				22530E1DD3FA0253DA9F708F /* mamba-base.cpp in Sources */,
@@ -1148,6 +1203,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		4ED4CA9CEB229450140717FC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D3CF021761E1C4A434B4A18D /* WellnessCompanion */;
+			targetProxy = F7E2032A01B5339EF09300AE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
 		379649108D941AB3D587D83E /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1177,6 +1240,48 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_OBJC_BRIDGING_HEADER = WellnessCompanion/App/BridgingHeader.h;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		826E589734AF43C209F0F4C8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/include",
+					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/ggml/include",
+					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/common",
+				);
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.wellness.companion.WellnessCompanionTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WellnessCompanion.app/WellnessCompanion";
+			};
+			name = Release;
+		};
+		992415D5DCB5F41C3671AA8E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/include",
+					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/ggml/include",
+					"$(SRCROOT)/../app/src/main/cpp/llama.cpp/common",
+				);
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.wellness.companion.WellnessCompanionTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WellnessCompanion.app/WellnessCompanion";
 			};
 			name = Debug;
 		};
@@ -1353,6 +1458,15 @@
 			buildConfigurations = (
 				379649108D941AB3D587D83E /* Debug */,
 				CCF5DBB91CD0589082DA1D65 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		FF94D307DED58B687B05BBF3 /* Build configuration list for PBXNativeTarget "WellnessCompanionTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				992415D5DCB5F41C3671AA8E /* Debug */,
+				826E589734AF43C209F0F4C8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

@@ -21,18 +21,25 @@ struct ContentView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.liquidDeep)
                 .ignoresSafeArea()
-            } else if isUnlocked {
-                AppRootView()
-                    .environmentObject(container.backgroundManager) // Injecting here
-                    .onAppear { container.atmosphereManager.start() }
             } else {
-                BiometricGateView(onUnlocked: { 
-                    withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
-                        isUnlocked = true 
-                    }
-                })
+                authenticatedHierarchy
             }
         }
+        .environmentObject(container.backgroundManager) // Inject globally to avoid crashes in early views
         .preferredColorScheme(.dark)
+    }
+    
+    @ViewBuilder
+    private var authenticatedHierarchy: some View {
+        if isUnlocked {
+            AppRootView()
+                .onAppear { container.atmosphereManager.start() }
+        } else {
+            BiometricGateView(onUnlocked: { 
+                withAnimation(.spring(response: 0.8, dampingFraction: 0.8)) {
+                    isUnlocked = true 
+                }
+            })
+        }
     }
 }
