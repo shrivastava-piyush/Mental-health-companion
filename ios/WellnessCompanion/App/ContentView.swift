@@ -6,7 +6,22 @@ struct ContentView: View {
 
     var body: some View {
         Group {
-            if isUnlocked {
+            if !container.isReady {
+                // High-fidelity launch/splash screen
+                VStack(spacing: 24) {
+                    Image(systemName: "sparkles")
+                        .font(.system(size: 40))
+                        .foregroundStyle(Color.cyan.opacity(0.6))
+                    
+                    Text("SYNCHRONIZING...")
+                        .font(.system(size: 10, weight: .black, design: .rounded))
+                        .kerning(3.0) // Corrected from letterSpacing
+                        .foregroundStyle(Color.white.opacity(0.3))
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.liquidDeep)
+                .ignoresSafeArea()
+            } else if isUnlocked {
                 AppRootView()
                     .onAppear { container.atmosphereManager.start() }
             } else {
@@ -17,5 +32,6 @@ struct ContentView: View {
                 })
             }
         }
+        .preferredColorScheme(.dark)
     }
 }

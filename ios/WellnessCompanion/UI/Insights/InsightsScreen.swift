@@ -29,7 +29,7 @@ struct InsightsScreen: View {
                         }
                         .padding(.horizontal, 16)
                         .padding(.vertical, 10)
-                        .background(.white.opacity(0.1), in: Capsule())
+                        .background(Color.white.opacity(0.1), in: Capsule())
                         .foregroundStyle(.white)
                     }
                     .onChange(of: photoPickerItem) { newItem in
@@ -47,16 +47,16 @@ struct InsightsScreen: View {
                     VStack(alignment: .leading, spacing: 20) {
                         Text("Perspective").sectionHeader()
                         VStack(alignment: .leading, spacing: 20) {
-                            Image(systemName: "quote.opening").font(.title).foregroundStyle(.white.opacity(0.2))
+                            Image(systemName: "quote.opening").font(.title).foregroundStyle(Color.white.opacity(0.2))
                             Text(patternNarrative).font(.system(size: 20, weight: .medium, design: .serif)).italic().lineSpacing(8).foregroundStyle(.white)
                         }
-                        .padding(32).background(.white.opacity(0.08)).clipShape(RoundedRectangle(cornerRadius: 40, style: .continuous))
+                        .padding(32).background(Color.white.opacity(0.08)).clipShape(RoundedRectangle(cornerRadius: 40, style: .continuous))
                     }
                 }
                 
                 VStack(alignment: .leading, spacing: 24) {
                     Text("Emotional Flow").sectionHeader()
-                    MoodTrendChartView(buckets: trend).frame(height: 180).padding(24).background(.white.opacity(0.05)).clipShape(RoundedRectangle(cornerRadius: 40, style: .continuous))
+                    MoodTrendChartView(buckets: trend).frame(height: 180).padding(24).background(Color.white.opacity(0.05)).clipShape(RoundedRectangle(cornerRadius: 40, style: .continuous))
                 }
                 
                 downloadCard(manager: container.modelManager)
@@ -94,7 +94,7 @@ struct InsightsScreen: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(24)
-        .background(.white.opacity(0.08))
+        .background(Color.white.opacity(0.08))
         .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
     }
 
@@ -122,7 +122,7 @@ struct InsightsScreen: View {
                             .frame(maxWidth: .infinity)
                             .frame(height: 54)
                             .background(Color.liquidIndigo, in: Capsule())
-                            .overlay(Capsule().stroke(.white.opacity(0.1), lineWidth: 1))
+                            .overlay(Capsule().stroke(Color.white.opacity(0.1), lineWidth: 1))
                     }
                     .buttonStyle(.plain)
                     
@@ -134,10 +134,10 @@ struct InsightsScreen: View {
                             Text("\(Int(progress * 100))%").font(.system(size: 10, weight: .black, design: .monospaced)).foregroundStyle(.white)
                         }
                         ZStack(alignment: .leading) {
-                            Capsule().fill(.white.opacity(0.1)).frame(height: 8)
+                            Capsule().fill(Color.white.opacity(0.1)).frame(height: 8)
                             Capsule()
                                 .fill(LinearGradient(colors: [.cyan, .liquidTeal], startPoint: .leading, endPoint: .trailing))
-                                .frame(width: max(0, min(1, CGFloat(progress))) * 200, height: 8) // Approximating width relative to padding
+                                .frame(width: max(0, min(1, CGFloat(progress))) * 200, height: 8) 
                         }
                     }
                     
@@ -149,9 +149,9 @@ struct InsightsScreen: View {
             }
         }
         .padding(28)
-        .background(.white.opacity(0.05))
+        .background(Color.white.opacity(0.05))
         .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 32, style: .continuous).stroke(.white.opacity(0.1), lineWidth: 1))
+        .overlay(RoundedRectangle(cornerRadius: 32, style: .continuous).stroke(Color.white.opacity(0.1), lineWidth: 1))
     }
     
     private func refresh() {
