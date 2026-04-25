@@ -1,23 +1,17 @@
 <svg width="220" height="476" viewBox="0 0 220 476" fill="none" xmlns="http://www.w3.org/2000/svg">
   <rect width="220" height="476" rx="32" fill="#0D0D12"/>
-  <circle cx="110" cy="238" r="150" fill="#E11D48" opacity="0.1" filter="blur(60px)"/>
+  <!-- Faded Memory Layer -->
+  <circle cx="110" cy="150" r="100" fill="#E11D48" opacity="0.05" filter="blur(40px)"/>
   
-  <text x="30" y="45" font-family="sans-serif" font-size="10" fill="white" opacity="0.4">Discard</text>
-  <text x="190" y="45" font-family="sans-serif" font-size="10" font-weight="bold" fill="white" text-anchor="end">Commit</text>
+  <!-- Boundary Protection: 28pt margin -->
+  <text x="32" y="45" font-family="sans-serif" font-size="10" fill="white" opacity="0.4">Discard</text>
+  <text x="188" y="45" font-family="sans-serif" font-size="10" font-weight="bold" fill="white" text-anchor="end">Commit</text>
   
-  <text x="110" y="110" font-family="serif" font-size="24" font-weight="900" fill="white" text-anchor="middle">Locate your center.</text>
-  <text x="110" y="130" font-family="sans-serif" font-size="9" font-weight="bold" fill="#0D9488" text-anchor="middle">AVOID THE EASY ANSWER</text>
+  <text x="110" y="120" font-family="serif" font-size="22" font-weight="900" fill="white" text-anchor="middle">Locate your center.</text>
   
-  <text x="110" y="200" font-family="sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">Clear / Calm</text>
   <rect x="40" y="220" width="140" height="2" rx="1" fill="white" opacity="0.2"/>
-  <circle cx="130" cy="221" r="8" fill="white"/>
+  <circle cx="110" cy="221" r="8" fill="white"/>
   
-  <text x="110" y="280" font-family="sans-serif" font-size="10" font-weight="bold" fill="white" opacity="0.4" text-anchor="middle">ENERGY LEVEL</text>
-  <rect x="40" y="300" width="14" height="30" rx="4" fill="white"/>
-  <rect x="58" y="300" width="14" height="30" rx="4" fill="white"/>
-  <rect x="76" y="300" width="14" height="30" rx="4" fill="white"/>
-  <rect x="94" y="300" width="14" height="30" rx="4" fill="white" opacity="0.1"/>
-  
-  <text x="110" y="380" font-family="serif" font-size="14" font-style="italic" fill="white" opacity="0.3" text-anchor="middle">One word for this tension...</text>
-  <line x1="60" y1="395" x2="160" y2="395" stroke="white" stroke-opacity="0.2"/>
+  <rect x="28" y="300" width="164" height="40" rx="12" fill="white" fill-opacity="0.08"/>
+  <text x="110" y="325" font-family="serif" font-size="12" font-style="italic" fill="white" opacity="0.3" text-anchor="middle">One word for this tension...</text>
 </svg>

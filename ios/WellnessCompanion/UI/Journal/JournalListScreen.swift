@@ -18,29 +18,13 @@ struct JournalListScreen: View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: 50) {
                 
-                // 1. High-Fidelity Hero Image
-                VStack(alignment: .leading, spacing: 20) {
-                    AsyncImage(url: URL(string: WellnessContentProvider.libraryHero)) { image in
-                        image.resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(height: 240)
-                            .clipShape(RoundedRectangle(cornerRadius: 48, style: .continuous))
-                            .overlay(alignment: .bottomLeading) {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text("REFLECTIONS").miniCaps().foregroundStyle(Color.white.opacity(0.6))
-                                    Text("Library").font(.system(size: 44, weight: .black, design: .rounded)).foregroundStyle(.white)
-                                }
-                                .padding(32)
-                            }
-                    } placeholder: {
-                        RoundedRectangle(cornerRadius: 48).fill(.white.opacity(0.05)).frame(height: 240)
-                    }
-                    
-                    Text(WellnessContentProvider.attribution)
-                        .font(.system(size: 8)).miniCaps().foregroundStyle(.white.opacity(0.2))
-                        .padding(.leading, 12)
+                // 1. Personalized Memory Header (Replaced Stock Hero)
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("REFLECTIONS").miniCaps().foregroundStyle(Color.white.opacity(0.4))
+                    Text("Library").font(.system(size: 44, weight: .black, design: .rounded)).foregroundStyle(.white)
+                    Text("\(entries.count) notes captured in sanctuary").font(.subheadline.bold()).foregroundStyle(.white.opacity(0.5))
                 }
-                .padding(.top, 20)
+                .padding(.top, 40)
                 
                 // 2. Intelligence Layer: Synthesis Card
                 if !entries.isEmpty {
@@ -81,7 +65,7 @@ struct JournalListScreen: View {
                                 .font(.system(size: 20, weight: .medium, design: .serif))
                                 .foregroundStyle(.white.opacity(0.4))
                         }
-                        .frame(maxWidth: CGFloat.infinity)
+                        .frame(maxWidth: .infinity)
                         .padding(.top, 60)
                     } else {
                         ForEach(entries) { summary in
@@ -97,7 +81,7 @@ struct JournalListScreen: View {
                 
                 Spacer(minLength: 150)
             }
-            .padding(.horizontal, 28)
+            .padding(.horizontal, 28) // Strict Boundary Protection
         }
         .overlay(alignment: .bottomTrailing) {
             // Floating Plus Button
@@ -165,7 +149,6 @@ struct JournalListScreen: View {
         guard let engine = container.reflectionEngine, entries.count >= 2 else { return }
         isSynthesizing = true
         Task {
-            // Fetch the full entries for synthesis
             let fullEntries = entries.prefix(3).compactMap { container.journalStore.fetchById($0.id) }
             let insight = await engine.synthesizeInsight(entries: fullEntries)
             await MainActor.run {

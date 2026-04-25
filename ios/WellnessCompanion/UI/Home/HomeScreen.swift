@@ -24,22 +24,20 @@ struct HomeScreen: View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .center, spacing: 60) {
                 
-                // 1. Animated Quote Hero
+                // 1. Animated Quote Hero (Restricted Width)
                 AnimatedQuoteView(
                     quote: selectedQuote.0,
                     author: selectedQuote.1,
                     category: currentCategory
                 )
-                .frame(maxWidth: CGFloat.infinity)
+                .frame(maxWidth: .infinity)
+                .padding(.horizontal, 28) // Boundary Protection
                 .padding(.top, 100)
                 
                 // 2. Floating Reflection Sparks
                 VStack(alignment: .leading, spacing: 24) {
-                    HStack {
-                        Text("Sparks").sectionHeader().foregroundStyle(.white.opacity(0.5))
-                        Spacer()
-                    }
-                    .padding(.horizontal, 28)
+                    Text("Sparks").sectionHeader().foregroundStyle(.white.opacity(0.5))
+                        .padding(.horizontal, 28)
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 20) {
@@ -53,7 +51,7 @@ struct HomeScreen: View {
                     }
                 }
                 
-                // 3. Redesigned Check-in (In-place Fragment Trigger)
+                // 3. Redesigned Check-in (Subtle Glassy Card)
                 Button {
                     UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                     globalNav(.mood)

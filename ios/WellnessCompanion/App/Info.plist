@@ -20,6 +20,8 @@
 	<string>1</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Unlock your wellness journal</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Personalize your sanctuary with your own memories.</string>
 	<key>UILaunchScreen</key>
 	<dict/>
 </dict>

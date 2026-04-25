@@ -216,4 +216,5 @@ targets:
       path: WellnessCompanion/App/Info.plist
       properties:
         NSFaceIDUsageDescription: "Unlock your wellness journal"
+        NSPhotoLibraryUsageDescription: "Personalize your sanctuary with your own memories."
         UILaunchScreen: {}
