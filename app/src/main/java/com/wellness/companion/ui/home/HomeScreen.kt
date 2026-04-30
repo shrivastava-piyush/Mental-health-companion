@@ -68,8 +68,8 @@ fun HomeScreen(
                 state.aiSpark?.let { spark ->
                     item { SparkCard(spark, isAi = true) { onOpenReflection(null, spark) } }
                 }
-                item { SparkCard("What does peace look like for you right now?") { onOpenReflection(null, "") } }
-                item { SparkCard("Describe a color that matches your energy.") { onOpenReflection(null, "") } }
+                item { SparkCard("What does peace look like for you right now?") { onOpenReflection(null, "What does peace look like for you right now?") } }
+                item { SparkCard("Describe a color that matches your energy.") { onOpenReflection(null, "Describe a color that matches your energy.") } }
             }
 
             Spacer(Modifier.height(24.dp))
