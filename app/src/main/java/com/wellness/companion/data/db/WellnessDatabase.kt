@@ -52,10 +52,8 @@ abstract class WellnessDatabase : RoomDatabase() {
                 .addCallback(object : Callback() {
                     override fun onOpen(db: SupportSQLiteDatabase) {
                         super.onOpen(db)
-                        // PRAGMA tunings for the 100k+ row target.
                         db.execSQL("PRAGMA synchronous = NORMAL")
                         db.execSQL("PRAGMA temp_store = MEMORY")
-                        db.execSQL("PRAGMA mmap_size = 67108864") // 64 MB memory map
                     }
                 })
                 .build()
