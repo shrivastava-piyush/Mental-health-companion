@@ -99,6 +99,7 @@ target_compile_definitions(llama_core PRIVATE
 # ── JNI bridge ──────────────────────────────────────────────────────────
 add_library(llm_bridge SHARED llm_bridge.cpp)
 target_link_libraries(llm_bridge llama_core log android)
+target_link_options(llm_bridge PRIVATE -Wl,-z,max-page-size=16384)
 target_include_directories(llm_bridge PRIVATE
     ${LLAMA_DIR}/include
     ${LLAMA_DIR}/ggml/include
