@@ -55,6 +55,47 @@ struct LiquidGlassModifier: ViewModifier {
     }
 }
 
+struct TimelyButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.system(size: 16, weight: .bold, design: .rounded))
+            .padding(.vertical, 14)
+            .padding(.horizontal, 28)
+            .background(
+                Capsule()
+                    .fill(LinearGradient(
+                        colors: [Color.white.opacity(configuration.isPressed ? 0.1 : 0.2), Color.white.opacity(0.05)],
+                        startPoint: .topLeading, endPoint: .bottomTrailing)
+                    )
+            )
+            .overlay(
+                Capsule()
+                    .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                    .blendMode(.overlay)
+            )
+            .shadow(color: .black.opacity(0.2), radius: configuration.isPressed ? 5 : 10, y: configuration.isPressed ? 2 : 5)
+            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
+            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: configuration.isPressed)
+    }
+}
+
+struct SleekActionButtonStyle: ButtonStyle {
+    var isPrimary: Bool = true
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.system(size: 16, weight: .semibold, design: .rounded))
+            .foregroundColor(isPrimary ? .black : .white)
+            .padding(.vertical, 12)
+            .padding(.horizontal, 24)
+            .background(
+                Capsule()
+                    .fill(isPrimary ? Color.white : Color.white.opacity(0.15))
+            )
+            .scaleEffect(configuration.isPressed ? 0.96 : 1.0)
+            .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
+    }
+}
+
 extension View {
     func liquidGlass(radius: CGFloat = 32) -> some View {
         modifier(LiquidGlassModifier(radius: radius))

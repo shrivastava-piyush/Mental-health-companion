@@ -46,9 +46,8 @@ struct JournalEditorScreen: View {
         VStack(spacing: 0) {
             // 1. Sleek Header
             HStack {
-                Button { save(); onDone() } label: {
-                    Text("Done").bold().foregroundStyle(.white)
-                }
+                Button("Done") { save(); onDone() }
+                    .buttonStyle(SleekActionButtonStyle(isPrimary: true))
                 Spacer()
                 Text("REFLECTION").miniCaps().foregroundStyle(Color.white.opacity(0.4))
                 Spacer()
@@ -161,14 +160,14 @@ struct GuidedEntryView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                Button("Cancel", action: onCancel).foregroundStyle(Color.white.opacity(0.6))
+                Button("Cancel", action: onCancel).buttonStyle(SleekActionButtonStyle(isPrimary: false))
                 Spacer()
                 Text("THE MIRROR").miniCaps().foregroundStyle(Color.white.opacity(0.4))
                 Spacer()
                 if !exchanges.isEmpty {
-                    Button("Finish") { finish() }.bold().foregroundStyle(Color.cyan)
+                    Button("Finish") { finish() }.buttonStyle(SleekActionButtonStyle(isPrimary: true))
                 } else {
-                    Spacer().frame(width: 50)
+                    Spacer().frame(width: 80)
                 }
             }
             .padding(28)

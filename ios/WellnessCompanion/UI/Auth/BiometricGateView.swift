@@ -48,17 +48,12 @@ struct BiometricGateView: View {
                 VStack(spacing: 20) {
                     Button(action: authenticate) {
                         HStack(spacing: 12) {
-                            Image(systemName: "faceid")
-                                .font(.title3)
+                            Image(systemName: "faceid").font(.title3)
                             Text("Unlock with FaceID")
                         }
-                        .font(.headline)
-                        .foregroundStyle(.white)
-                        .frame(maxWidth: CGFloat.infinity)
-                        .frame(height: 64)
-                        .background(Color.wellnessAccent, in: Capsule())
-                        .shadow(color: Color.wellnessAccent.opacity(0.3), radius: 20, y: 10)
                     }
+                    .buttonStyle(TimelyButtonStyle())
+
                     
                     if showError {
                         Text(errorMessage)

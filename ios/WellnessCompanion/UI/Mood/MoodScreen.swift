@@ -12,11 +12,11 @@ struct MoodScreen: View {
         VStack(spacing: 0) {
             // 1. Sharp Header
             HStack {
-                Button("Discard") { onDone() }.foregroundStyle(.white.opacity(0.4))
+                Button("Discard") { onDone() }.buttonStyle(SleekActionButtonStyle(isPrimary: false))
                 Spacer()
                 Text("THE CHECK-IN").miniCaps().foregroundStyle(.white.opacity(0.4))
                 Spacer()
-                Button("Commit") { save() }.bold().foregroundStyle(.white)
+                Button("Commit") { save() }.buttonStyle(SleekActionButtonStyle(isPrimary: true))
             }
             .padding(28)
             

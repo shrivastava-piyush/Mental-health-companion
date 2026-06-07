@@ -36,11 +36,17 @@ class ThreadDetector(private val dao: NarrativeDao) {
             if (sim >= MATCH_THRESHOLD) {
                 dao.insertRef(ThreadEntryRef(threadId = thread.id, entryId = entryId))
                 val count = dao.entryCountForThread(thread.id)
+                
+                // Adaptive keywords: Merge entry keywords but cap at 20 to prevent dilution.
+                val merged = (threadKws + keywords.take(5)).distinct().take(20)
+                val newKeywords = merged.joinToString(",")
+                
                 dao.updateThread(
                     thread.copy(
                         updatedAt = now,
                         entryCount = count,
                         status = "ongoing",
+                        keywords = newKeywords,
                     )
                 )
                 matched = true

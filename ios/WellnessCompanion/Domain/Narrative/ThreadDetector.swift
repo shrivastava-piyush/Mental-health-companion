@@ -25,8 +25,11 @@ final class ThreadDetector {
                 thread.entryCount += 1
                 thread.updatedAt = Int64(Date().timeIntervalSince1970 * 1000)
                 if thread.status == "dormant" { thread.status = "ongoing" }
-                let merged = Set(threadKws + kws.prefix(5))
-                thread.keywords = merged.joined(separator: ",")
+                // Fix: Limit the accumulated keywords to top 20 to prevent similarity dilution
+                var mergedSet = Set(threadKws)
+                for kw in kws.prefix(5) { mergedSet.insert(kw) }
+                let finalKeywords = Array(mergedSet).prefix(20)
+                thread.keywords = finalKeywords.joined(separator: ",")
                 store.updateThread(thread)
                 matched = true
             }

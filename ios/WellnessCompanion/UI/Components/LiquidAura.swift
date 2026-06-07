@@ -42,68 +42,86 @@ final class BackgroundManager: ObservableObject {
     }
 }
 
-/// A high-fidelity "Liquid Glass" background with a rhythmic breathing motion.
-/// Features a "Memory Layer" that renders a faded, blurred user-selected image.
+/// A high-fidelity "Timely-inspired" background with fluid gradients and rising bubbles.
 struct LiquidAura: View {
     @EnvironmentObject private var bgManager: BackgroundManager
     @State private var start = Date()
     var scrollOffset: CGFloat = 0
     
-    private let breathingPeriod: Double = 8.0
+    private let bubbleCount = 12
+    @State private var bubblePositions: [CGPoint] = (0..<12).map { _ in CGPoint(x: CGFloat.random(in: 0...1), y: CGFloat.random(in: 0...1)) }
+    @State private var bubbleSizes: [CGFloat] = (0..<12).map { _ in CGFloat.random(in: 20...100) }
+    @State private var bubbleSpeeds: [Double] = (0..<12).map { _ in Double.random(in: 0.05...0.15) }
     
     var body: some View {
         TimelineView(.animation) { timeline in
             let elapsed = timeline.date.timeIntervalSince(start)
-            let breath = (sin(elapsed * .pi * 2 / breathingPeriod) + 1) / 2
             
             ZStack {
-                // 1. Deep Space Base
-                Color.liquidDeep
+                // 1. Fluid Gradient Background
+                LinearGradient(
+                    colors: [
+                        Color(red: 0.1, green: 0.2, blue: 0.4 + sin(elapsed * 0.1) * 0.1),
+                        Color(red: 0.3 + cos(elapsed * 0.12) * 0.1, green: 0.1, blue: 0.3),
+                        Color(red: 0.1, green: 0.4 + sin(elapsed * 0.08) * 0.1, blue: 0.3)
+                    ],
+                    startPoint: UnitPoint(x: 0, y: sin(elapsed * 0.2) * 0.5),
+                    endPoint: UnitPoint(x: 1, y: 1 - cos(elapsed * 0.15) * 0.5)
+                )
                 
-                // 2. The Memory Layer (User Photo)
+                // 2. The Memory Layer (User Photo) - faded
                 if let image = bgManager.selectedImage {
                     Image(uiImage: image)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .blur(radius: 50)
-                        .opacity(0.15 + (breath * 0.05)) 
-                        .scaleEffect(1.1 + (breath * 0.05))
+                        .blur(radius: 60)
+                        .opacity(0.15)
+                        .blendMode(.overlay)
                         .ignoresSafeArea()
                 }
                 
-                // 3. The "Breathing" Fluid Layer
+                // 3. Floating Bubbles
                 GeometryReader { proxy in
-                    let size = proxy.size
-                    let w = size.width
-                    let h = size.height
+                    let w = proxy.size.width
+                    let h = proxy.size.height
                     
-                    ZStack {
-                        blob(color: .liquidIndigo, size: w * 1.5, time: elapsed, speed: 0.2, phase: 0, center: CGPoint(x: w * 0.2, y: h * 0.3))
-                        blob(color: .liquidTeal, size: w * 1.3, time: elapsed, speed: 0.15, phase: 2.5, center: CGPoint(x: w * 0.8, y: h * 0.6))
-                        blob(color: .liquidRose, size: w * 1.4, time: elapsed, speed: 0.1, phase: 4.2, center: CGPoint(x: w * 0.3, y: h * 0.9))
+                    ForEach(0..<bubbleCount, id: \.self) { i in
+                        let size = bubbleSizes[i]
+                        let speed = bubbleSpeeds[i]
+                        // Rise upwards, reset to bottom when reaching top
+                        let verticalProgress = (elapsed * speed + Double(bubblePositions[i].y)).truncatingRemainder(dividingBy: 1.2)
+                        let yPos = h + (size * 2) - (CGFloat(verticalProgress) * (h + size * 4))
+                        
+                        // Gentle horizontal sway
+                        let xOff = sin(elapsed * speed * 2 + Double(i)) * 40
+                        let xPos = bubblePositions[i].x * w + xOff
+                        
+                        Circle()
+                            .fill(LinearGradient(
+                                colors: [.white.opacity(0.3), .white.opacity(0.05), .clear],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            ))
+                            .frame(width: size, height: size)
+                            .position(x: xPos, y: yPos + (scrollOffset * 0.1))
+                            .overlay(
+                                Circle()
+                                    .stroke(LinearGradient(
+                                        colors: [.white.opacity(0.5), .clear],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    ), lineWidth: 1)
+                            )
+                            .blur(radius: size > 60 ? 4 : 1)
                     }
-                    .blur(radius: 80)
-                    .scaleEffect(1.0 + (breath * 0.1))
-                    .opacity(0.4 + (breath * 0.3))
                 }
                 
                 // 4. Cinematic Vignette
-                RadialGradient(colors: [.clear, .black.opacity(0.6)], center: .center, startRadius: 100, endRadius: 1200)
+                RadialGradient(colors: [.clear, .black.opacity(0.4)], center: .center, startRadius: 100, endRadius: 900)
+                    .blendMode(.multiply)
             }
             .ignoresSafeArea()
         }
-    }
-    
-    @ViewBuilder
-    private func blob(color: Color, size: CGFloat, time: Double, speed: Double, phase: Double, center: CGPoint) -> some View {
-        let xOff = sin(time * speed + phase) * 120
-        let yOff = cos(time * speed * 0.7 + phase) * 100
-        
-        Circle()
-            .fill(color)
-            .frame(width: size, height: size)
-            .position(x: center.x + xOff, y: center.y + yOff + (scrollOffset * 0.05))
-            .scaleEffect(0.9 + sin(time * speed * 0.4) * 0.2)
     }
 }
